@@ -1,8 +1,30 @@
 ---
-repo_url: https://github.com/jonh-carvalho/PFE_25.1_8001
+repo_url: https://github.com/jonh-carvalho/PFE_25.2_8003
 site_author: Jonh Carvalho
-site_name: PFE_25.1_8001
-copyright: Copyright ©️ 2025, jonh-carvalho / 2025, Jonh Carvalho
+site_name: PFE_25.2_8003
+copyright: Copyright ©️ 2025, Jonh Carvalho
+
+nav: 
+  - Home: index.md
+  - Disciplina:
+      - Aulas: Disciplina/aulas.md
+      - Github: Disciplina/github.md
+      - Mkdocs: Disciplina/mkdocs.md
+      - CodeSpace: Disciplina/codespace.md
+  - Design Thinking:
+      - Pesquisa: Design Thinking/pesquisa.md
+      - 5w2h: Design Thinking/5w2h.md
+      - Brainstorming: Design Thinking/Brainstorm.md
+      - Design Thinking: Design Thinking/designthinking.md
+      - Historia de Usuário: Design Thinking/historiasdeusuario.md
+      - Prototipagem Baixa Fidelidade: Design Thinking/prototipo_baixa_fidelidade.md
+      - Prototipagem Alta Fidelidade: Design Thinking/prototipo_alta_fidelidade.md
+      - Mapa Mental: Design Thinking/mapa_mental.md
+  - Sprint Planning:
+      - Planejamento: Sprint Planning/planejamento.md
+      - Product Backlog: Sprint Planning/product_backlog.md
+      - Sprint Backlog: Sprint Planning/sprint_backlog.md
+      - Definição de Pronto: Sprint Planning/definicao_de_pronto.md
 
 extra_css:
   - css/extra.css
@@ -54,7 +76,7 @@ markdown_extensions:
   # Formatting
   - pymdownx.tilde
   # Data Tables
-  - tables
+
   - toc:
       permalink: true
 
