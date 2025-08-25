@@ -4,8 +4,8 @@
 :--- | ---: 
 **__01__ - 04/08/25** | - Apresentação da Disciplina <br> - Processo de Desenvolvimento  - [Do Cascata ao Ágil](../assets/Aulas/Do%20Cascata%20ao%20Ágil%20-%20Front-End.pdf)
 **__02__ - 11/08/25** | - Configuração de [Ambiente de Desenvolvimento](https://liveestacio-my.sharepoint.com/:w:/g/personal/00661711722_professores_ibmec_edu_br/EU2fCcJwgTFLvWNyOSUtNWABnf7xw5XPoNRumYUMMtNMwA?e=bIE0li)
-**__03__ - 18/08/25** | - [Mapa do Scrum](../assets/Aulas/Mapa+do+Scrum+Framework+utilizado+nas+aulas.pdf) <br> - [Scrum](../assets/Aulas/Scrum.pdf)
-**__04__ - 25/08/25** | - Site Mkdocs <br> - Roteiro Github <br> - Configuração repositório Github <br> - Design Thinking
+**__03__ - 18/08/25** | - [Mapa do Scrum](../assets/Aulas/Mapa+do+Scrum+Framework+utilizado+nas+aulas.pdf) |
+**__04__ - 25/08/25** | - [Scrum](../assets/Aulas/Scrum.pdf) <br> - Site Mkdocs <br> - Roteiro Github <br> - Configuração repositório Github <br> - Design Thinking
 **__05__ - 01/09/25** | - Apresentação de Tema do Projeto, Principais Funcionalidades do Projeto, App Web Similares 
 
 <!--
