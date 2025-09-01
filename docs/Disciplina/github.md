@@ -4,7 +4,11 @@
 
 ---
 
+<<<<<<< HEAD
 **Git** e **GitHub** são duas tecnologias que todo desenvolvedor deve aprender, independentemente de sua área. Se você é um desenvolvedor iniciante, pode pensar que esses dois termos significam a mesma coisa, mas são diferentes.
+=======
+São duas tecnologias que todo desenvolvedor deve aprender, independentemente de sua área. Se você é um desenvolvedor iniciante, pode pensar que esses dois termos significam a mesma coisa, mas são diferentes.
+>>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 Este roteiro ajudará você a entender o que é Git e controle de versão, os comandos básicos do Git que você precisa conhecer, como você pode usar seus recursos para aumentar a eficiência do seu trabalho e como estender esses recursos usando o GitHub.
 
@@ -76,9 +80,13 @@ Um repositório é apenas outra maneira de definir um projeto que está sendo mo
 
 ### Arquivos de projeto no **Git**
 
-Criamos apenas um arquivo chamado todo.txt. Essa é a aparência do arquivo:** **
+Criamos apenas um arquivo chamado todo.md. Essa é a aparência do arquivo:
 
+<<<<<<< HEAD
 **MINHA LISTA DE TAREFAS**
+=======
+MINHA LISTA DE TAREFAS
+>>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 1. Escrever um artigo.
 2. Programar.
@@ -89,7 +97,153 @@ Criamos apenas um arquivo chamado todo.txt. Essa é a aparência do arquivo:** *
 
 ---
 
-    Antes de continuarmos aprendendo outros comandos do Git, vamos falar sobre o Github.
+### Adicionar e confirmar arquivos
+
+Antes de "adicionar" e "confirmar" nossos arquivos, você precisa entender os estágios de um arquivo que está sendo rastreado pelo Git.
+
+* **Estado preparado (staged)**
+
+Um arquivo no estado **preparado** significa que está pronto para ser confirmado. Nesse estado, todas as alterações necessárias foram feitas. Portanto, o próximo passo é mover o arquivo para o estado de confirmação.
+
+* **Estado confirmado (committed)**
+
+Um arquivo está no estado **confirmado** quando todas as alterações feitas no arquivo foram salvas no repositório local. Os arquivos no estágio confirmado são arquivos prontos para serem enviados para o repositório remoto (no GitHub).
+
+* **Estado modificado (modified)**
+
+Um arquivo no estado **modificado** tem algumas alterações feitas nele, mas ainda não foi salvo. Isso significa que o estado do arquivo foi alterado de seu estado anterior no estado **confirmado**.
+
+Você pode entender isso melhor imaginando o Git como uma câmera. A câmera só tirará um instantâneo quando o arquivo atingir o estado de confirmação. Após este estado, a câmera começa a comparar as alterações feitas no mesmo arquivo com o último instantâneo (este é o estado modificado). Quando as alterações necessárias forem feitas, o arquivo é preparado e movido para o estado de confirmação para um novo instantâneo.
+
+Isso pode ser muita informação para absorver no momento, mas não desanime – fica mais fácil com a prática.
+
+### Como adicionar arquivos ao Git
+
+Quando inicializamos nosso projeto, o arquivo não estava sendo rastreado pelo Git. Para isso, usamos o comando **git add .** O ponto que vem depois de add representa todos os arquivos que existem no repositório. Se você quiser adicionar um arquivo específico (por exemplo, um arquivo chamado about.txt), use **git add about.txt**.
+
+```bash
+git add .
+```
+
+Agora, nosso arquivo está no estado preparado. Você não receberá uma resposta após este comando, mas, para saber em que estado seu arquivo está, você pode executar o comando **git status**.
+
+```bash
+git status
+```
+
+### Como confirmar (commit) arquivos no Git
+
+O próximo estado de um arquivo após o estado preparado é o estado confirmado. Para confirmar nosso arquivo, usamos o comando **git commit -m "first commit"**
+
+```bash
+git commit -m "first commit"
+```
+
+A primeira parte do comando gitcommit diz ao Git que todos os arquivos preparados estão prontos para serem confirmados. Então, é hora de tirar um instantâneo. A segunda parte, **-m "firstcommit"**, é a **mensagem** de confirmação. -m é uma abreviação de mensagem enquanto o texto entre aspas é a mensagem de confirmação (que pode ser a mensagem que você quiser e no idioma que quiser).
+
+Agora, nosso arquivo está no estado confirmado.
+
+Para ajudá-lo a aprofundar sua compreensão dos estágios do arquivo, farei alterações no arquivo.
+
+Lembre-se de que nosso arquivo agora está no estado confirmado. Vamos fazer alterações no arquivo e anotar os estados.
+
+Vou adicionar uma nova tarefa à lista de tarefas:
+
+MINHA LISTA DE TAREFAS
+
+---
+
+1. Escrever um artigo.
+2. Programar.
+3. Estudar pelos livros.
+4. Chegar nas aulas a tempo.
+5. Visitar minha tia.
+   
+6. Me candidatar a trabalhos remotos.
+7. Praticar programação
+
+Depois de adicionar a nova tarefa, execute o comando git status. Isto é o que você deverá ver:
+
+```bash
+git status
+```
+
+```bash
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   /todo.md.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Depois de fazer alterações no arquivo, ele foi movido para o estado modificado, mas ainda não está preparado para confirmação.  O Git não tirou um instantâneo final desse estado atual, pois está apenas comparando as alterações que fizemos agora com o último instantâneo.
+
+Agora vamos adicionar (preparar) este arquivo e, em seguida, confirmá-lo.
+
+Primeiro, adicionamos o arquivo usando **git add .**, que adiciona todos os arquivos na pasta (um único arquivo, no nosso caso). Em seguida, confirmamos o arquivo executando **git commit -m "added new task"** (a mensagem significa "nova tarefa adicionada")
+
+```bash
+git add .
+git commit -m "added new task"
+```
+
+### **Como usar branches no Git **
+
+Com branches, você pode criar uma cópia de um arquivo no qual gostaria de trabalhar sem estragar a cópia original. Você pode mesclar essas alterações com a cópia original ou apenas deixar o branch permanecer independente.
+
+Neste ponto, quero adicionar mais tarefas à lista, mas ainda não tenho certeza se as quero na minha lista principal. Então, vou criar um outro branch chamado  test para ver como ficaria minha lista com mais tarefas incluídas.
+
+Para criar um outro branch, execute este comando: **git checkout -b test.** Vamos dividir isso em partes e explicar.
+
+```bash
+git checkout -b test
+```
+
+O checkout diz ao Git que deve mudar para um outro branch. O -b diz ao Git para criar esse outro branch. test é o nome do branch a ser criado e alterado. Aqui está a resposta que você deve obter:
+
+```bash
+Switched to a new branch 'test'
+```
+
+Agora que criamos um outro branch, é assim que nosso repositório ficará:
+
+Criamos o outro branch a partir do estado do nosso último commit. Vamos agora adicionar mais tarefas a esse novo branch.
+
+MINHA LISTA DE TAREFAS
+
+---
+1. Escrever um artigo.
+2. Programar.
+3. Estudar pelos livros.
+4. Chegar nas aulas a tempo.
+5. Visitar minha tia.
+6. Me candidatar a trabalhos remotos.
+7. Praticar programação
+8. Completar a tarefa de estágio.
+9. Praticar aberturas do xadrez.
+10. Resolver quebra-cabeçasdo** xadrez
+11. Verificar o cronograma dos testes.
+    
+---
+
+Adicionamos quatro novas tarefas. Para mesclar o novo estado com o **branch main**, você deve primeiro preparar e confirmar esse branch. Não entrarei em detalhes sobre o assunto, pois fizemos isso duas vezes na última seção.
+
+Você deve tentar fazer isso sozinho para entender como funciona. Como dica, adicione o arquivo e, em seguida, confirme com uma mensagem.
+
+Depois de confirmar seu branch test, volte para o branch main executando este comando: **git checkout main**.
+
+```bash
+git checkout main
+```
+
+Você notou que não adicionamos o **-b**? Isso ocorre porque não estamos criando um outro branch, mas mudando para um branch existente. Você pode verificar todos os branches que existem em seu repositório executando o comando **git branch**
+
+Agora, podemos mesclar as alterações que fizemos no branch test no branch main executando **git merge test**. Neste ponto, você verá todas as alterações feitas no branch test refletidas no **branch main**. 
+
+```bash
+git merge test
+```
 
 ## O que é o GitHub?
 
@@ -115,6 +269,7 @@ Dividimos esta seção em etapas para ajudá-lo a entender o processo com mais c
 
     Você pode clicar no símbolo + no canto superior direito da página e escolher "New repository" (Novo repositório). Dê um nome ao seu repositório, role para baixo e clique no botão "Createrepository"  (Criar repositório).
 
+<<<<<<< HEAD
 **Passo** 3 – Adicionar e confirmar arquivos
 
     Antes de "adicionar" e "confirmar" nossos arquivos, você precisa entender os estágios de um arquivo que está sendo rastreado peloGit.
@@ -154,12 +309,16 @@ Depois de executar este comando, você deve obter uma resposta semelhante a esta
 Agora, nosso arquivo está no estado confirmado.
 
 Passo 4 – Envie o repositório para o GitHub** **
+=======
+**Passo** 3 – Envie o repositório para o GitHub
+>>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 Depois de criar o repositório, você deve ser redirecionado para uma página que informa como criar um repositório localmente ou enviar um já existente.
 
 No nosso caso, o projeto já existe localmente, então usaremos comandos na seção "… ou enviar um repositório existente a partir da linha de comando". Estes são os comandos:
 
 ```bash
+<<<<<<< HEAD
 git remote add origin **seurepositorio.git**
 
 gitbranch ** -M main
@@ -168,15 +327,24 @@ git push -u origin main
 ```
 
 O primeiro comando, git remote add origin [**seurepositorio.git**git](**seurepositorio.git**.git), cria uma conexão entre seu repositório local e o repositório remoto no GitHub.** **
+=======
+git remote add origin https://github.com/ihechikara/git-and-github-tutorial.git
+git branch -M main
+git push -u origin main
+```
+
+O primeiro comando, git remote add origin [https://github.com/ihechikara/git-and-github-tutorial.git](https://github.com/ihechikara/git-and-github-tutorial.git), cria uma conexão entre seu repositório local e o repositório remoto no GitHub.
+>>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 O URL do seu projeto remoto deve ser totalmente diferente do anterior. Portanto, para acompanhar, certifique-se de seguir as etapas e trabalhar com seu próprio repositório remoto. Normalmente, você não receberá uma resposta após executar este comando, mas certifique-se de ter uma conexão com a internet.
 
-O segundo comando, gitbranch -M main, altera o nome do seu branch principal para "main". O branch padrão pode ser criada como "master", mas "main" é o nome padrão para este repositório agora. Geralmente, não há resposta aqui.** **
+O segundo comando, gitbranch -M main, altera o nome do seu branch principal para "main". O branch padrão pode ser criada como "master", mas "main" é o nome padrão para este repositório agora. Geralmente, não há resposta aqui.
 
 O último comando, **git push -u origin main**, envia seu repositório do seu dispositivo local para o GitHub. Você deve obter uma resposta semelhante a esta:**
 
 ![Screenshot--102-](..//assets/git/gitpush.png) **gitpush**
 
+<<<<<<< HEAD
 Para ajudá-lo a aprofundar sua compreensão dos estágios do arquivo, farei alterações no arquivo e, em seguida, enviarei a nova versão para o GitHub.
 
 Lembre-se de que nosso arquivo agora está no estado confirmado. Vamos fazer alterações no arquivo e anotar os estados.
@@ -272,6 +440,11 @@ Você notou que não adicionamos o -b ? Isso ocorre porque não estamos criando 
 Agora, podemos mesclar as alterações que fizemos no branchtestno branchmainexecutando git merge test.** Neste ponto, você verá todas as alterações feitas no branchtestrefletidas no branchmain. Você também deve receber uma resposta semelhante a esta:**
 
 ![Screenshot--100-]()git** merge**
+=======
+Essas são as três etapas para enviar seus arquivos modificados para o GitHub. Você adiciona, confirma e, em seguida, envia. Espero que agora você entenda os estágios do arquivo e os comandos associados a eles.
+
+### **Como enviar um repositório existente a partir da linha de comando**
+>>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 Aqui está uma representação visual do nosso repositório:
 
@@ -281,9 +454,9 @@ Se você continuar a enviar seu repositório para o GitHub, verá que o branchte
 
 ### **Como extrair um repositório no Git **
 
-Fazer pullno Git significa clonar o estado atual de um repositório remoto em seu computador/repositório. Isso é útil quando você deseja trabalhar em seu repositório de um computador diferente ou quando está contribuindo para um projeto de código aberto on-line.
+Fazer pull no Git significa clonar o estado atual de um repositório remoto em seu computador/repositório. Isso é útil quando você deseja trabalhar em seu repositório de um computador diferente ou quando está contribuindo para um projeto de código aberto on-line.
 
-Para testar isso, não se preocupe em mudar para um novo computador. Basta executar cd .. para sair do diretório atual e voltar uma etapa. No meu caso, naveguei de volta para a minha área de trabalho.** **
+Para testar isso, não se preocupe em mudar para um novo computador. Basta executar cd.. para sair do diretório atual e voltar uma etapa. No meu caso, naveguei de volta para a minha área de trabalho.
 
 Vá para o GitHub e, na página principal do seu repositório, você verá um botão verde que diz "Code". Ao clicar no botão, você deverá ver algumas opções em um menu suspenso. Vá em frente e copie o URL no formato HTTPS.
 
@@ -303,10 +476,15 @@ Você deve saber que esses não são todos os comandos que existem no Git – po
 
 ## **Links**
 
+<<<<<<< HEAD
 git - guia prático** **
+=======
+- **Git - guia prático**
+>>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 ** **[https://rogerdudler.github.io/git-guide/index.pt_BR.html](https://rogerdudler.github.io/git-guide/index.pt_BR.html)
 
+<<<<<<< HEAD
 **--fast-version-control **
 
 [https://git-scm.com/book/pt-br/v2](https://git-scm.com/book/pt-br/v2)
@@ -342,3 +520,36 @@ Como criar um repositório
 ---
 
 
+=======
+- **Fast-version-control**
+
+[https://git-scm.com/book/pt-br/v2](https://git-scm.com/book/pt-br/v2)
+
+- **Interactive, Visual Git**
+
+[https://the-turing-way.netlify.app/reproducible-research/vcs/vcs-git-interactive](https://the-turing-way.netlify.app/reproducible-research/vcs/vcs-git-interactive)
+
+- **LearnGitBranching!**
+
+[https://learngitbranching.js.org/?locale=pt_BR](https://learngitbranching.js.org/?locale=pt_BR)
+
+- **UnderstandingGitthroughimages**
+
+[https://dev.to/nopenoshishi/understanding-git-through-images-4an1](https://dev.to/nopenoshishi/understanding-git-through-images-4an1)
+
+- **A Visual GitReference**
+
+[https://marklodato.github.io/visual-git-guide/index-en.html](https://marklodato.github.io/visual-git-guide/index-en.html)
+
+- **A Grip OnGit**
+
+[https://agripongit.vincenttunru.com/](https://agripongit.vincenttunru.com/)
+
+- **Visualizing Git Concepts with D3**
+
+[https://onlywei.github.io/explain-git-with-d3/#rebase](https://onlywei.github.io/explain-git-with-d3/#rebase)
+
+- **Como criar um repositório**
+
+[Setting up a repository](https://www.atlassian.com/br/git/tutorials/setting-up-a-repository)
+>>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
