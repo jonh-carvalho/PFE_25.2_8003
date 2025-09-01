@@ -4,11 +4,10 @@
 
 ---
 
-<<<<<<< HEAD
+
 **Git** e **GitHub** são duas tecnologias que todo desenvolvedor deve aprender, independentemente de sua área. Se você é um desenvolvedor iniciante, pode pensar que esses dois termos significam a mesma coisa, mas são diferentes.
-=======
+
 São duas tecnologias que todo desenvolvedor deve aprender, independentemente de sua área. Se você é um desenvolvedor iniciante, pode pensar que esses dois termos significam a mesma coisa, mas são diferentes.
->>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 Este roteiro ajudará você a entender o que é Git e controle de versão, os comandos básicos do Git que você precisa conhecer, como você pode usar seus recursos para aumentar a eficiência do seu trabalho e como estender esses recursos usando o GitHub.
 
@@ -82,11 +81,10 @@ Um repositório é apenas outra maneira de definir um projeto que está sendo mo
 
 Criamos apenas um arquivo chamado todo.md. Essa é a aparência do arquivo:
 
-<<<<<<< HEAD
+
 **MINHA LISTA DE TAREFAS**
-=======
+
 MINHA LISTA DE TAREFAS
->>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 1. Escrever um artigo.
 2. Programar.
@@ -269,7 +267,6 @@ Dividimos esta seção em etapas para ajudá-lo a entender o processo com mais c
 
     Você pode clicar no símbolo + no canto superior direito da página e escolher "New repository" (Novo repositório). Dê um nome ao seu repositório, role para baixo e clique no botão "Createrepository"  (Criar repositório).
 
-<<<<<<< HEAD
 **Passo** 3 – Adicionar e confirmar arquivos
 
     Antes de "adicionar" e "confirmar" nossos arquivos, você precisa entender os estágios de um arquivo que está sendo rastreado peloGit.
@@ -309,16 +306,14 @@ Depois de executar este comando, você deve obter uma resposta semelhante a esta
 Agora, nosso arquivo está no estado confirmado.
 
 Passo 4 – Envie o repositório para o GitHub** **
-=======
+
 **Passo** 3 – Envie o repositório para o GitHub
->>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 Depois de criar o repositório, você deve ser redirecionado para uma página que informa como criar um repositório localmente ou enviar um já existente.
 
 No nosso caso, o projeto já existe localmente, então usaremos comandos na seção "… ou enviar um repositório existente a partir da linha de comando". Estes são os comandos:
 
 ```bash
-<<<<<<< HEAD
 git remote add origin **seurepositorio.git**
 
 gitbranch ** -M main
@@ -327,14 +322,13 @@ git push -u origin main
 ```
 
 O primeiro comando, git remote add origin [**seurepositorio.git**git](**seurepositorio.git**.git), cria uma conexão entre seu repositório local e o repositório remoto no GitHub.** **
-=======
+
 git remote add origin https://github.com/ihechikara/git-and-github-tutorial.git
 git branch -M main
 git push -u origin main
 ```
 
 O primeiro comando, git remote add origin [https://github.com/ihechikara/git-and-github-tutorial.git](https://github.com/ihechikara/git-and-github-tutorial.git), cria uma conexão entre seu repositório local e o repositório remoto no GitHub.
->>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
 O URL do seu projeto remoto deve ser totalmente diferente do anterior. Portanto, para acompanhar, certifique-se de seguir as etapas e trabalhar com seu próprio repositório remoto. Normalmente, você não receberá uma resposta após executar este comando, mas certifique-se de ter uma conexão com a internet.
 
@@ -344,7 +338,7 @@ O último comando, **git push -u origin main**, envia seu repositório do seu di
 
 ![Screenshot--102-](..//assets/git/gitpush.png) **gitpush**
 
-<<<<<<< HEAD
+
 Para ajudá-lo a aprofundar sua compreensão dos estágios do arquivo, farei alterações no arquivo e, em seguida, enviarei a nova versão para o GitHub.
 
 Lembre-se de que nosso arquivo agora está no estado confirmado. Vamos fazer alterações no arquivo e anotar os estados.
@@ -402,57 +396,48 @@ Agora que criamos um outro branch, é assim que nosso repositório ficará:
 Criamos o outro branch a partir do estado do nosso último commit. Vamos agora adicionar mais tarefas a esse novo branch.
 
 MINHA LISTA DE TAREFAS
-
 ---
 
-1.Escrever um artigo.** **
-
+1.Escrever um artigo.
 2.Programar.
-
-3.Estudar pelos livros.** **
-
-4.Chegar nas aulas a tempo.** **
-
-5.Visitar minha tia.** **
-
-6.Me candidatar a trabalhos remotos.** **
-
+3.Estudar pelos livros.
+4.Chegar nas aulas a tempo.
+5.Visitar minha tia.
+6.Me candidatar a trabalhos remotos.
 7.Praticar programação
-
-8.Completar a tarefa de estágio.** **
-
-9.Praticar aberturas do xadrez.** **
-
-10.Resolver quebra-cabeçasdo** xadrez**.** **
-
-11.Verificar o cronograma dos testes**.**  ** **
+8.Completar a tarefa de estágio.
+9.Praticar aberturas do xadrez.
+10.Resolver quebra-cabeçasdo** xadrez
+11.Verificar o cronograma dos testes
 
 ---
 
-  **	Adicionamos quatro novas tarefas. Para mesclar o novo estado com o branchmain**, você deve primeiro preparar e confirmar esse branch. Não entrarei em detalhes sobre o assunto, pois fizemos isso duas vezes na última seção.** **
+Adicionamos quatro novas tarefas. Para mesclar o novo estado com o branchmain**, você deve primeiro preparar e confirmar esse branch. Não entrarei em detalhes sobre o assunto, pois fizemos isso duas vezes na última seção.
 
 Você deve tentar fazer isso sozinho para entender como funciona. Como dica, adicione o arquivo e, em seguida, confirme com uma mensagem (consulte a seção anterior para obter detalhes de como fazer isso).
 
 Depois de confirmar seu branchtest, volte para o branchmainexecutando este comando: git checkout main.
 
-Você notou que não adicionamos o -b ? Isso ocorre porque não estamos criando um outro branch, mas mudando para um branch existente. Você pode verificar todos os branches que existem em seu repositório executando o comando gitbranch ** **
+Você notou que não adicionamos o -b ? Isso ocorre porque não estamos criando um outro branch, mas mudando para um branch existente. Você pode verificar todos os branches que existem em seu repositório executando o comando gitbranch
 
 Agora, podemos mesclar as alterações que fizemos no branchtestno branchmainexecutando git merge test.** Neste ponto, você verá todas as alterações feitas no branchtestrefletidas no branchmain. Você também deve receber uma resposta semelhante a esta:**
 
-![Screenshot--100-]()git** merge**
-=======
+![Screenshot--100-]()
+git merge
+
 Essas são as três etapas para enviar seus arquivos modificados para o GitHub. Você adiciona, confirma e, em seguida, envia. Espero que agora você entenda os estágios do arquivo e os comandos associados a eles.
 
 ### **Como enviar um repositório existente a partir da linha de comando**
->>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
+
 
 Aqui está uma representação visual do nosso repositório:
 
-![g816]()git** merge**
+![g816]()
+git merge
 
 Se você continuar a enviar seu repositório para o GitHub, verá que o branchtest não será enviado. Ele permanecerá apenas em seu repositório local. Se você quiser enviar seu branchtest**, mude para ele usando git checkout test e execute o comando gitpush** -u origin test**.**
 
-### **Como extrair um repositório no Git **
+### **Como extrair um repositório no Git**
 
 Fazer pull no Git significa clonar o estado atual de um repositório remoto em seu computador/repositório. Isso é útil quando você deseja trabalhar em seu repositório de um computador diferente ou quando está contribuindo para um projeto de código aberto on-line.
 
@@ -462,7 +447,8 @@ Vá para o GitHub e, na página principal do seu repositório, você verá um bo
 
 Depois disso, execute git clone SEU_URL_DE_HTTPS. Este comando puxa o repositório remoto para seu computador local em uma pasta chamada git-and-git-tutorial. Isto é o que você deverá ver em seu terminal:** **
 
-![Screenshot--101-]()git** clone**
+![Screenshot--101-]()
+git clone
 
 ### Conclusão
 
@@ -470,58 +456,18 @@ Este artigo abordou os comandos básicos que ajudarão você a começar a usar o
 
 Se você seguiu até este ponto, parabéns. Você está pronto para seguir em frente. Agora, você pode usar o Git em seus projetos, independentemente da linguagem de programação que estiver usando.
 
-Você deve saber que esses não são todos os comandos que existem no Git – portanto, sinta-se à vontade para fazer mais pesquisas para aprender mais comandos e seus usos. Esteé um ótimo lugar para ver uma lista detalhada de mais comandos do Git (em inglês).** **
+Você deve saber que esses não são todos os comandos que existem no Git – portanto, sinta-se à vontade para fazer mais pesquisas para aprender mais comandos e seus usos. Esteé um ótimo lugar para ver uma lista detalhada de mais comandos do Git (em inglês).
 
 ---
 
 ## **Links**
 
-<<<<<<< HEAD
-git - guia prático** **
-=======
+
 - **Git - guia prático**
->>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
 
-** **[https://rogerdudler.github.io/git-guide/index.pt_BR.html](https://rogerdudler.github.io/git-guide/index.pt_BR.html)
+[https://rogerdudler.github.io/git-guide/index.pt_BR.html](https://rogerdudler.github.io/git-guide/index.pt_BR.html)
 
-<<<<<<< HEAD
-**--fast-version-control **
-
-[https://git-scm.com/book/pt-br/v2](https://git-scm.com/book/pt-br/v2)
-
-Interactive, Visual Git
-
-[https://the-turing-way.netlify.app/reproducible-research/vcs/vcs-git-interactive](https://the-turing-way.netlify.app/reproducible-research/vcs/vcs-git-interactive)
-
-LearnGitBranching!** **
-
-[https://learngitbranching.js.org/?locale=pt_BR](https://learngitbranching.js.org/?locale=pt_BR)
-
-UnderstandingGitthroughimages** **
-
-[https://dev.to/nopenoshishi/understanding-git-through-images-4an1](https://dev.to/nopenoshishi/understanding-git-through-images-4an1)
-
-A Visual GitReference
-
-[https://marklodato.github.io/visual-git-guide/index-en.html](https://marklodato.github.io/visual-git-guide/index-en.html)
-
-A Grip OnGit
-
-[https://agripongit.vincenttunru.com/](https://agripongit.vincenttunru.com/)
-
-VisualizingGitConceptswith** D3**
-
-[https://onlywei.github.io/explain-git-with-d3/#rebase](https://onlywei.github.io/explain-git-with-d3/#rebase)
-
-Como criar um repositório
-
-[https://www.atlassian.com/br/git/tutorials/setting-up-a-repository](https://www.atlassian.com/br/git/tutorials/setting-up-a-repository)
-
----
-
-
-=======
-- **Fast-version-control**
+- **fast-version-control**
 
 [https://git-scm.com/book/pt-br/v2](https://git-scm.com/book/pt-br/v2)
 
@@ -529,19 +475,19 @@ Como criar um repositório
 
 [https://the-turing-way.netlify.app/reproducible-research/vcs/vcs-git-interactive](https://the-turing-way.netlify.app/reproducible-research/vcs/vcs-git-interactive)
 
-- **LearnGitBranching!**
+- **Learn Git Branching!**
 
 [https://learngitbranching.js.org/?locale=pt_BR](https://learngitbranching.js.org/?locale=pt_BR)
 
-- **UnderstandingGitthroughimages**
+- **Understanding Git through images**
 
 [https://dev.to/nopenoshishi/understanding-git-through-images-4an1](https://dev.to/nopenoshishi/understanding-git-through-images-4an1)
 
-- **A Visual GitReference**
+- **A Visual Git Reference**
 
 [https://marklodato.github.io/visual-git-guide/index-en.html](https://marklodato.github.io/visual-git-guide/index-en.html)
 
-- **A Grip OnGit**
+- **A Grip On Git**
 
 [https://agripongit.vincenttunru.com/](https://agripongit.vincenttunru.com/)
 
@@ -551,5 +497,4 @@ Como criar um repositório
 
 - **Como criar um repositório**
 
-[Setting up a repository](https://www.atlassian.com/br/git/tutorials/setting-up-a-repository)
->>>>>>> ff68b5c5b9a221dfd4a79604fd4c14b097f7147e
+[https://www.atlassian.com/br/git/tutorials/setting-up-a-repository](https://www.atlassian.com/br/git/tutorials/setting-up-a-repository)
