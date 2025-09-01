@@ -116,31 +116,16 @@ theme:
         icon: material/link
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: deep orange
-      accent: amber
+      scheme: slate
+      primary: white
+      accent: indigo
       toggle:
         icon: material/toggle-switch
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: black
+      scheme: default
+      primary: white
       accent: indigo
       toggle:
         icon: material/toggle-switch-off
         name: Switch to system preference
-
-#nav: 
- # - Home: index.md
-  #- Disciplina:
-   #   -  Aulas: Disciplina/Aulas.md
-    #  -  Github: github.md
-     # -  Mkdocs: mkdocs.md
-      #-  CodeSpace: Codespace.md 
-  #- React: 
-   #   -  Introdução: React/01_Intro.md
-    #  -  Componentes: React/Componentes.md
-     # -  Hooks: React/Hooks.md
-      #-  Context API: React/ContextAPI.md
-      #-  React Router: React/ReactRouter.md
-      #-  Redux: React/Redux.md
