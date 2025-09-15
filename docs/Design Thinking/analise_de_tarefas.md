@@ -13,22 +13,24 @@ Facilitar a comunicação entre equipes de desenvolvimento, design e stakeholder
 ## **2. Público-Alvo (Personas)**
 
 
-Nome da Persona:
-Descrição:
-Necessidades:
-Objetivos:
+- Nome da Persona:
+- Descrição:
+- Necessidades:
+- Objetivos:
 
-Nome da Persona:
-Descrição:
-Necessidades:
-Objetivos:
+---
 
-Nome da Persona:
-Descrição:
-Necessidades:
-Objetivos:
+- Nome da Persona:
+- Descrição:
+- Necessidades:
+- Objetivos:
 
+---
 
+- Nome da Persona:
+- Descrição:
+- Necessidades:
+- Objetivos:
 
 ### 2. Metas da Aplicação
 
@@ -49,8 +51,8 @@ Para cada tarefa, descreva as ações necessárias:
 
 Tarefa: [Nome da Tarefa]
 
-Ação 1:
-Ação 2:
-Ação 3:
+- Ação 1:
+- Ação 2:
+- Ação 3:
 
 ### 5. Observações
