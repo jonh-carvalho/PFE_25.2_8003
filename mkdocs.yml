@@ -12,7 +12,11 @@ nav:
       - Mkdocs: Disciplina/mkdocs.md
       - CodeSpace: Disciplina/codespace.md
       - Roteiros: 
-          - Design Thinking: Disciplina/Roteiros/design_thinking.md
+          - Design Thinking: Disciplina/Roteiros/04_design_thinking.md
+          - AHT: Disciplina/Roteiros/07_aht.md
+          - Sprint Planning: Disciplina/Roteiros/07_receitas.md
+          - Epic, Feature, User Story: Disciplina/Roteiros/08_epic_features_user_stories.md
+
   - Design Thinking:
       - Cenário: Design Thinking/cenário.md
       - Pesquisa: Design Thinking/pesquisa.md
