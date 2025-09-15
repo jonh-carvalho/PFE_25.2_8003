@@ -8,7 +8,7 @@
 **__04__ - 25/08/25** | - [Scrum](../assets/Aulas/Scrum.pdf) <br> - Roteiro Github 
 **__05__ - 01/09/25** | - Apresentação de Tema do Projeto, Principais Funcionalidades do Projeto, App Web Similares <br> - Site Mkdocs <br> - Configuração repositório Github <br> - Design Thinking
 **__06__ - 08/09/25** | - <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdKHyFoK-nwhwV0wwRXI8yPIinvwlJqDc4dLjmcGKo1S4U2vMBLySzhUF2DKYEAkdOtSZy-yRXzUHXmDpMNIwhGzKqtkjSDY68h2yPh_NyZ4L5WLAskMnE-Wy-6KamnHr5J2_oxgSet67dIvXUgWg?key=HMoLx71qiGBnt5NdK3Zc1bHf" style="height: 100px; width:200px;"/> <br> - [Brainstorm](../assets/Aulas/O%20processo%20de brainstorm.pdf) <br> - [Mapa Mental](../assets/Aulas/Mapa%20Mental.pdf)
-**__07__ - 15/09/25** | - [Análise de Tarefas - AHT](../assets/Aulas/Análise%20de%20Tarefas.pdf) <br> - [Roteiro](https://jonh-carvalho.github.io/PFE_25.1_8001/_Disciplina/Roteiros/EpicsFeaturesUserStories/) 
+**__07__ - 15/09/25** | - [Análise de Tarefas - AHT](../assets/Aulas/Análise%20de%20Tarefas.pdf) <br> - [Roteiro](https://jonh-carvalho.github.io/PFE_25.2_8003/Disciplina/Roteiros/07_epics_features_user_stories/) 
 **__08__ - 22/09/25** | - Protótipo de baixa fidelidade <br>  
 **__09__ - 29/09/25** | - AP1
 <!--

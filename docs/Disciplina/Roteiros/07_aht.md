@@ -142,7 +142,6 @@ Aqui está um protótipo de **fluxo de tarefas em formato wireframe** usando **P
 
 ```plantuml
 @startsalt
-{
   {#white+lightgrey}
   {* <b>Aplicativo Web - Fluxo de Tarefas (Wireframe)</b> }
 
@@ -181,6 +180,7 @@ Aqui está um protótipo de **fluxo de tarefas em formato wireframe** usando **P
     [ [Gerar Relatório] ]
   }
 
+{
   // --- Notas --- //
   note right
     <b>Problemas identificados:</b>

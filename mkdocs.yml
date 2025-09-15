@@ -15,7 +15,7 @@ nav:
           - Design Thinking: Disciplina/Roteiros/04_design_thinking.md
           - AHT: Disciplina/Roteiros/07_aht.md
           - Sprint Planning: Disciplina/Roteiros/07_receitas.md
-          - Epic, Feature, User Story: Disciplina/Roteiros/08_epic_features_user_stories.md
+          - Epic, Feature, User Story: Disciplina/Roteiros/07_epics_features_user_stories.md
 
   - Design Thinking:
       - Cenário: Design Thinking/cenário.md
@@ -90,6 +90,9 @@ markdown_extensions:
       permalink: true
 
 plugins:
+  - plantuml:
+      puml_url: https://www.plantuml.com/plantuml/
+      puml_keyword: plantuml
   - minify:
       minify_html: true
   - search
