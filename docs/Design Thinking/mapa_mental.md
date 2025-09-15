@@ -21,7 +21,7 @@ Foi levantado um ponto importante sobre o app e, assim, foi produzido o mapa men
  
 ### Mapa mental 1
  
-[![Mapa mental Entrevista]
+![Mapa Mental da Festa](../assets/mapamental/mapamental.png)
  
  
 ### Mapa mental 2
@@ -46,3 +46,59 @@ O mapa mental é uma ficha de estudos que ajuda a dar uma visão geral do tema, 
 | -- | -- | -- | -- |
 | dd/mm/yy | 1.0 | Criação do documento | xxx xxxx |
 | dd/mm/yy | 2.0 | Adicionado Mapa mental 2 | xxxx xxxx |
+
+
+```plantuml
+@startmindmap
+* Ideias Iniciais
+**[#FF6600] Decoração temática elegante
+***_ Cores da faculdade
+***_ Luzes
+***_ Painéis interativos
+**[#FFFF00] Buffet premium
+*** Opções variadas
+*** Gastronomia internacional
+*** Drinks exclusivos
+-- Atrações musicais
+--- DJ renomado
+--- Banda ao vivo
+--- Participação especial de artistas
+** Espaço instagramável
+*** Fotos dos formandos e convidados
+** Cerimonial personalizado
+*** Homenagens
+*** Discursos
+*** Entrega simbólica de diplomas
+--[#FF00FF] Brindes exclusivos
+--- Kits personalizados
+--- Lembranças de luxo
+** After party
+*** Lounge VIP
+** Parcerias com marcas
+*** Experiências diferenciadas
+**** Degustação
+**** Brindes
+** Segurança reforçada
+*** Valet para convidados
+** Cobertura fotográfica e vídeo profissional
+*** Transmissão ao vivo para familiares
+** Sorteios e experiências únicas
+*** Viagens
+*** Jantares
+
+* Pontos para discussão
+** Justificativa do valor do ingresso
+*** Experiência premium
+*** Exclusividade
+** Limite de convidados por formando
+** Estratégias de divulgação e venda dos ingressos
+** Possibilidade de pacotes ou descontos para grupos
+** Logística de transporte e hospedagem para convidados de fora
+
+* Próximos passos
+** Levantamento de fornecedores e orçamento detalhado
+** Pesquisa de interesse entre os formandos
+** Definição de comissão organizadora
+** Cronograma de ações até o evento
+@endmindmap
+```
