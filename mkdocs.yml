@@ -18,13 +18,14 @@ nav:
           - Epic, Feature, User Story: Disciplina/Roteiros/07_epics_features_user_stories.md
 
   - Design Thinking:
-      - Cenário: Design Thinking/cenário.md
+      - Index: Design Thinking/index.md
       - Pesquisa: Design Thinking/pesquisa.md
+      - Cenário: Design Thinking/cenario.md
       - 5w2h: Design Thinking/5w2h.md
       - Brainstorming: Design Thinking/brainstorm.md
       - Mapa Mental: Design Thinking/mapa_mental.md
-      - Design Thinking: Design Thinking/designthinking.md
-      - Historia de Usuário: Design Thinking/historiasdeusuario.md
+      - Design Thinking: Design Thinking/design_thinking.md
+      - Historia de Usuário: Design Thinking/historias_de_usuario.md
       - Análise de Tarefas: Design Thinking/analise_de_tarefas.md
       - Prototipagem Baixa Fidelidade: Design Thinking/prototipo_baixa_fidelidade.md
       - Prototipagem Alta Fidelidade: Design Thinking/prototipo_alta_fidelidade.md
