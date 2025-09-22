@@ -1,4 +1,4 @@
-# 09 - **Histórias de usuário** 
+# 09 - **Histórias de usuários** 
 
 A partir do cenário, análise de tarefas e protótipo, podemos levantar as seguintes **histórias de usuário** utilizando o formato padrão ("Como [persona], quero [ação] para [benefício]"):
 
