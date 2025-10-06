@@ -1,580 +1,535 @@
-# 10 - **Hooks (Foco em Componentes Funcionais)**
+# 10 - **useEffect e Ciclo de Vida**
 
----
-## Introdução
-
-**Objetivo:** Dominar os principais Hooks do React para gerenciar estado, efeitos colaterais e referências em componentes funcionais.  
-
-### **1. - useState (Estado em Componentes Funcionais)**
-
-#### **Conteúdo Teórico:**
-
-- O que é estado em React?  
-- Diferença entre `props` e `state`.  
-- Sintaxe do `useState`:  
-
-  ```jsx
-  const [state, setState] = useState(initialValue);
-  ```
-- Atualizações assíncronas e imutabilidade.  
-
-#### **1. O que é Estado em React?**  
-
-O **estado (state)** em React representa os dados dinâmicos de um componente. Ele permite que o componente:  
-
-- **Armazene informações** que podem mudar ao longo do tempo.  
-- **Re-renderize** a interface quando o estado é atualizado.  
-- **Gerencie interações do usuário** (cliques, formulários, etc.).  
-
-**Exemplo:** Um contador que incrementa quando o usuário clica em um botão.  
+Neste módulo, você aprenderá o hook `useEffect`, essencial para gerenciar efeitos colaterais e o ciclo de vida de componentes React. Implementaremos o carregamento automático de dados na nossa **Lista de Países** conectando com APIs.
 
 ---
 
-#### **2. Diferença entre `props` e `state`**  
+## **Objetivos do Módulo**
+- Dominar o hook `useEffect` e suas dependências
+- Entender o ciclo de vida de componentes funcionais
+- Implementar carregamento automático de dados
+- Conectar nossa Lista de Países com APIs reais
+- Gerenciar cleanup e memory leaks
 
-| **`props`**                          | **`state`**                          |
-|--------------------------------------|--------------------------------------|
-| Passado de um componente **pai para filho**. | Gerenciado **internamente** pelo componente. |
-| **Imutável** (não pode ser modificado pelo componente filho). | **Mutável** (pode ser atualizado com `setState`). |
-| Usado para **comunicação entre componentes**. | Usado para **controle interno do componente**. |
+---
 
-**Exemplo:**  
+## **1. Introdução ao useEffect**
+
+### **O que é useEffect?**
+
+O `useEffect` é um hook que permite executar **efeitos colaterais** em componentes funcionais. Efeitos colaterais são operações que afetam algo fora do componente:
+
+- 🌐 **Chamadas de API**
+- ⏰ **Timers e intervalos**
+- 🎧 **Event listeners**
+- 📄 **Manipulação do DOM**
+- 🧹 **Cleanup de recursos**
+
+### **Sintaxe Básica**
 
 ```jsx
-// Componente Pai (passa props)
-<PaiComponente nome="João" />  
+import { useEffect } from 'react';
 
-// Componente Filho (usa props + state)
-function FilhoComponente({ nome }) {
-  const [idade, setIdade] = useState(25); // Estado interno
-  return <p>{nome} tem {idade} anos.</p>;
-}
+useEffect(() => {
+  // Código do efeito
+}, [dependências]);
+```
+
+### **Anatomia do useEffect**
+
+```jsx
+useEffect(
+  () => {
+    // 1. Código que executa
+    console.log('Efeito executado!');
+    
+    // 2. Cleanup (opcional)
+    return () => {
+      console.log('Cleanup executado!');
+    };
+  },
+  [dependência1, dependência2] // 3. Array de dependências
+);
 ```
 
 ---
 
-#### **3. Sintaxe do `useState`**  
+## **2. Padrões de Dependências**
 
-O `useState` é um **Hook** que retorna um array com:  
-1. **Valor atual do estado** (`state`).  
-2. **Função para atualizá-lo** (`setState`).  
+### **2.1 Sem Array de Dependências**
 
 ```jsx
-const [state, setState] = useState(initialValue);
+useEffect(() => {
+  console.log('Executa a cada render!');
+});
+// ⚠️ Cuidado: pode causar loops infinitos
 ```
 
-**Exemplo:**  
+### **2.2 Array Vazio `[]`**
 
 ```jsx
-import { useState } from 'react';
-
-function Counter() {
-  const [count, setCount] = useState(0); // Estado inicial = 0
-
-  return (
-    <button onClick={() => setCount(count + 1)}>
-      Clicou {count} vezes
-    </button>
-  );
-}
+useEffect(() => {
+  console.log('Executa apenas uma vez (componentDidMount)');
+}, []);
+// ✅ Ideal para: carregar dados iniciais, configurar listeners
 ```
 
----
-
-#### **4. Atualizações Assíncronas e Imutabilidade**  
-
-##### **a) Atualizações Assíncronas**  
-- O React **não atualiza o estado imediatamente** (é agendado).  
-- Se precisar do **valor anterior**, use a forma funcional: 
- 
-  ```jsx
-  setCount(prevCount => prevCount + 1); // Garante a atualização correta
-  ```
-
-#### **b) Imutabilidade**  
-
-- **Nunca modifique o estado diretamente!**  
-  ❌ `state.count = 5` (Errado!)  
-  ✅ `setCount(5)` (Correto!)  
-
-**Exemplo com Objetos:**  
+### **2.3 Com Dependências Específicas**
 
 ```jsx
-const [user, setUser] = useState({ name: 'Ana', age: 30 });
+const [count, setCount] = useState(0);
 
-// ❌ Errado (mutação direta)
-user.age = 31; // Não re-renderiza!
+useEffect(() => {
+  console.log(`Count mudou para: ${count}`);
+}, [count]);
+// ✅ Executa apenas quando 'count' muda
+```
 
-// ✅ Correto (cria um novo objeto)
-setUser({ ...user, age: 31 }); // Spread operator
+### **2.4 Múltiplas Dependências**
+
+```jsx
+const [name, setName] = useState('');
+const [age, setAge] = useState(0);
+
+useEffect(() => {
+  console.log(`Dados atualizados: ${name}, ${age}`);
+}, [name, age]);
+// ✅ Executa quando 'name' OU 'age' mudam
 ```
 
 ---
 
-#### **Resumo Visual**  
+## **3. Ciclo de Vida com useEffect**
+
+### **Comparação com Class Components**
+
+| Class Component | Functional Component |
+|-----------------|---------------------|
+| `componentDidMount` | `useEffect(() => {}, [])` |
+| `componentDidUpdate` | `useEffect(() => {}, [dep])` |
+| `componentWillUnmount` | `useEffect(() => { return () => {} }, [])` |
+
+### **Exemplo Prático: Timer**
 
 ```jsx
-import { useState } from 'react';
-
-function Example() {
-  // 1. Declaração do estado
-  const [value, setValue] = useState('');
-
-  // 2. Atualização com imutabilidade
-  const handleChange = (e) => {
-    setValue(e.target.value); // ✅ Atualiza corretamente
-  };
-
-  return <input value={value} onChange={handleChange} />;
-}
-```
-
-### **Boas Práticas:**  
-
-✔ Use `useState` para dados que mudam e afetam a UI.  
-✔ Atualize o estado **apenas com `setState`** (nunca diretamente).  
-✔ Para estados complexos, considere `useReducer`.  
-
-### **Exemplo Prático:**
-
-```jsx
-import { useState } from 'react';
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>Você clicou {count} vezes</p>
-      <button onClick={() => setCount(count + 1)}>Incrementar</button>
-    </div>
-  );
-}
-```
-
-### **Exercício:**
-
-1. Crie um componente `ToggleButton` que alterna entre "Ligado" e "Desligado".  
-2. Faça um contador que permita incrementar, decrementar e resetar o valor.  
-
----
-
-### **2. - useEffect (Efeitos Colaterais)**
-
-#### **Conteúdo Teórico:**
-- O que são efeitos colaterais? (API calls, subscriptions, timers).  
-- Sintaxe:  
-  ```jsx
-  useEffect(() => { ... }, [dependencies]);
-  ```
-- Dependências vazias (`[]`) vs com dependências.  
-- Cleanup function (`return () => { ... }`).  
-
-#### **Exemplo Prático:**
-
-```jsx
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Timer() {
   const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(prev => prev + 1);
-    }, 1000);
+    let interval = null;
 
-    return () => clearInterval(interval); // Cleanup
-  }, []); // Executa apenas uma vez
+    if (isRunning) {
+      // Configurar timer
+      interval = setInterval(() => {
+        setSeconds(prevSeconds => prevSeconds + 1);
+      }, 1000);
+    }
 
-  return <p>Tempo: {seconds} segundos</p>;
+    // Cleanup function
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [isRunning]); // Reexecuta quando isRunning muda
+
+  return (
+    <div>
+      <h2>Timer: {seconds}s</h2>
+      <button onClick={() => setIsRunning(!isRunning)}>
+        {isRunning ? 'Pausar' : 'Iniciar'}
+      </button>
+      <button onClick={() => setSeconds(0)}>Reset</button>
+    </div>
+  );
 }
 ```
 
-#### **Exercício:**
-
-1. Crie um componente que busca dados de uma API (ex: [JSONPlaceholder](https://jsonplaceholder.typicode.com/posts)) e exibe em uma lista.  
-2. Implemente um `useEffect` que atualize o título da página com um contador.  
-
 ---
 
-### **3. - createContext (Compartilhamento de Estado)**
+## **4. useEffect com APIs - Evoluindo a Lista de Países**
 
-- Problema do "prop drilling".  
-- Criar e consumir um Context.  
-- `createContext`, `Provider` e `useContext`.  
+Vamos conectar nossa Lista de Países com a API REST Countries usando useEffect:
 
-#### **Exemplo Prático:**
+### **4.1 Carregamento Inicial de Dados**
 
 ```jsx
-import { createContext, useContext, useState } from 'react';
-
-const ThemeContext = createContext();
+// src/App.jsx
+import React, { useState, useEffect } from 'react';
+import Loading from './components/Loading';
+import ErrorMessage from './components/ErrorMessage';
 
 function App() {
-  const [theme, setTheme] = useState("light");
+  const [paises, setPaises] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
+  const [favoritos, setFavoritos] = useState([]);
 
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      <Toolbar />
-    </ThemeContext.Provider>
-  );
-}
+  // useEffect para carregar dados iniciais
+  useEffect(() => {
+    const carregarPaises = async () => {
+      try {
+        setCarregando(true);
+        setErro(null);
 
-function Toolbar() {
-  const { theme, setTheme } = useContext(ThemeContext);
-  
-  return (
-    <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-      Tema atual: {theme}
-    </button>
-  );
-}
-```
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,flag,cca3');
+        
+        if (!response.ok) {
+          throw new Error(`Erro HTTP: ${response.status}`);
+        }
 
-#### **Exercício:**
+        const data = await response.json();
+        
+        // Limitar a 20 países para performance
+        const paisesLimitados = data.slice(0, 20);
+        setPaises(paisesLimitados);
 
-1. Crie um contexto `UserContext` que armazene o nome do usuário e permita alterá-lo.  
-2. Consuma esse contexto em dois componentes diferentes.  
+      } catch (error) {
+        setErro(error.message);
+      } finally {
+        setCarregando(false);
+      }
+    };
 
----
-### **4. - useRef (Referências e Valores Mutáveis)**
+    carregarPaises();
+  }, []); // Array vazio = executa apenas uma vez
 
-#### **Conteúdo Teórico:**
-- Diferença entre `useRef` e `useState`.  
-- Acessar elementos DOM diretamente.  
-- Armazenar valores mutáveis sem rerenderizar.  
+  // useEffect para salvar favoritos no localStorage
+  useEffect(() => {
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+  }, [favoritos]); // Executa quando favoritos mudam
 
-#### **Exemplo Prático:**
+  // useEffect para carregar favoritos do localStorage
+  useEffect(() => {
+    const favoritosSalvos = localStorage.getItem('favoritos');
+    if (favoritosSalvos) {
+      setFavoritos(JSON.parse(favoritosSalvos));
+    }
+  }, []); // Executa apenas uma vez
 
-```jsx
-import { useRef } from 'react';
+  const toggleFavorito = (paisCodigo) => {
+    setFavoritos(prev => 
+      prev.includes(paisCodigo)
+        ? prev.filter(codigo => codigo !== paisCodigo)
+        : [...prev, paisCodigo]
+    );
+  };
 
-function TextInput() {
-  const inputRef = useRef();
-
-  const focusInput = () => {
-    inputRef.current.focus();
+  const recarregarDados = () => {
+    // Força recarregamento mudando uma dependência
+    window.location.reload();
   };
 
   return (
-    <div>
-      <input ref={inputRef} type="text" />
-      <button onClick={focusInput}>Focar no Input</button>
+    <div className="app">
+      <header className="app-header">
+        <h1>🌍 Lista de Países</h1>
+        <p>Dados carregados automaticamente via useEffect</p>
+        
+        {paises.length > 0 && (
+          <div className="stats">
+            <span>📊 {paises.length} países</span>
+            <span>❤️ {favoritos.length} favoritos</span>
+            <button onClick={recarregarDados} className="reload-btn">
+              🔄 Recarregar
+            </button>
+          </div>
+        )}
+      </header>
+
+      <main className="main-content">
+        {carregando && <Loading />}
+        
+        {erro && (
+          <ErrorMessage 
+            mensagem={erro} 
+            onTentar={recarregarDados}
+          />
+        )}
+        
+        {!carregando && !erro && paises.length > 0 && (
+          <div className="countries-grid">
+            {paises.map(pais => (
+              <CountryCard 
+                key={pais.cca3}
+                pais={pais}
+                isFavorito={favoritos.includes(pais.cca3)}
+                onToggleFavorito={() => toggleFavorito(pais.cca3)}
+              />
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 }
+
+export default App;
 ```
 
-#### **Exercício:**
-
-1. Crie um componente que armazene o número de renders usando `useRef`.  
-2. Faça um "scroll to top" usando `useRef`.  
-
----
-
-### **5. - useReducer (Estado Complexo)**
-
-#### **Conteúdo Teórico:**
-
-- Quando usar `useReducer` vs `useState`.  
-- Sintaxe:  
-  
-  ```jsx
-  const [state, dispatch] = useReducer(reducer, initialState);
-  ```
-- Padrão de ações (`{ type, payload }`).  
-
-#### **Exemplo Prático:**
+### **4.2 Hook Customizado para API**
 
 ```jsx
-import { useReducer } from 'react';
+// src/hooks/usePaises.js
+import { useState, useEffect } from 'react';
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'increment':
-      return { count: state.count + 1 };
-    case 'decrement':
-      return { count: state.count - 1 };
-    default:
-      throw new Error();
-  }
-}
+function usePaises() {
+  const [paises, setPaises] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
 
-function Counter() {
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
-
-  return (
-    <div>
-      <p>Count: {state.count}</p>
-      <button onClick={() => dispatch({ type: 'increment' })}>+</button>
-      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
-    </div>
-  );
-}
-```
-
-#### **Exercício:**
-
-1. Implemente um carrinho de compras usando `useReducer`.  
-2. Crie um formulário com validação usando `useReducer`.  
-
----
-
-### **Exercício Final do Módulo**
-
-**Desafio:** Construa um **"Todo List"** usando:  
-
-✅ `useState` para gerenciar a lista de tarefas.  
-✅ `useEffect` para salvar no `localStorage`.  
-✅ `useReducer` para ações como adicionar, remover e marcar como concluída.  
-✅ `useContext` para um tema claro/escuro.  
-✅ `useRef` para focar no input ao adicionar uma tarefa.  
-
-### Todo List Avançada com React Hooks
-
-Vou construir uma aplicação Todo List completa utilizando todos os Hooks solicitados. Vamos dividir em partes lógicas:
-
-#### 1. Estrutura Inicial e Contexto de Tema
-
-```jsx
-import React, { useState, useEffect, useReducer, useContext, useRef, createContext } from 'react';
-
-// Contexto para o tema
-const ThemeContext = createContext();
-
-// Reducer para gerenciar as ações das tarefas
-function todoReducer(state, action) {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return [...state, { id: Date.now(), text: action.payload, completed: false }];
-    case 'TOGGLE_TODO':
-      return state.map(todo =>
-        todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
-      );
-    case 'DELETE_TODO':
-      return state.filter(todo => todo.id !== action.payload);
-    default:
-      return state;
-  }
-}
-```
-
-#### 2. Componente Principal App
-
-```jsx
-function App() {
-  const [theme, setTheme] = useState('light');
-  const [todos, dispatch] = useReducer(todoReducer, []);
-  const inputRef = useRef(null);
-
-  // Carregar tarefas do localStorage ao iniciar
   useEffect(() => {
-    const savedTodos = localStorage.getItem('todos');
-    if (savedTodos) {
-      dispatch({ type: 'INIT_TODOS', payload: JSON.parse(savedTodos) });
+    let cancelado = false; // Flag para evitar memory leaks
+
+    const buscarPaises = async () => {
+      try {
+        setCarregando(true);
+        setErro(null);
+
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,flag,cca3');
+        
+        if (!response.ok) {
+          throw new Error(`Erro: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Verificar se o componente ainda está montado
+        if (!cancelado) {
+          setPaises(data.slice(0, 20));
+        }
+
+      } catch (error) {
+        if (!cancelado) {
+          setErro(error.message);
+        }
+      } finally {
+        if (!cancelado) {
+          setCarregando(false);
+        }
+      }
+    };
+
+    buscarPaises();
+
+    // Cleanup: cancelar operação se componente for desmontado
+    return () => {
+      cancelado = true;
+    };
+  }, []);
+
+  return { paises, carregando, erro };
+}
+
+export default usePaises;
+```
+
+### **4.3 Usando o Hook Customizado**
+
+```jsx
+// src/App.jsx (versão simplificada)
+import React, { useState, useEffect } from 'react';
+import usePaises from './hooks/usePaises';
+
+function App() {
+  const { paises, carregando, erro } = usePaises();
+  const [favoritos, setFavoritos] = useState([]);
+
+  // Carregar favoritos do localStorage
+  useEffect(() => {
+    const favoritosSalvos = localStorage.getItem('favoritos');
+    if (favoritosSalvos) {
+      setFavoritos(JSON.parse(favoritosSalvos));
     }
   }, []);
 
-  // Salvar tarefas no localStorage quando mudam
+  // Salvar favoritos no localStorage
   useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+  }, [favoritos]);
 
-  // Alternar tema
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={`app ${theme}`}>
-        <h1>Todo List</h1>
-        <TodoForm dispatch={dispatch} inputRef={inputRef} />
-        <TodoList todos={todos} dispatch={dispatch} />
-      </div>
-    </ThemeContext.Provider>
-  );
+  // ... resto do componente
 }
 ```
 
-#### 3. Componente TodoForm
+---
+
+## **5. Padrões Avançados com useEffect**
+
+### **5.1 Debounce com useEffect**
 
 ```jsx
-function TodoForm({ dispatch, inputRef }) {
-  const [text, setText] = useState('');
-  const { theme } = useContext(ThemeContext);
+function SearchCountries() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (text.trim()) {
-      dispatch({ type: 'ADD_TODO', payload: text });
-      setText('');
-      inputRef.current.focus();
-    }
-  };
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchTerm) {
+        // Buscar países depois de 500ms de pausa na digitação
+        fetch(`https://restcountries.com/v3.1/name/${searchTerm}`)
+          .then(response => response.json())
+          .then(setResults);
+      }
+    }, 500);
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        ref={inputRef}
-        type="text"
-        value={text}
-        onChange={e => setText(e.target.value)}
-        placeholder="Adicione uma tarefa"
-        className={`input-${theme}`}
-      />
-      <button type="submit" className={`button-${theme}`}>Adicionar</button>
-    </form>
-  );
-}
-```
-
-#### 4. Componente TodoList
-
-```jsx
-function TodoList({ todos, dispatch }) {
-  const { theme, toggleTheme } = useContext(ThemeContext);
-
-  if (todos.length === 0) {
-    return <p className={`no-tasks-${theme}`}>Nenhuma tarefa adicionada ainda</p>;
-  }
+    // Cleanup: cancelar timeout anterior
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
 
   return (
     <div>
-      <button onClick={toggleTheme} className={`theme-button ${theme}`}>
-        Alternar para tema {theme === 'light' ? 'escuro' : 'claro'}
-      </button>
-      <ul className={`todo-list ${theme}`}>
-        {todos.map(todo => (
-          <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
-        ))}
-      </ul>
+      <input 
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Buscar país..."
+      />
+      {/* Renderizar results */}
     </div>
   );
 }
 ```
 
-#### 5. Componente TodoItem
+### **5.2 Event Listeners**
 
 ```jsx
-function TodoItem({ todo, dispatch }) {
-  const { theme } = useContext(ThemeContext);
+function WindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
 
-  return (
-    <li className={`todo-item ${theme} ${todo.completed ? 'completed' : ''}`}>
-      <span
-        onClick={() => dispatch({ type: 'TOGGLE_TODO', payload: todo.id })}
-        className="todo-text"
-      >
-        {todo.text}
-      </span>
-      <button
-        onClick={() => dispatch({ type: 'DELETE_TODO', payload: todo.id })}
-        className={`delete-button ${theme}`}
-      >
-        ×
-      </button>
-    </li>
-  );
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    // Adicionar listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup: remover listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // Array vazio = adiciona listener apenas uma vez
+
+  return <p>Janela: {windowSize.width} x {windowSize.height}</p>;
 }
 ```
-
-#### 6. Estilos CSS (exemplo básico)
-
-```css
-.app {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.light {
-  background-color: #fff;
-  color: #333;
-}
-
-.dark {
-  background-color: #333;
-  color: #fff;
-}
-
-.input-light {
-  padding: 8px;
-  border: 1px solid #ddd;
-}
-
-.input-dark {
-  padding: 8px;
-  border: 1px solid #555;
-  background-color: #444;
-  color: white;
-}
-
-.todo-list {
-  list-style: none;
-  padding: 0;
-}
-
-.todo-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 4px;
-}
-
-.todo-item.light {
-  background-color: #f5f5f5;
-}
-
-.todo-item.dark {
-  background-color: #444;
-}
-
-.completed {
-  text-decoration: line-through;
-  opacity: 0.7;
-}
-
-.delete-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2em;
-}
-
-.delete-button.light {
-  color: #ff4444;
-}
-
-.delete-button.dark {
-  color: #ff8888;
-}
-
-.theme-button {
-  padding: 5px 10px;
-  margin-bottom: 15px;
-  cursor: pointer;
-}
-```
-
-#### 7. Como usar a aplicação
-
-1. **Adicionar tarefa**: Digite no campo de texto e pressione Enter ou clique em "Adicionar"
-2. **Completar tarefa**: Clique no texto da tarefa
-3. **Remover tarefa**: Clique no botão "×" ao lado da tarefa
-4. **Alternar tema**: Clique no botão "Alternar tema"
-
-#### Recursos utilizados:
-
-- `useState`: Para gerenciar o estado do tema e do texto do input
-- `useEffect`: Para persistir as tarefas no localStorage
-- `useReducer`: Para gerenciar as operações CRUD das tarefas
-- `useContext`: Para compartilhar o tema entre todos os componentes
-- `useRef`: Para focar automaticamente no input após adicionar uma tarefa
 
 ---
 
-### **Recursos Adicionais:**
-- [Documentação Oficial dos Hooks](https://react.dev/reference/react)  
-- [React Hooks Cheat Sheet](https://react-hooks-cheatsheet.com/)  
+## **6. Boas Práticas e Armadilhas**
+
+### **✅ Boas Práticas**
+
+1. **Sempre inclua dependências necessárias**
+   ```jsx
+   useEffect(() => {
+     fetchData(userId);
+   }, [userId]); // ✅ Inclui userId
+   ```
+
+2. **Use cleanup para evitar memory leaks**
+   ```jsx
+   useEffect(() => {
+     const interval = setInterval(callback, 1000);
+     return () => clearInterval(interval); // ✅ Cleanup
+   }, []);
+   ```
+
+3. **Separe efeitos por responsabilidade**
+   ```jsx
+   // ✅ Um useEffect para cada responsabilidade
+   useEffect(() => { /* carregar dados */ }, []);
+   useEffect(() => { /* salvar no localStorage */ }, [data]);
+   ```
+
+### **❌ Armadilhas Comuns**
+
+1. **Loops infinitos**
+   ```jsx
+   // ❌ Cria loop infinito
+   useEffect(() => {
+     setCount(count + 1);
+   }); // Sem array de dependências
+   ```
+
+2. **Dependências faltando**
+   ```jsx
+   // ❌ useEffect depende de 'name' mas não está nas dependências
+   useEffect(() => {
+     fetchUserData(name);
+   }, []); // Deveria ser [name]
+   ```
+
+3. **Cleanup inadequado**
+   ```jsx
+   // ❌ Não remove event listener
+   useEffect(() => {
+     window.addEventListener('scroll', handleScroll);
+     // Faltou: return () => window.removeEventListener('scroll', handleScroll);
+   }, []);
+   ```
+
+---
+
+## **📝 Exercício Prático**
+
+### 🎯 **Objetivo**
+Implementar busca em tempo real na Lista de Países com debounce
+
+### 📋 **Requisitos**
+- [ ] Adicionar campo de busca que filtra países por nome
+- [ ] Implementar debounce de 300ms para evitar muitas requisições
+- [ ] Mostrar loading durante a busca
+- [ ] Exibir mensagem quando nenhum país for encontrado
+- [ ] Limpar busca com botão "X"
+
+### 🚀 **Dica de Implementação**
+```jsx
+const [searchTerm, setSearchTerm] = useState('');
+const [searchResults, setSearchResults] = useState([]);
+
+useEffect(() => {
+  const timeoutId = setTimeout(async () => {
+    if (searchTerm.trim()) {
+      try {
+        const response = await fetch(`https://restcountries.com/v3.1/name/${searchTerm}`);
+        const data = await response.json();
+        setSearchResults(data);
+      } catch (error) {
+        setSearchResults([]);
+      }
+    } else {
+      setSearchResults([]);
+    }
+  }, 300);
+
+  return () => clearTimeout(timeoutId);
+}, [searchTerm]);
+```
+
+---
+
+## **🔮 Próximo Módulo**
+
+No próximo módulo, criaremos um **Projeto Prático Completo** integrando todos os conceitos aprendidos: componentes, estado, efeitos e APIs para construir uma aplicação robusta!
+
+---
+
+## **📚 Resumo do Módulo**
+
+- ✅ **useEffect**: Hook essencial para efeitos colaterais
+- ✅ **Dependências**: Controlam quando o efeito executa
+- ✅ **Cleanup**: Previne memory leaks e bugs
+- ✅ **APIs**: Carregamento automático de dados
+- ✅ **Hooks Customizados**: Reutilização de lógica
+- ✅ **Boas Práticas**: Padrões para código limpo e performático  
+  
