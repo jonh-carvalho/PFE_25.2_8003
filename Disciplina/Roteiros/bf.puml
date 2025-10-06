@@ -1,0 +1,62 @@
+@startsalt
+{ Plataforma de Receitas - Wireframe
+  .
+  // Tela: Login/Cadastro //
+  .
+  {+ <b>Login / Cadastro
+    .
+    Usuário: | input:___________
+    Senha:   | input:___________
+    [Entrar] [Cadastrar]
+  }
+  .
+  // Tela: Página Inicial //
+  .
+  {+ <b>Receitas Populares
+    .
+    [Buscar receitas: | input:__________ 🔍 ]
+    [Filtrar: | dropdown: Categoria ▼ ]
+    .
+    {#
+      | Imagem | Título         | Curtidas | Favorito
+      | [img]  | Bolo de Cenoura|   120    | [★]
+      | [img]  | Lasanha        |   98     | [☆]
+      | [img]  | Salada Caesar  |   75     | [★]
+    }
+    .
+    [Nova Receita]
+  }
+  .
+  // Tela: Nova Receita //
+  .
+  {+ <b>Criar Receita
+    .
+    Título:        | input:_____________
+    Ingredientes:  | textarea:__________
+    Modo Preparo:  | textarea:__________
+    Imagem:        | [Selecionar arquivo]
+    [Salvar Receita]
+  }
+  .
+  // Tela: Detalhe da Receita //
+  .
+  {+ <b>Bolo de Cenoura
+    .
+    [img]
+    Ingredientes:
+    - Cenoura
+    - Ovos
+    - Farinha
+    .
+    Modo de Preparo:
+    1. Misture os ingredientes...
+    2. Asse por 40 minutos...
+    .
+    [Curtir] [Comentar] [Salvar]
+    .
+    Comentários:
+    - Usuário1: Adorei!
+    - Usuário2: Ficou ótimo!
+  }
+}
+@endsalt
