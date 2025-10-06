@@ -8,14 +8,19 @@ nav:
   - Home: index.md
   - Disciplina:
       - Aulas: Disciplina/aulas.md
-      - Github: Disciplina/github.md
-      - Mkdocs: Disciplina/mkdocs.md
-      - CodeSpace: Disciplina/codespace.md
+      - React:
+              - Introdução: React/01_Intro.md
+              - Node.js Vite React: React\02_NodeViteReact.md
       - Roteiros: 
           - Design Thinking: Disciplina/Roteiros/04_design_thinking.md
           - AHT: Disciplina/Roteiros/07_aht.md
           - Sprint Planning: Disciplina/Roteiros/07_receitas.md
           - Epic, Feature, User Story: Disciplina/Roteiros/07_epics_features_user_stories.md
+          
+      - Github: Disciplina/github.md
+      - Mkdocs: Disciplina/mkdocs.md
+      - CodeSpace: Disciplina/codespace.md
+      
 
   - Design Thinking:
       - Index: Design Thinking/index.md
