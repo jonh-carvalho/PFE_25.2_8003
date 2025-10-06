@@ -31,7 +31,31 @@ npm create vite@latest my-react-app --template react
 
 Substitua `my-react-app` pelo nome desejado para seu projeto.
 
+### **Estrutura de Pastas do Projeto Vite + React**
 
+Após criar o projeto, você terá a seguinte estrutura:
+
+```
+my-react-app/
+├── public/
+│   ├── vite.svg          # Ícone do Vite
+│   └── index.html        # Template HTML principal
+├── src/
+│   ├── assets/           # Imagens, ícones e outros recursos
+│   ├── App.jsx           # Componente principal da aplicação
+│   ├── App.css           # Estilos do componente App
+│   ├── index.css         # Estilos globais
+│   └── main.jsx          # Ponto de entrada da aplicação
+├── package.json          # Dependências e scripts do projeto
+├── vite.config.js        # Configurações do Vite
+└── README.md             # Documentação do projeto
+```
+
+**Arquivos importantes:**
+- **src/main.jsx**: Ponto de entrada onde o React é inicializado
+- **src/App.jsx**: Componente principal da sua aplicação
+- **public/index.html**: Template base do HTML
+- **vite.config.js**: Configurações específicas do Vite
 
 **3. Instale as dependências:**
 
@@ -46,22 +70,48 @@ npm install
 npm run dev
 ```
 
-Seu aplicativo estará disponível em `http://localhost:3000/`.
+Seu aplicativo estará disponível em `http://localhost:5173/` (porta padrão do Vite).
+
+### **Troubleshooting Comum**
+
+**Problemas frequentes e soluções:**
+
+1. **Erro de porta ocupada:**
+   ```bash
+   # Se a porta 5173 estiver ocupada, o Vite automaticamente usará a próxima disponível
+   # Ou você pode especificar uma porta:
+   npm run dev -- --port 3000
+   ```
+
+2. **Erro de permissão no Windows:**
+   ```bash
+   # Execute o PowerShell como administrador ou use:
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+
+3. **Erro "command not found":**
+   - Verifique se o Node.js está instalado: `node --version`
+   - Verifique se o npm está funcionando: `npm --version`
+   - Reinstale as dependências: `npm install`
+
+4. **Página em branco:**
+   - Verifique o console do navegador (F12)
+   - Certifique-se de que não há erros de sintaxe no código
 
 ### Construindo o App: Um Contador Simples
 
 **1. Abra o arquivo `src/App.jsx`:**
 
-```js
-import React, { useState } from'react';
+```jsx
+import React, { useState } from 'react';
 
-functionApp() {
+function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
       <p>Você clicou {count} vezes</p>
-      <buttononClick={() => setCount(count + 1)}>
+      <button onClick={() => setCount(count + 1)}>
         Clique para incrementar
       </button>
     </div>
@@ -100,24 +150,31 @@ Outro pontos fundamentais do React:
 ### **Exemplo mais completo: Uma lista de tarefas**
 
 ```jsx
-import React, { useState } from'react';
+import React, { useState } from 'react';
 
-functionApp() {
+function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
 
   const handleAddTask = () => {
-    setTasks([...tasks, newTask]);
-    setNewTask('');
+    if (newTask.trim() !== '') {
+      setTasks([...tasks, newTask]);
+      setNewTask('');
+    }
   };
 
   return (
     <div>
-      <inputtype="text"value={newTask}onChange={(e) => setNewTask(e.target.value)} />
-      <buttononClick={handleAddTask}>Adicionar</button>
+      <input 
+        type="text" 
+        value={newTask} 
+        onChange={(e) => setNewTask(e.target.value)} 
+        placeholder="Digite uma nova tarefa"
+      />
+      <button onClick={handleAddTask}>Adicionar</button>
       <ul>
-        {tasks.map((task) => (
-          <li key={task}>{task}</li>
+        {tasks.map((task, index) => (
+          <li key={index}>{task}</li>
         ))}
       </ul>
     </div>

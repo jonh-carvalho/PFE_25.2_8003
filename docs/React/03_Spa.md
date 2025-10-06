@@ -1,194 +1,210 @@
-# 03 - **Criando um App React SPA**
+# 03 - **JSX e Sintaxe do React**
 
 ## Introdução
 
-Uma **SPA** (Single Page Application) é um tipo de aplicação web em que todo o conteúdo necessário para navegar pelo site é carregado inicialmente ou dinamicamente sem recarregar a página inteira. Ao contrário de um site tradicional, onde cada vez que o usuário clica em um link ou navega para uma nova seção há um carregamento completo da página, em uma SPA apenas o conteúdo específico da página é atualizado, o que proporciona uma experiência de usuário mais rápida e fluida.
+**JSX** (JavaScript XML) é uma extensão de sintaxe para JavaScript que permite escrever código que parece HTML dentro do JavaScript. É a forma padrão de escrever componentes React, tornando o código mais legível e intuitivo para desenvolvedores que já conhecem HTML.
 
-### Características principais de uma SPA
+**Por que usar JSX?**
+- Sintaxe familiar e intuitiva (similar ao HTML)
+- Melhor legibilidade do código
+- Facilita a criação de interfaces de usuário
+- Permite a mistura de lógica JavaScript com marcação HTML
 
-1\. **Carregamento único de página**:
+### Características principais do JSX
 
-- Na primeira visita do usuário, a aplicação faz um grande carregamento inicial, mas depois disso, todo o conteúdo é dinamicamente atualizado na mesma página sem a necessidade de recarregar toda a estrutura da página.
-  
-2\. **Navegação mais rápida**:
+1\. **Sintaxe familiar**:
+- Parece HTML, mas é na verdade JavaScript transformado
+- Permite usar tags e atributos similares ao HTML
 
-- Como o navegador não precisa recarregar toda a página e apenas atualiza partes do conteúdo, a navegação é mais rápida em comparação com aplicações tradicionais que recarregam a página inteira a cada clique.
+2\. **Expressões JavaScript**:
+- Permite inserir expressões JavaScript usando chaves `{}`
+- Pode incluir variáveis, funções e operações
 
-3\. **Uso de APIs**:
+3\. **Componentes como elementos**:
+- Componentes React podem ser usados como elementos JSX
+- Facilita a composição e reutilização de código
 
-- Geralmente, uma SPA se comunica com o servidor através de APIs, como REST ou GraphQL, para buscar dados dinamicamente. A página permanece carregada enquanto os dados são atualizados.
+4\. **Compilação**:
+- JSX é transformado em chamadas `React.createElement()` durante o build
+- Ferramentas como Vite fazem essa transformação automaticamente
 
-4\. **Histórico de navegação**:
+### Sintaxe Básica do JSX
 
-- As SPAs utilizam o histórico do navegador para manipular as URLs sem realmente recarregar a página, o que permite que o botão de "voltar" e "avançar" do navegador funcionem normalmente. Ferramentas como o **React Router** ajudam a gerenciar esse comportamento.
+**HTML vs JSX:**
 
-5\. **Frameworks e bibliotecas comuns**:
+```jsx
+// HTML tradicional
+<div class="container">
+  <h1>Olá Mundo</h1>
+  <p>Este é um parágrafo</p>
+</div>
 
-- Frameworks como **React**, **Vue.js**, **Angular**, e ferramentas como **Vite** ou **Webpack** são amplamente usadas para construir SPAs. Eles permitem um carregamento eficiente e a criação de componentes reutilizáveis.
-
-### Vantagens de uma SPA
-
-- **Melhor experiência do usuário (UX)**: Navegação suave, sem interrupções devido a recarregamentos de página.
-
-- **Aplicações mais interativas**: Ideal para aplicativos ricos em interação, como redes sociais, dashboards e sistemas de gerenciamento.
-
-- **Desempenho aprimorado**: Depois do carregamento inicial, as requisições são menores e mais rápidas, já que apenas os dados mudam, e não o layout completo da página.
-
-### Desvantagens
-
-- **SEO**: Embora o SEO para SPAs tenha melhorado com técnicas como server-side rendering (SSR) e prerendering, ainda pode ser mais desafiador quando comparado a sites tradicionais.
-
-- **Carregamento inicial maior**: A aplicação pode ter um tempo de carregamento inicial mais longo devido à necessidade de carregar grande parte do conteúdo e do código de uma vez.
-
-### Exemplos de SPAs
-
-- Aplicativos de redes sociais como **Facebook** e **Instagram**.
-
-- Sistemas de email como **Gmail**.
-
-- Aplicativos de gestão como **Trello**.
-
-- Sites com grande interatividade, como dashboards ou plataformas de e-learning.
-
-Em resumo, uma SPA oferece uma navegação mais fluida e rápida, especialmente útil para aplicações dinâmicas e interativas, mas exige um planejamento cuidadoso em termos de carregamento inicial e SEO.
-
-## Criando um SPA para um Evento com React e Vite
-
-### Entendendo o Contexto
-
-Antes de propormos uma estrutura para o SPA, é importante entender alguns detalhes sobre o evento:
-
-- Tipo de evento: Conferência, workshop, feira, etc.
-
-- Público-alvo: Profissionais, estudantes, público geral.
-  
-- Funcionalidades: Agenda, palestrantes, inscrição, chat, etc.
-  
-- Design: Estilo visual, identidade visual do evento.
-  
-- Integrações: Plataformas de pagamento, sistemas de gestão de eventos.
-
-### Estrutura Proposta
-
-Com base em um cenário geral, podemos propor uma estrutura básica para o SPA:
-
-```
-  my-event-app/
-   public/
-   index.html
-   src/
-     components/
-       Header.jsx
-       Footer.jsx
-       Navbar.jsx
-       EventCard.jsx
-       SpeakerCard.jsx
-       // ... outros componentes
-
-     pages/
-        Home.jsx
-        Schedule.jsx
-        Speakers.jsx
-        About.jsx
-        Registration.jsx
-        // ... outras páginas
-
-     utils/
-        api.js // Para chamadas à API
-        helpers.js // Funções auxiliares
-
-     styles/
-        global.css
-        theme.css
-
-     App.jsx
-     index.css
-     main.jsx
+// JSX (React)
+<div className="container">
+  <h1>Olá Mundo</h1>
+  <p>Este é um parágrafo</p>
+</div>
 ```
 
-### Componentes Principais
+**Principais diferenças:**
+- `class` → `className`
+- `for` → `htmlFor`
+- Atributos em camelCase: `onClick`, `onChange`
+- Tags devem ser fechadas: `<img />`, `<br />`
 
-- Header: Contém o logo, menu de navegação e outras informações gerais.
+### Expressões JavaScript no JSX
 
-- Footer: Contém informações de contato, redes sociais e outros links relevantes.
+```jsx
+function Welcome() {
+  const name = "React";
+  const isLoggedIn = true;
 
-- Navbar: Menu de navegação principal.
-
-- EventCard: Componente para exibir informações sobre cada evento (título, data, horário, descrição).
-- SpeakerCard: Componente para exibir informações sobre cada palestrante (nome, foto, bio).
-
-### Outras páginas
-
-- Home: Página inicial com informações gerais sobre o evento.
-
-- Schedule: Agenda completa do evento.
-
-- Speakers: Lista de palestrantes.
-
-- About: Informações sobre os organizadores e patrocinadores.
-
-- Registration: Formulário de inscrição.
-
-### Funcionalidades Essenciais
-
-- Navegação: Implementar navegação entre as diferentes páginas utilizando um roteador como o React Router.
-
-- Carregamento de dados: Utilizar o Fetch API ou uma biblioteca como Axios para buscar dados da API do evento (agenda, palestrantes, etc.).
-
-- Gerenciamento de estado: Utilizar um gerenciador de estado como o Redux ou o Context API para compartilhar dados entre componentes.
-
-- Formulários: Implementar formulários para inscrição, busca e outras interações.
-
-- Responsividade: Garantir que o SPA funcione em diferentes dispositivos (desktop, mobile, tablet).
-
-- Acessibilidade: Seguir as diretrizes de acessibilidade para garantir que o SPA seja utilizável por todos.
-
-### Tecnologias Adicionais
-
-- Styling: Utilizar CSS, Sass ou uma biblioteca de estilos como o Material UI ou o Tailwind CSS.
-
-- Icones: Utilizar bibliotecas de ícones como o FontAwesome ou o Material Icons.
-
-- Animações: Utilizar bibliotecas de animação como o Framer Motion ou o React Spring.
-
-- Testes: Implementar testes unitários e de integração para garantir a qualidade do código.
-
-### Exemplo de Componente EventCard
-
-```js
-import React from 'react';
-
-function EventCard({ title, date, description }) {
   return (
-    `<div className="event-card">`
-      `<h2>`{title}`</h2>`
-      `<p>`{date}`</p>`
-      `<p>`{description}`</p>`
-    `</div>`
+    <div>
+      <h1>Olá, {name}!</h1>
+      <p>Você está {isLoggedIn ? 'logado' : 'deslogado'}</p>
+      <p>Resultado: {2 + 2}</p>
+    </div>
+  );
+}
+```
+
+### Renderização Condicional
+
+```jsx
+function UserGreeting({ user }) {
+  return (
+    <div>
+      {user ? (
+        <h1>Bem-vindo, {user.name}!</h1>
+      ) : (
+        <h1>Por favor, faça login</h1>
+      )}
+    </div>
+  );
+}
+```
+
+### Listas em JSX
+
+```jsx
+function CountryList() {
+  const countries = ['Brasil', 'Argentina', 'Chile', 'Uruguai'];
+
+  return (
+    <ul>
+      {countries.map((country, index) => (
+        <li key={index}>{country}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### Iniciando o Projeto: Lista de Países
+
+Vamos começar a construir um projeto que evolui ao longo do curso. Começaremos com uma lista simples de países que será expandida nos próximos módulos.
+
+**Projeto Atual: Lista Estática**
+
+```jsx
+function App() {
+  return (
+    <div className="app">
+      <h1>🌍 Lista de Países</h1>
+      <div className="country-grid">
+        <div className="country-card">
+          <h3>🇧🇷 Brasil</h3>
+          <p>Capital: Brasília</p>
+        </div>
+        <div className="country-card">
+          <h3>🇦🇷 Argentina</h3>
+          <p>Capital: Buenos Aires</p>
+        </div>
+        <div className="country-card">
+          <h3>🇨🇱 Chile</h3>
+          <p>Capital: Santiago</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default EventCard;
+export default App;
 ```
 
-### Use o código com cuidado
+**CSS básico (App.css):**
 
-### Próximos Passos
+```css
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
-- Definir a arquitetura: Escolher uma arquitetura de componentes e como organizar o código.
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
 
-- Criar o design: Desenvolver o design visual do SPA.
+.country-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
 
-- Implementar as funcionalidades: Desenvolver cada componente e funcionalidade de acordo com o design e os requisitos do evento.
+.country-card h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
 
-- Testar e depurar: Realizar testes e corrigir bugs.
+.country-card p {
+  margin: 5px 0;
+  color: #666;
+}
+```
 
-- Deploy: Hospedar o SPA em um servidor.
+### Próximos Passos do Projeto
 
-### Considerações Adicionais
+Ao longo do curso, este projeto evoluirá:
 
-- Personalização: Adaptar a estrutura e as funcionalidades de acordo com as necessidades específicas do evento.
+- **Módulo 4**: Separar em componentes reutilizáveis
+- **Módulo 5**: Usar props para passar dados
+- **Módulo 6**: Adicionar interatividade com useState
+- **Módulo 8**: Renderizar listas dinamicamente
+- **Módulo 11**: Carregar dados de arquivo JSON
+- **Módulo 12**: Consumir API REST Countries
+- **Módulo 13**: Adicionar filtros e busca
 
-- Otimização: Otimizar o desempenho do SPA para garantir uma boa experiência do usuário.
+### Exercícios Práticos
 
-- Segurança: Implementar medidas de segurança para proteger os dados dos usuários.
+**1. Modificar o projeto:**
+- Adicione mais países à lista
+- Inclua informações como população ou idioma
+- Experimente com diferentes emojis de bandeiras
+
+**2. Praticar JSX:**
+- Crie um componente que mostra a data e hora atual
+- Use expressões JavaScript para calcular a idade de uma pessoa
+- Implemente renderização condicional para mostrar/ocultar conteúdo
+
+**3. Explorar sintaxe:**
+- Experimente diferentes atributos HTML em JSX
+- Pratique o uso de chaves `{}` para inserir JavaScript
+- Teste renderização de listas com diferentes tipos de dados
+
+### Conceitos Importantes
+
+- **JSX é obrigatório?** Não, mas é a forma padrão e recomendada
+- **Diferenças do HTML:** Alguns atributos mudam (class → className)
+- **JavaScript no JSX:** Use chaves `{}` para inserir código JavaScript
+- **Componentes:** JSX permite usar componentes como elementos HTML
+- **Compilação:** JSX é transformado em JavaScript durante o build
+
+### Próximo Módulo
+
+No próximo módulo, aprenderemos sobre **Componentes**, onde dividiremos nosso projeto em partes menores e reutilizáveis, aplicando os conceitos de JSX que acabamos de aprender.
