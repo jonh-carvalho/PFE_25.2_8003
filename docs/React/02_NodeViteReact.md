@@ -31,6 +31,8 @@ npm create vite@latest my-react-app --template react
 
 Substitua `my-react-app` pelo nome desejado para seu projeto.
 
+
+
 **3. Instale as dependências:**
 
 ```bash
