@@ -11,6 +11,18 @@
 **__07__ - 15/09/25** | - [Análise de Tarefas - AHT](../assets/Aulas/Análise%20de%20Tarefas.pdf) <br> - [Roteiro](https://jonh-carvalho.github.io/PFE_25.2_8003/Disciplina/Roteiros/07_epics_features_user_stories/) 
 **__08__ - 22/09/25** | - Protótipo de baixa fidelidade <br>  
 **__09__ - 29/09/25** | - AP1
+**__10__ - 06/10/25** | - Roteiros React Introdução
+**__11__ - 13/10/25** | - React - Sprint I - Protótipo HTML/CSS
+**__12__ - 20/10/25** | - React - Componentes
+**__13__ - 27/10/25** | - React - Sprint II
+**__14__ - 03/11/25** | - React - Consume API
+**__15__ - 10/11/25** | - React - AP2 - Apresentação
+**__16__ - 17/11/25** |     
+**__17__ - 24/11/25** | AS
+
+
+
+
 <!--
 
 |__06__ - 24/03/25   |  |
