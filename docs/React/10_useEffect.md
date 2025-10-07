@@ -1,3 +1,8 @@
+---
+id: 10_useEffect
+title: 10 - useEffect e Ciclo de Vida
+---
+
 # 10 - **useEffect e Ciclo de Vida**
 
 Neste módulo, você aprenderá o hook `useEffect`, essencial para gerenciar efeitos colaterais e o ciclo de vida de componentes React. Implementaremos o carregamento automático de dados na nossa **Lista de Países** conectando com APIs.

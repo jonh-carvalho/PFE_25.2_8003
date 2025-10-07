@@ -1,3 +1,8 @@
+---
+id: 11_Projeto_Pratico
+title: 11 - Projeto Prático: Lista de Países Completa
+---
+
 # 11 - **Projeto Prático: Lista de Países Completa**
 
 Neste módulo, construiremos um projeto prático completo que evolui de dados estáticos para o consumo de APIs reais. Nossa **Lista de Países** passará por três estágios: dados locais → arquivo JSON → API externa, demonstrando diferentes abordagens para carregar dados em React.

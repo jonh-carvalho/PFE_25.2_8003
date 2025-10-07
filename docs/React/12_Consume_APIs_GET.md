@@ -1,3 +1,8 @@
+---
+id: 12_Consume_APIs_GET
+title: 12 - Consumindo APIs GET com React
+---
+
 # 12 - **Consumindo APIs GET com React**
 
 Agora chegou o momento de conectar nossa **Lista de Países** com dados reais! Neste módulo, vamos evoluir nosso projeto para consumir a **API REST Countries**, aplicando todos os conceitos aprendidos: useEffect, useState, fetch, e tratamento de estados de loading e erro.

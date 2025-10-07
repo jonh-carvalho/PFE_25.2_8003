@@ -1,3 +1,8 @@
+---
+id: 05_Props_e_Comunicação
+title: 05 - Props e Comunicação Entre Componentes
+---
+
 # 05 - **Props e Comunicação Entre Componentes**
 
 ## Introdução

@@ -1,3 +1,7 @@
+---
+id: 09_HTTP_APIs
+title: 09 - HTTP e APIs
+---
 # 09 - **HTTP e APIs**
 
 Neste módulo, você aprenderá os conceitos fundamentais de HTTP, APIs e como buscar dados externos para alimentar aplicações React. Prepararemos nosso projeto **Lista de Países** para receber dados reais de uma API externa.

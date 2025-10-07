@@ -1,3 +1,8 @@
+---
+id: 08_Listas_e_Render_Condicional
+title: 08 - Listas e Renderização Condicional
+---
+
 # 08 - **Listas e Renderização Condicional**
 
 Neste módulo, você aprenderá como criar listas dinâmicas e implementar lógica condicional na renderização de componentes React. Continuaremos evoluindo nosso projeto **Lista de Países** para incluir múltiplos países e funcionalidades interativas.

@@ -1,3 +1,7 @@
+---
+id: 04_Componentes
+title: 04 - Componentes Básicos
+---
 # 04 - **Componentes Básicos**
 
 ## Introdução aos Componentes

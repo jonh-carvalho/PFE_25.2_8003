@@ -1,3 +1,8 @@
+---
+id: 13_Filtros_Busca
+title: 13 - Filtros e Busca Inteligente
+---
+
 # 13 - **Filtros e Busca Inteligente**
 
 Chegamos ao módulo final! Agora vamos implementar funcionalidades avançadas de **busca e filtros** em nossa Lista de Países, criando uma experiência de usuário completa e profissional. Este módulo consolida todo o aprendizado do curso em um projeto final robusto.
