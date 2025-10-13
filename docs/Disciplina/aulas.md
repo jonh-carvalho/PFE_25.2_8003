@@ -12,8 +12,8 @@
 **__08__ - 22/09/25** | - Protótipo de baixa fidelidade <br>  
 **__09__ - 29/09/25** | - AP1
 **__10__ - 06/10/25** | - Roteiros React Introdução
-**__11__ - 13/10/25** | - React - Sprint I - Protótipo HTML/CSS
-**__12__ - 20/10/25** | - React - Componentes
+**__11__ - 13/10/25** | - React - Componentes - Sprint I - Protótipo HTML/CSS
+**__12__ - 20/10/25** | - React - 
 **__13__ - 27/10/25** | - React - Sprint II
 **__14__ - 03/11/25** | - React - Consume API
 **__15__ - 10/11/25** | - React - AP2 - Apresentação
