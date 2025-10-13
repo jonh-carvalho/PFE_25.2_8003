@@ -1,0 +1,80 @@
+[
+  {
+    "flag": "🇧🇷",
+    "name": "Brasil",
+    "capital": "Brasília",
+    "population": "215 milhões"
+  },
+  {
+    "flag": "🇦🇷",
+    "name": "Argentina",
+    "capital": "Buenos Aires",
+    "population": "45 milhões"
+  },
+  {
+    "flag": "🇺🇾",
+    "name": "Uruguai",
+    "capital": "Montevidéu",
+    "population": "3,5 milhões"
+  },
+  {
+    "flag": "🇨🇱",
+    "name": "Chile",
+    "capital": "Santiago",
+    "population": "19 milhões"
+  },
+  {
+    "flag": "🇵🇾",
+    "name": "Paraguai",
+    "capital": "Assunção",
+    "population": "7 milhões"
+  },
+  {
+    "flag": "🇧🇴",
+    "name": "Bolívia",
+    "capital": "Sucre",
+    "population": "12 milhões"
+  },
+  {
+    "flag": "🇵🇪",
+    "name": "Peru",
+    "capital": "Lima",
+    "population": "33 milhões"
+  },
+  {
+    "flag": "🇨🇴",
+    "name": "Colômbia",
+    "capital": "Bogotá",
+    "population": "51 milhões"
+  },
+  {
+    "flag": "🇪🇨",
+    "name": "Equador",
+    "capital": "Quito",
+    "population": "18 milhões"
+  },
+  {
+    "flag": "🇻🇪",
+    "name": "Venezuela",
+    "capital": "Caracas",
+    "population": "28 milhões"
+  },
+  {
+    "flag": "🇬🇾",
+    "name": "Guiana",
+    "capital": "Georgetown",
+    "population": "0,8 milhão"
+  },
+  {
+    "flag": "🇸🇷",
+    "name": "Suriname",
+    "capital": "Paramaribo",
+    "population": "0,6 milhão"
+  },
+  {
+    "flag": "🇫🇷",
+    "name": "Guiana Francesa",
+    "capital": "Caiena",
+    "population": "0,3 milhão"
+  }
+]

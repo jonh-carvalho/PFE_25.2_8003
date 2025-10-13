@@ -11,6 +11,11 @@ nav:
       - React:
               - Introdução: React/01_Intro.md
               - Node.js Vite React: React\02_NodeViteReact.md
+              - JSX: React\03_JSX_Sintaxe.md
+              - Componentes: React\04_Componentes.md
+              - Props: React\05_Props_e_Comunicação.md
+              - Estado: React\06_useState.md
+              - Eventos: React\07_Eventos_e_Forms.md
       - Roteiros: 
           - Design Thinking: Disciplina/Roteiros/04_design_thinking.md
           - AHT: Disciplina/Roteiros/07_aht.md
