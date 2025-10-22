@@ -1,21 +1,21 @@
-import {useState} from 'react';
 // src/components/CountryCard.jsx
-function CountryCard({ flag, name, capital, population, language }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+function CountryCard({ id, flag, name, capital, population, language, isFavorite = false, onToggleFavorite }) {
   
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-  }
+  const handleCardClick = () => {
+    onToggleFavorite?.(id);
+  };
 
   return (
-    <div className={`country-card ${isFavorite ? "favorite" : ""}`} onClick={toggleFavorite}>
-
+    <div 
+      className={`country-card ${isFavorite ? 'favorite' : ''}`}
+      onClick={handleCardClick}
+    >
       <div className="country-header">
         <span className="flag">{flag}</span>
         <h3>{name}</h3>
         <button 
           className="favorite-btn"
-          onClick={toggleFavorite}
+          onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(id); }}
           title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
         >
           {isFavorite ? '❤️' : '🤍'}

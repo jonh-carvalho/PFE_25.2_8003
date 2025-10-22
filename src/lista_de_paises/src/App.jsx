@@ -1,8 +1,8 @@
 // src/App.jsx
 import { useState } from 'react';
-import Header from './components/Header';
-import CountryGrid from './components/CountryGrid';
 import './App.css';
+import CountryGrid from './components/CountryGrid';
+import Header from './components/Header';
 
 function App() {
   const [countries, setCountries] = useState([
@@ -13,13 +13,21 @@ function App() {
     { id: 5, flag: "🇵🇪", name: "Peru", capital: "Lima", population: "33 milhões", language: "Espanhol" },
     { id: 6, flag: "🇨🇴", name: "Colômbia", capital: "Bogotá", population: "51 milhões", language: "Espanhol" }
   ]);
-
-  const [favoriteCount, setFavoriteCount] = useState(0);
+  // Armazena os IDs dos países favoritos
+  const [favorites, setFavorites] = useState([]);
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
 
-  const updateFavoriteCount = (increment) => {
-    setFavoriteCount(favoriteCount + (increment ? 1 : -1));
+  const toggleFavorite = (id) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((fid) => fid !== id) : [...prev, id]
+    );
   };
+
+  const favoriteCount = favorites.length;
+
+  const visibleCountries = showOnlyFavorites
+    ? countries.filter((c) => favorites.includes(c.id))
+    : countries;
 
   return (
     <div className="app">
@@ -39,10 +47,9 @@ function App() {
       </div>
       
       <CountryGrid 
-      countries={countries}
-      // onFavoriteChange={updateFavoriteCount}
-      //showOnlyFavorites={showOnlyFavorites}
-      
+        countries={visibleCountries}
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
       />
     </div>
   );
