@@ -16,6 +16,9 @@ nav:
               - Props: React\05_Props_e_Comunicação.md
               - Estado: React\06_useState.md
               - Eventos: React\07_Eventos_e_Forms.md
+              - Listas: React\08_Listas__Render_Condicional.md
+              - Http Api: React\09_HTTP_APIs.md
+              - useEffect: React\10_useEffect.md
       - Roteiros: 
           - Design Thinking: Disciplina/Roteiros/04_design_thinking.md
           - AHT: Disciplina/Roteiros/07_aht.md
