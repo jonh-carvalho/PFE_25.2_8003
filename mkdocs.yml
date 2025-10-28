@@ -19,6 +19,11 @@ nav:
               - Listas: React\08_Listas__Render_Condicional.md
               - Http Api: React\09_HTTP_APIs.md
               - useEffect: React\10_useEffect.md
+              - Filtros Básicos: React\11_Filtros_Basicos.md
+              - Favoritos e Persistência: React\12_Favoritos_localStorage.md
+              - Busca Avançada e Refinamentos: React\13_Filtros_Busca.md
+              - Rotas (React Router): React\14_Rotas_ReactRouter.md
+              - Estilização Avançada: React\15_Estilizacao_Avancada.md
       - Roteiros: 
           - Design Thinking: Disciplina/Roteiros/04_design_thinking.md
           - AHT: Disciplina/Roteiros/07_aht.md

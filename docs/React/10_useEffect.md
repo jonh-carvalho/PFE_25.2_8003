@@ -1,271 +1,208 @@
 ---
 id: 10_useEffect
-title: 10 - useEffect e Ciclo de Vida
+title: 10 - useEffect - Carregamento Automático
 ---
 
-# 10 - **useEffect e Ciclo de Vida**
+# 10 - useEffect: Carregamento Automático de Dados
 
-Neste módulo, você aprenderá o hook `useEffect`, essencial para gerenciar efeitos colaterais e o ciclo de vida de componentes React. Implementaremos o carregamento automático de dados na nossa **Lista de Países** conectando com APIs.
+Aprenda o hook mais importante para side effects no React! Vamos automatizar o carregamento de países e entender o ciclo de vida dos componentes.
 
 ---
 
-## **Objetivos do Módulo**
-- Dominar o hook `useEffect` e suas dependências
+## Objetivos do Módulo
+
+- Automatizar o carregamento da API REST Countries usando `useEffect`
 - Entender o ciclo de vida de componentes funcionais
-- Implementar carregamento automático de dados
-- Conectar nossa Lista de Países com APIs reais
-- Gerenciar cleanup e memory leaks
+- Implementar persistência de favoritos com `localStorage`
+- Prevenir memory leaks com cleanup functions
+- Criar hooks customizados reutilizáveis
 
 ---
 
-## **1. Introdução ao useEffect**
+## De Onde Viemos e Para Onde Vamos
 
-### **O que é useEffect?**
-
-O `useEffect` é um hook que permite executar **efeitos colaterais** em componentes funcionais. Efeitos colaterais são operações que afetam algo fora do componente:
-
-- 🌐 **Chamadas de API**
-- ⏰ **Timers e intervalos**
-- 🎧 **Event listeners**
-- 📄 **Manipulação do DOM**
-- 🧹 **Cleanup de recursos**
-
-### **Sintaxe Básica**
-
-```jsx
-import { useEffect } from 'react';
-
-useEffect(() => {
-  // Código do efeito
-}, [dependências]);
-```
-
-### **Anatomia do useEffect**
-
-```jsx
-useEffect(
-  () => {
-    // 1. Código que executa
-    console.log('Efeito executado!');
-    
-    // 2. Cleanup (opcional)
-    return () => {
-      console.log('Cleanup executado!');
-    };
-  },
-  [dependência1, dependência2] // 3. Array de dependências
-);
-```
+**Módulo 09:** Conectamos com API real usando botão manual  
+**Módulo 10 (AGORA):** Automatizamos o carregamento ao abrir a página  
+**Módulo 11:** Implementamos filtros e busca avançada
 
 ---
 
-## **2. Padrões de Dependências**
+## 1. O Problema: Carregamento Manual
 
-### **2.1 Sem Array de Dependências**
-
-```jsx
-useEffect(() => {
-  console.log('Executa a cada render!');
-});
-// ⚠️ Cuidado: pode causar loops infinitos
-```
-
-### **2.2 Array Vazio `[]`**
+No Módulo 09, precisávamos clicar num botão para carregar os países:
 
 ```jsx
-useEffect(() => {
-  console.log('Executa apenas uma vez (componentDidMount)');
-}, []);
-// ✅ Ideal para: carregar dados iniciais, configurar listeners
-```
-
-### **2.3 Com Dependências Específicas**
-
-```jsx
-const [count, setCount] = useState(0);
-
-useEffect(() => {
-  console.log(`Count mudou para: ${count}`);
-}, [count]);
-// ✅ Executa apenas quando 'count' muda
-```
-
-### **2.4 Múltiplas Dependências**
-
-```jsx
-const [name, setName] = useState('');
-const [age, setAge] = useState(0);
-
-useEffect(() => {
-  console.log(`Dados atualizados: ${name}, ${age}`);
-}, [name, age]);
-// ✅ Executa quando 'name' OU 'age' mudam
-```
-
----
-
-## **3. Ciclo de Vida com useEffect**
-
-### **Comparação com Class Components**
-
-| Class Component | Functional Component |
-|-----------------|---------------------|
-| `componentDidMount` | `useEffect(() => {}, [])` |
-| `componentDidUpdate` | `useEffect(() => {}, [dep])` |
-| `componentWillUnmount` | `useEffect(() => { return () => {} }, [])` |
-
-### **Exemplo Prático: Timer**
-
-```jsx
-import React, { useState, useEffect } from 'react';
-
-function Timer() {
-  const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-
-  useEffect(() => {
-    let interval = null;
-
-    if (isRunning) {
-      // Configurar timer
-      interval = setInterval(() => {
-        setSeconds(prevSeconds => prevSeconds + 1);
-      }, 1000);
-    }
-
-    // Cleanup function
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [isRunning]); // Reexecuta quando isRunning muda
+// Problema: usuário precisa clicar para ver dados
+function App() {
+  const [countries, setCountries] = useState([]);
+  
+  const loadCountries = () => {
+    fetch('https://restcountries.com/v3.1/all')
+      .then(r => r.json())
+      .then(data => setCountries(data));
+  };
 
   return (
     <div>
-      <h2>Timer: {seconds}s</h2>
-      <button onClick={() => setIsRunning(!isRunning)}>
-        {isRunning ? 'Pausar' : 'Iniciar'}
-      </button>
-      <button onClick={() => setSeconds(0)}>Reset</button>
+      <button onClick={loadCountries}>Carregar Países</button>
     </div>
   );
 }
 ```
 
+### Queremos:
+
+- Carregar automaticamente ao abrir a página
+- Mostrar loading enquanto carrega
+- Salvar favoritos mesmo após fechar o navegador
+
 ---
 
-## **4. useEffect com APIs - Evoluindo a Lista de Países**
+## 2. Introdução ao useEffect
 
-Vamos conectar nossa Lista de Países com a API REST Countries usando useEffect:
+### O que é useEffect?
 
-### **4.1 Carregamento Inicial de Dados**
+`useEffect` é o hook que permite executar código em momentos específicos do ciclo de vida do componente.
 
 ```jsx
-// src/App.jsx
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+
+useEffect(() => {
+  // Este código roda depois que o componente renderiza
+  console.log('Componente montado ou atualizado!');
+}, [dependências]);
+```
+
+### Quando usar useEffect?
+
+- Requisições HTTP (APIs, fetch)
+- localStorage/sessionStorage
+- Timers (setTimeout, setInterval)
+- Event listeners (scroll, resize, teclado)
+- Manipulação do DOM (document.title, focus)
+
+---
+
+## 3. Padrões de Dependências
+
+### 3.1 Array Vazio - Executa UMA VEZ
+
+```jsx
+useEffect(() => {
+  console.log('Executa apenas quando componente MONTA');
+}, []); // Array vazio = roda 1x só
+```
+
+**Uso:** Carregar dados iniciais, configurar subscriptions
+
+### 3.2 Com Dependências - Executa quando MUDA
+
+```jsx
+const [search, setSearch] = useState('');
+
+useEffect(() => {
+  console.log('Search mudou para:', search);
+}, [search]); // Roda quando 'search' muda
+```
+
+**Uso:** Reagir a mudanças de estado/props
+
+### 3.3 Sem Array - Executa TODA RENDER
+
+```jsx
+useEffect(() => {
+  console.log('Executa em TODA render');
+}); // Cuidado! Pode causar loops
+```
+
+**Uso:** Raro, geralmente evitar
+
+---
+
+## 4. Carregamento Automático - Versão Simples
+
+```jsx
+// src/App.jsx - Carregamento Automático
+import { useState, useEffect } from 'react';
+import CountryGrid from './components/CountryGrid';
 import Loading from './components/Loading';
 import ErrorMessage from './components/ErrorMessage';
 
 function App() {
-  const [paises, setPaises] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
-  const [favoritos, setFavoritos] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // useEffect para carregar dados iniciais
+  // useEffect: carregar países AUTOMATICAMENTE ao montar componente
   useEffect(() => {
-    const carregarPaises = async () => {
+    console.log('useEffect executado! Carregando países...');
+    
+    const loadCountries = async () => {
       try {
-        setCarregando(true);
-        setErro(null);
-
-        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,flag,cca3');
+        setIsLoading(true);
+        setError(null);
+        
+        const response = await fetch('https://restcountries.com/v3.1/all');
         
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
-
-        const data = await response.json();
         
-        // Limitar a 20 países para performance
-        const paisesLimitados = data.slice(0, 20);
-        setPaises(paisesLimitados);
-
-      } catch (error) {
-        setErro(error.message);
+        const data = await response.json();
+        console.log('Países carregados:', data.length);
+        
+        setCountries(data);
+        
+      } catch (err) {
+        console.error('Erro:', err);
+        setError(err.message);
       } finally {
-        setCarregando(false);
+        setIsLoading(false);
       }
     };
 
-    carregarPaises();
-  }, []); // Array vazio = executa apenas uma vez
+    loadCountries();
+  }, []); // Array vazio = executa apenas UMA VEZ na montagem
 
-  // useEffect para salvar favoritos no localStorage
-  useEffect(() => {
-    localStorage.setItem('favoritos', JSON.stringify(favoritos));
-  }, [favoritos]); // Executa quando favoritos mudam
-
-  // useEffect para carregar favoritos do localStorage
-  useEffect(() => {
-    const favoritosSalvos = localStorage.getItem('favoritos');
-    if (favoritosSalvos) {
-      setFavoritos(JSON.parse(favoritosSalvos));
-    }
-  }, []); // Executa apenas uma vez
-
-  const toggleFavorito = (paisCodigo) => {
-    setFavoritos(prev => 
-      prev.includes(paisCodigo)
-        ? prev.filter(codigo => codigo !== paisCodigo)
-        : [...prev, paisCodigo]
+  const toggleFavorite = (countryCode) => {
+    setFavorites(prev => 
+      prev.includes(countryCode)
+        ? prev.filter(code => code !== countryCode)
+        : [...prev, countryCode]
     );
-  };
-
-  const recarregarDados = () => {
-    // Força recarregamento mudando uma dependência
-    window.location.reload();
   };
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🌍 Lista de Países</h1>
-        <p>Dados carregados automaticamente via useEffect</p>
+        <h1>Lista de Países do Mundo</h1>
+        <p>Carregamento automático com useEffect</p>
         
-        {paises.length > 0 && (
-          <div className="stats">
-            <span>📊 {paises.length} países</span>
-            <span>❤️ {favoritos.length} favoritos</span>
-            <button onClick={recarregarDados} className="reload-btn">
-              🔄 Recarregar
-            </button>
+        {countries.length > 0 && (
+          <div className="header-stats">
+            <span>{countries.length} países</span>
+            <span>{favorites.length} favoritos</span>
           </div>
         )}
       </header>
 
       <main className="main-content">
-        {carregando && <Loading />}
+        {isLoading && <Loading />}
         
-        {erro && (
+        {error && (
           <ErrorMessage 
-            mensagem={erro} 
-            onTentar={recarregarDados}
+            message={error}
+            onRetry={() => window.location.reload()}
           />
         )}
         
-        {!carregando && !erro && paises.length > 0 && (
-          <div className="countries-grid">
-            {paises.map(pais => (
-              <CountryCard 
-                key={pais.cca3}
-                pais={pais}
-                isFavorito={favoritos.includes(pais.cca3)}
-                onToggleFavorito={() => toggleFavorito(pais.cca3)}
-              />
-            ))}
-          </div>
+        {!isLoading && !error && (
+          <CountryGrid 
+            countries={countries}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+          />
         )}
       </main>
     </div>
@@ -275,266 +212,421 @@ function App() {
 export default App;
 ```
 
-### **4.2 Hook Customizado para API**
+### O que mudou?
+
+| Antes (Módulo 09) | Agora (Módulo 10) |
+|-------------------|-------------------|
+| Botão "Carregar Países" | Carrega automaticamente |
+| onClick={loadCountries} | useEffect(() => {...}, []) |
+| Usuário inicia ação | Componente inicia ação |
+
+---
+
+## 5. Persistência com localStorage
 
 ```jsx
-// src/hooks/usePaises.js
+// src/App.jsx - Com localStorage
 import { useState, useEffect } from 'react';
 
-function usePaises() {
-  const [paises, setPaises] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
+function App() {
+  const [countries, setCountries] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Carregar favoritos do localStorage na montagem
   useEffect(() => {
-    let cancelado = false; // Flag para evitar memory leaks
+    console.log('Carregando favoritos salvos...');
+    
+    const savedFavorites = localStorage.getItem('favorites');
+    
+    if (savedFavorites) {
+      const parsed = JSON.parse(savedFavorites);
+      console.log('Favoritos restaurados:', parsed.length);
+      setFavorites(parsed);
+    }
+  }, []); // Executa 1x na montagem
 
-    const buscarPaises = async () => {
+  // Salvar favoritos no localStorage sempre que mudam
+  useEffect(() => {
+    console.log('Salvando', favorites.length, 'favoritos...');
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]); // Executa toda vez que 'favorites' muda
+
+  // Carregar países da API
+  useEffect(() => {
+    const loadCountries = async () => {
       try {
-        setCarregando(true);
-        setErro(null);
-
-        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,region,flag,cca3');
-        
-        if (!response.ok) {
-          throw new Error(`Erro: ${response.status}`);
-        }
-
+        setIsLoading(true);
+        const response = await fetch('https://restcountries.com/v3.1/all');
+        if (!response.ok) throw new Error(`Erro: ${response.status}`);
         const data = await response.json();
-
-        // Verificar se o componente ainda está montado
-        if (!cancelado) {
-          setPaises(data.slice(0, 20));
-        }
-
-      } catch (error) {
-        if (!cancelado) {
-          setErro(error.message);
-        }
+        setCountries(data);
+      } catch (err) {
+        setError(err.message);
       } finally {
-        if (!cancelado) {
-          setCarregando(false);
-        }
+        setIsLoading(false);
       }
     };
 
-    buscarPaises();
-
-    // Cleanup: cancelar operação se componente for desmontado
-    return () => {
-      cancelado = true;
-    };
+    loadCountries();
   }, []);
 
-  return { paises, carregando, erro };
-}
+  const toggleFavorite = (countryCode) => {
+    setFavorites(prev => 
+      prev.includes(countryCode)
+        ? prev.filter(code => code !== countryCode)
+        : [...prev, countryCode]
+    );
+  };
 
-export default usePaises;
+  // ... resto do JSX
+}
 ```
 
-### **4.3 Usando o Hook Customizado**
+### Testando localStorage:
+
+1. Abra o DevTools (F12)
+2. Vá em Application > Local Storage
+3. Favorite alguns países
+4. Veja a chave `favorites` aparecer
+5. Recarregue a página - favoritos permanecem!
+
+---
+
+## 6. Cleanup Functions - Prevenindo Memory Leaks
+
+### O Problema:
+
+Se o componente for desmontado DURANTE uma requisição, pode causar erros.
+
+### A Solução: Cleanup Function
 
 ```jsx
-// src/App.jsx (versão simplificada)
-import React, { useState, useEffect } from 'react';
-import usePaises from './hooks/usePaises';
+// Solução: cancelar operação se componente desmontar
+useEffect(() => {
+  let isCancelled = false; // Flag de cancelamento
 
-function App() {
-  const { paises, carregando, erro } = usePaises();
-  const [favoritos, setFavoritos] = useState([]);
-
-  // Carregar favoritos do localStorage
-  useEffect(() => {
-    const favoritosSalvos = localStorage.getItem('favoritos');
-    if (favoritosSalvos) {
-      setFavoritos(JSON.parse(favoritosSalvos));
+  const loadCountries = async () => {
+    try {
+      const response = await fetch('https://restcountries.com/v3.1/all');
+      const data = await response.json();
+      
+      // Só atualiza estado se componente ainda estiver montado
+      if (!isCancelled) {
+        setCountries(data);
+      }
+    } catch (error) {
+      if (!isCancelled) {
+        setError(error.message);
+      }
     }
-  }, []);
+  };
 
-  // Salvar favoritos no localStorage
-  useEffect(() => {
-    localStorage.setItem('favoritos', JSON.stringify(favoritos));
-  }, [favoritos]);
+  loadCountries();
 
-  // ... resto do componente
-}
+  // Cleanup: marca como cancelado ao desmontar
+  return () => {
+    console.log('Cleanup: componente desmontando');
+    isCancelled = true;
+  };
+}, []);
+```
+
+### Quando usar cleanup:
+
+**Timers:**
+```jsx
+useEffect(() => {
+  const timer = setTimeout(() => {...}, 1000);
+  return () => clearTimeout(timer);
+}, []);
+```
+
+**Intervals:**
+```jsx
+useEffect(() => {
+  const interval = setInterval(() => {...}, 1000);
+  return () => clearInterval(interval);
+}, []);
+```
+
+**Event Listeners:**
+```jsx
+useEffect(() => {
+  const handler = () => {...};
+  window.addEventListener('resize', handler);
+  return () => window.removeEventListener('resize', handler);
+}, []);
 ```
 
 ---
 
-## **5. Padrões Avançados com useEffect**
-
-### **5.1 Debounce com useEffect**
+## 7. Hook Customizado: useCountries
 
 ```jsx
-function SearchCountries() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState([]);
+// src/hooks/useCountries.js
+import { useState, useEffect } from 'react';
+
+function useCountries() {
+  const [countries, setCountries] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (searchTerm) {
-        // Buscar países depois de 500ms de pausa na digitação
-        fetch(`https://restcountries.com/v3.1/name/${searchTerm}`)
-          .then(response => response.json())
-          .then(setResults);
-      }
-    }, 500);
+    let isCancelled = false;
 
-    // Cleanup: cancelar timeout anterior
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
+    const loadCountries = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetch('https://restcountries.com/v3.1/all');
+        
+        if (!response.ok) {
+          throw new Error(`Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!isCancelled) {
+          setCountries(data);
+        }
+
+      } catch (err) {
+        if (!isCancelled) {
+          setError(err.message);
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadCountries();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
+
+  const reload = () => {
+    window.location.reload();
+  };
+
+  return { countries, isLoading, error, reload };
+}
+
+export default useCountries;
+```
+
+### Usando o Hook Customizado:
+
+```jsx
+// src/App.jsx - Versão Simplificada
+import { useState, useEffect } from 'react';
+import useCountries from './hooks/useCountries';
+import CountryGrid from './components/CountryGrid';
+import Loading from './components/Loading';
+import ErrorMessage from './components/ErrorMessage';
+
+function App() {
+  // Hook customizado encapsula toda lógica da API
+  const { countries, isLoading, error, reload } = useCountries();
+  
+  const [favorites, setFavorites] = useState([]);
+
+  // Carregar favoritos salvos
+  useEffect(() => {
+    const saved = localStorage.getItem('favorites');
+    if (saved) {
+      setFavorites(JSON.parse(saved));
+    }
+  }, []);
+
+  // Salvar favoritos sempre que mudam
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  const toggleFavorite = (countryCode) => {
+    setFavorites(prev => 
+      prev.includes(countryCode)
+        ? prev.filter(code => code !== countryCode)
+        : [...prev, countryCode]
+    );
+  };
 
   return (
-    <div>
-      <input 
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Buscar país..."
-      />
-      {/* Renderizar results */}
+    <div className="app">
+      <header className="app-header">
+        <h1>Lista de Países do Mundo</h1>
+        
+        {countries.length > 0 && (
+          <div className="header-stats">
+            <span>{countries.length} países</span>
+            <span>{favorites.length} favoritos</span>
+            <button onClick={reload}>Recarregar</button>
+          </div>
+        )}
+      </header>
+
+      <main className="main-content">
+        {isLoading && <Loading />}
+        {error && <ErrorMessage message={error} onRetry={reload} />}
+        {!isLoading && !error && (
+          <CountryGrid 
+            countries={countries}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+          />
+        )}
+      </main>
     </div>
   );
 }
+
+export default App;
 ```
 
-### **5.2 Event Listeners**
+---
+
+## 8. Debugging useEffect
+
+### Console Logs Estratégicos:
 
 ```jsx
-function WindowSize() {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
+useEffect(() => {
+  console.log('useEffect EXECUTADO');
+  console.log('Dependencies:', { favorites, searchTerm });
+  
+  // código do efeito
+  
+  return () => {
+    console.log('Cleanup EXECUTADO');
+  };
+}, [favorites, searchTerm]);
+```
+
+---
+
+## 9. Comparação: Antes vs Depois
+
+### SEM useEffect (Módulo 09):
+
+- Página vazia até clicar
+- Favoritos perdidos ao recarregar
+- Experiência ruim
+
+### COM useEffect (Módulo 10):
+
+- Carregamento automático
+- Favoritos persistem
+- Experiência profissional
+
+---
+
+## Resumo do Módulo 10
+
+### O que Aprendemos
+
+1. useEffect com array vazio [] - Executar código na montagem
+2. useEffect com dependências - Reagir a mudanças
+3. Cleanup functions - Prevenir memory leaks
+4. localStorage - Persistir dados localmente
+5. Custom hooks - Reutilizar lógica complexa
+
+### Evolução do Projeto
+
+| Aspecto | Módulo 09 | Módulo 10 |
+|---------|-----------|-----------|
+| Carregamento | Manual (botão) | Automático (useEffect) |
+| Favoritos | Apenas na sessão | Persistem (localStorage) |
+| Loading | Mostrado manualmente | Gerenciado por hook |
+| Reutilização | Código no App.jsx | Hook customizado |
+| Memory Leaks | Possíveis | Prevenidos (cleanup) |
+
+### Próximos Passos (Módulo 11)
+
+- Implementar busca por nome
+- Filtrar por região
+- Combinar múltiplos filtros
+- Otimizar performance
+
+### Conceitos-Chave
+
+- **useEffect**: Hook para side effects
+- **Dependencies Array**: Controla quando o efeito executa
+- **Cleanup Function**: Função retornada para limpar recursos
+- **localStorage**: API do navegador para armazenamento local
+- **Custom Hook**: Função que encapsula lógica com hooks
+- **Memory Leak**: Vazamento quando componente desmonta mas código continua executando
+
+### Referências
+
+- [React Docs - useEffect](https://react.dev/reference/react/useEffect)
+- [MDN - localStorage](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage)
+- [Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks)
+
+---
+
+## Exercícios Práticos
+
+### Exercício 1: Contador de Visitas
+
+```jsx
+const [visits, setVisits] = useState(0);
+
+useEffect(() => {
+  const savedVisits = localStorage.getItem('visits');
+  const count = savedVisits ? parseInt(savedVisits) + 1 : 1;
+  setVisits(count);
+  localStorage.setItem('visits', count.toString());
+}, []);
+
+return <p>Você visitou esta página {visits} vez(es)</p>;
+```
+
+### Exercício 2: Tempo na Página
+
+```jsx
+const [seconds, setSeconds] = useState(0);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setSeconds(s => s + 1);
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, []);
+
+return <p>Você está aqui há {seconds} segundos</p>;
+```
+
+### Exercício 3: Custom Hook useLocalStorage
+
+```jsx
+// src/hooks/useLocalStorage.js
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : initialValue;
   });
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    };
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
 
-    // Adicionar listener
-    window.addEventListener('resize', handleResize);
+  return [value, setValue];
+}
 
-    // Cleanup: remover listener
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []); // Array vazio = adiciona listener apenas uma vez
-
-  return <p>Janela: {windowSize.width} x {windowSize.height}</p>;
+// Uso:
+function App() {
+  const [favorites, setFavorites] = useLocalStorage('favorites', []);
 }
 ```
 
 ---
 
-## **6. Boas Práticas e Armadilhas**
-
-### **✅ Boas Práticas**
-
-1. **Sempre inclua dependências necessárias**
-   ```jsx
-   useEffect(() => {
-     fetchData(userId);
-   }, [userId]); // ✅ Inclui userId
-   ```
-
-2. **Use cleanup para evitar memory leaks**
-   ```jsx
-   useEffect(() => {
-     const interval = setInterval(callback, 1000);
-     return () => clearInterval(interval); // ✅ Cleanup
-   }, []);
-   ```
-
-3. **Separe efeitos por responsabilidade**
-   ```jsx
-   // ✅ Um useEffect para cada responsabilidade
-   useEffect(() => { /* carregar dados */ }, []);
-   useEffect(() => { /* salvar no localStorage */ }, [data]);
-   ```
-
-### **❌ Armadilhas Comuns**
-
-1. **Loops infinitos**
-   ```jsx
-   // ❌ Cria loop infinito
-   useEffect(() => {
-     setCount(count + 1);
-   }); // Sem array de dependências
-   ```
-
-2. **Dependências faltando**
-   ```jsx
-   // ❌ useEffect depende de 'name' mas não está nas dependências
-   useEffect(() => {
-     fetchUserData(name);
-   }, []); // Deveria ser [name]
-   ```
-
-3. **Cleanup inadequado**
-   ```jsx
-   // ❌ Não remove event listener
-   useEffect(() => {
-     window.addEventListener('scroll', handleScroll);
-     // Faltou: return () => window.removeEventListener('scroll', handleScroll);
-   }, []);
-   ```
-
----
-
-## **📝 Exercício Prático**
-
-### 🎯 **Objetivo**
-Implementar busca em tempo real na Lista de Países com debounce
-
-### 📋 **Requisitos**
-- [ ] Adicionar campo de busca que filtra países por nome
-- [ ] Implementar debounce de 300ms para evitar muitas requisições
-- [ ] Mostrar loading durante a busca
-- [ ] Exibir mensagem quando nenhum país for encontrado
-- [ ] Limpar busca com botão "X"
-
-### 🚀 **Dica de Implementação**
-```jsx
-const [searchTerm, setSearchTerm] = useState('');
-const [searchResults, setSearchResults] = useState([]);
-
-useEffect(() => {
-  const timeoutId = setTimeout(async () => {
-    if (searchTerm.trim()) {
-      try {
-        const response = await fetch(`https://restcountries.com/v3.1/name/${searchTerm}`);
-        const data = await response.json();
-        setSearchResults(data);
-      } catch (error) {
-        setSearchResults([]);
-      }
-    } else {
-      setSearchResults([]);
-    }
-  }, 300);
-
-  return () => clearTimeout(timeoutId);
-}, [searchTerm]);
-```
-
----
-
-## **🔮 Próximo Módulo**
-
-No próximo módulo, criaremos um **Projeto Prático Completo** integrando todos os conceitos aprendidos: componentes, estado, efeitos e APIs para construir uma aplicação robusta!
-
----
-
-## **📚 Resumo do Módulo**
-
-- ✅ **useEffect**: Hook essencial para efeitos colaterais
-- ✅ **Dependências**: Controlam quando o efeito executa
-- ✅ **Cleanup**: Previne memory leaks e bugs
-- ✅ **APIs**: Carregamento automático de dados
-- ✅ **Hooks Customizados**: Reutilização de lógica
-- ✅ **Boas Práticas**: Padrões para código limpo e performático  
-  
+**Parabéns!** Você dominou o `useEffect`, um dos hooks mais importantes do React! No próximo módulo, vamos adicionar filtros e busca avançada!
