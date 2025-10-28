@@ -19,14 +19,6 @@ Aprenda a salvar dados no navegador! Vamos implementar um sistema completo de fa
 
 ---
 
-## De Onde Viemos e Para Onde Vamos
-
-**Módulo 11:** Implementamos busca + filtros por região  
-**Módulo 12 (AGORA):** Adicionamos favoritos persistentes  
-**Módulo 13:** Otimizamos com useMemo, debounce e modal de detalhes
-
----
-
 ## 1. O Problema: Dados Temporários
 
 No Módulo 11, tínhamos filtros funcionando, mas:
@@ -102,16 +94,16 @@ const array = salvos ? JSON.parse(salvos) : [];
 ```jsx
 // Carregar favoritos salvos quando componente montar
 useEffect(() => {
-  console.log('📦 Carregando favoritos salvos...');
+  console.log('Carregando favoritos salvos...');
   
   const saved = localStorage.getItem('countryFavorites');
   
   if (saved) {
     const parsed = JSON.parse(saved);
-    console.log(`✅ ${parsed.length} favoritos restaurados`);
+    console.log(`${parsed.length} favoritos restaurados`);
     setFavorites(parsed);
   } else {
-    console.log('ℹ️ Nenhum favorito salvo anteriormente');
+    console.log('Nenhum favorito salvo anteriormente');
   }
 }, []); // Array vazio = executa apenas 1x na montagem
 ```
@@ -121,7 +113,7 @@ useEffect(() => {
 ```jsx
 // Salvar favoritos sempre que o estado mudar
 useEffect(() => {
-  console.log(`💾 Salvando ${favorites.length} favoritos...`);
+  console.log(`Salvando ${favorites.length} favoritos...`);
   localStorage.setItem('countryFavorites', JSON.stringify(favorites));
 }, [favorites]); // Executa toda vez que 'favorites' muda
 ```
@@ -129,7 +121,7 @@ useEffect(() => {
 ### 3.3 Por que 2 useEffect Separados?
 
 ```jsx
-// ❌ ERRADO - Causaria loop infinito
+// ERRADO - Causaria loop infinito
 useEffect(() => {
   const saved = localStorage.getItem('countryFavorites');
   if (saved) {
@@ -138,7 +130,7 @@ useEffect(() => {
   localStorage.setItem('countryFavorites', JSON.stringify(favorites)); // Salva
 }, [favorites]); // favorites mudou → executa novamente → loop!
 
-// ✅ CORRETO - Separar responsabilidades
+// CORRETO - Separar responsabilidades
 useEffect(() => {
   // Carregar apenas na montagem
   const saved = localStorage.getItem('countryFavorites');
@@ -198,9 +190,9 @@ function App() {
       try {
         const parsed = JSON.parse(saved);
         setFavorites(parsed);
-        console.log(`✅ ${parsed.length} favoritos restaurados`);
+        console.log(`${parsed.length} favoritos restaurados`);
       } catch (err) {
-        console.error('❌ Erro ao parsear favoritos:', err);
+        console.error('Erro ao parsear favoritos:', err);
         localStorage.removeItem('countryFavorites'); // Limpar dados corrompidos
       }
     }
@@ -208,7 +200,7 @@ function App() {
 
   // Salvar favoritos sempre que mudarem
   useEffect(() => {
-    console.log(`💾 Salvando ${favorites.length} favoritos no localStorage`);
+    console.log(`Salvando ${favorites.length} favoritos no localStorage`);
     localStorage.setItem('countryFavorites', JSON.stringify(favorites));
   }, [favorites]);
 
@@ -247,11 +239,11 @@ function App() {
     setFavorites(prev => {
       if (prev.includes(countryCode)) {
         // Remover dos favoritos
-        console.log(`💔 Removendo ${countryCode} dos favoritos`);
+        console.log(`Removendo ${countryCode} dos favoritos`);
         return prev.filter(code => code !== countryCode);
       } else {
         // Adicionar aos favoritos
-        console.log(`❤️ Adicionando ${countryCode} aos favoritos`);
+        console.log(`Adicionando ${countryCode} aos favoritos`);
         return [...prev, countryCode];
       }
     });
@@ -261,7 +253,7 @@ function App() {
   const clearAllFavorites = () => {
     if (window.confirm('Tem certeza que deseja remover TODOS os favoritos?')) {
       setFavorites([]);
-      console.log('🗑️ Todos os favoritos removidos');
+      console.log('Todos os favoritos removidos');
     }
   };
 
@@ -288,10 +280,10 @@ function App() {
     return (
       <div className="app">
         <div className="error-container">
-          <h2>❌ Erro ao carregar países</h2>
+          <h2>Erro ao carregar países</h2>
           <p>{error}</p>
           <button onClick={() => window.location.reload()}>
-            🔄 Tentar Novamente
+            Tentar Novamente
           </button>
         </div>
       </div>
@@ -302,7 +294,7 @@ function App() {
     <div className="app">
       {/* Cabeçalho */}
       <header className="header">
-        <h1>🌍 Lista de Países do Mundo</h1>
+        <h1>Lista de Países do Mundo</h1>
         <p className="subtitle">{countries.length} países disponíveis</p>
         
         {/* Estatísticas */}
@@ -388,7 +380,7 @@ function App() {
             className="clear-favorites-btn"
             title="Limpar todos os favoritos"
           >
-            🗑️ Limpar Favoritos
+            Limpar Favoritos
           </button>
         )}
 
@@ -403,10 +395,10 @@ function App() {
       {/* Informações dos Resultados */}
       <div className="results-info">
         {showOnlyFavorites ? (
-          <p>⭐ Mostrando <strong>{filteredCountries.length}</strong> favoritos</p>
+          <p>Mostrando <strong>{filteredCountries.length}</strong> favoritos</p>
         ) : (
           <p>
-            📊 Mostrando <strong>{filteredCountries.length}</strong> de {countries.length} países
+            Mostrando <strong>{filteredCountries.length}</strong> de {countries.length} países
           </p>
         )}
       </div>
@@ -479,7 +471,7 @@ function App() {
                 : 'Tente ajustar os filtros de busca ou região.'}
             </p>
             <button onClick={clearFilters} className="reset-btn">
-              🔄 Resetar Filtros
+              Resetar Filtros
             </button>
           </div>
         )}
@@ -488,7 +480,7 @@ function App() {
       {/* Rodapé */}
       <footer className="footer">
         <p>
-          💾 Favoritos salvos localmente no navegador • 
+          Favoritos salvos localmente no navegador • 
           Dados da <a href="https://restcountries.com" target="_blank" rel="noopener noreferrer">
             REST Countries API
           </a>
@@ -691,7 +683,7 @@ export default App;
 3. Veja o contador de favoritos aumentar
 4. Veja o botão mudar para "❤️ Favoritado"
 5. Recarregue a página (F5)
-6. ✅ Favoritos devem permanecer!
+6. Favoritos devem permanecer!
 ```
 
 ### 6.2 Teste de Persistência
@@ -700,7 +692,7 @@ export default App;
 1. Favorite 5 países
 2. Feche a aba do navegador
 3. Abra novamente a aplicação
-4. ✅ Favoritos devem estar lá!
+4. Favoritos devem estar lá!
 ```
 
 ### 6.3 Teste do Filtro "Apenas Favoritos"
@@ -708,9 +700,9 @@ export default App;
 ```
 1. Favorite 3 países (Brasil, França, Japão)
 2. Clique em "Mostrar Favoritos"
-3. ✅ Deve exibir apenas os 3 países favoritados
+3. Deve exibir apenas os 3 países favoritados
 4. Busque por "bra"
-5. ✅ Deve exibir apenas Brasil (favorito + busca)
+5. Deve exibir apenas Brasil (favorito + busca)
 ```
 
 ### 6.4 Teste de Limpeza
@@ -719,9 +711,9 @@ export default App;
 1. Favorite vários países
 2. Clique em "🗑️ Limpar Favoritos"
 3. Confirme a ação
-4. ✅ Todos os favoritos devem ser removidos
+4. Todos os favoritos devem ser removidos
 5. Recarregue a página
-6. ✅ Nenhum favorito deve aparecer
+6. Nenhum favorito deve aparecer
 ```
 
 ---
@@ -786,10 +778,10 @@ console.log('Uso do localStorage:', getAllLocalStorage());
 ### 8.2 Apenas Strings
 
 ```jsx
-// ❌ Não funciona - salva "[object Object]"
+// Não funciona - salva "[object Object]"
 localStorage.setItem('user', { name: 'João', age: 25 });
 
-// ✅ Correto - usar JSON.stringify
+// Correto - usar JSON.stringify
 localStorage.setItem('user', JSON.stringify({ name: 'João', age: 25 }));
 
 // Ler de volta
@@ -923,44 +915,3 @@ const handleSearch = (term) => {
 | Contador | ❌ Não tinha | ✅ Badge com quantidade |
 | Limpar Favoritos | ❌ Manual | ✅ Botão dedicado |
 | localStorage | ❌ Não usava | ✅ Sincronização automática |
-
----
-
-## Resumo do Módulo 12
-
-### O que Aprendemos
-
-1. ✅ **localStorage API** - Salvar/ler dados do navegador
-2. ✅ **JSON stringify/parse** - Converter arrays/objetos
-3. ✅ **useEffect para persistência** - Salvar automaticamente
-4. ✅ **Filtro de favoritos** - Mostrar apenas selecionados
-5. ✅ **Custom Hook useLocalStorage** - Reutilizar lógica
-
-### Conceitos-Chave
-
-- **localStorage**: Armazenamento local persistente
-- **JSON.stringify()**: Converte objeto/array em string
-- **JSON.parse()**: Converte string em objeto/array
-- **useEffect com []**: Executar 1x na montagem (carregar)
-- **useEffect com [deps]**: Executar quando deps mudam (salvar)
-
-### Evolução do Projeto
-
-```
-Módulo 09: Conexão com API ✅
-Módulo 10: Carregamento automático ✅
-Módulo 11: Busca + Filtros ✅
-Módulo 12: Favoritos persistentes ✅
-Módulo 13: Otimizações avançadas (próximo)
-```
-
-### Próximos Passos (Módulo 13)
-
-- Otimizar com useMemo
-- Adicionar debounce na busca
-- Criar modal com detalhes do país
-- Implementar lazy loading
-
----
-
-**Parabéns!** Você implementou um sistema completo de favoritos persistentes! Seus usuários agora podem marcar países favoritos e eles permanecerão salvos mesmo após fechar o navegador! 🎉

@@ -17,27 +17,19 @@ Agora é hora de transformar nossa Lista de Países! Neste módulo, vamos **cone
 
 ---
 
-## **🎯 De Onde Viemos e Para Onde Vamos**
-
-**Módulo 08:** Gerenciamos estados complexos com dados locais (hardcoded)  
-**Módulo 09 (AGORA):** Conectamos com API real e carregamos dados do mundo todo  
-**Módulo 10:** Automatizamos o carregamento com `useEffect`
-
----
-
 ## **1. A API REST Countries**
 
-### **🌐 O que é?**
+### **O que é?**
 
 REST Countries é uma **API gratuita** que fornece informações completas e atualizadas sobre todos os países do mundo. Sem necessidade de cadastro, chaves ou autenticação!
 
-### **🔗 URL da API:**
+### **URL da API:**
 
 ```
 https://restcountries.com/v3.1/all
 ```
 
-### **📊 Exemplo de Resposta (1 país):**
+### **Exemplo de Resposta (1 país):**
 
 ```json
 {
@@ -68,19 +60,19 @@ https://restcountries.com/v3.1/all
 }
 ```
 
-### **💡 Por que esta API é perfeita para aprender?**
+### **Por que esta API é perfeita para aprender?**
 
-- ✅ **Gratuita**: Sem limites ou custos
-- ✅ **Sem autenticação**: Não precisa de API keys
-- ✅ **Dados reais**: Informações atualizadas
-- ✅ **CORS habilitado**: Funciona no navegador
-- ✅ **Bem documentada**: Fácil de entender
+- **Gratuita**: Sem limites ou custos
+- **Sem autenticação**: Não precisa de API keys
+- **Dados reais**: Informações atualizadas
+- **CORS habilitado**: Funciona no navegador
+- **Bem documentada**: Fácil de entender
 
 ---
 
 ## **2. Nossa Primeira Requisição HTTP**
 
-### **🚀 Passo 1: Testando no Navegador**
+### **Passo 1: Testando no Navegador**
 
 Antes de integrar no React, vamos ver a API funcionando:
 
@@ -88,9 +80,9 @@ Antes de integrar no React, vamos ver a API funcionando:
 2. Cole na barra de endereços: `https://restcountries.com/v3.1/all`
 3. Pressione Enter
 
-Você verá um **array gigante de objetos JSON** com dados de todos os países! 🌍
+Você verá um **array gigante de objetos JSON** com dados de todos os países! 
 
-### **🔧 Passo 2: Testando no Console do Navegador**
+### **Passo 2: Testando no Console do Navegador**
 
 Abra o DevTools (F12) e cole no Console:
 
@@ -149,17 +141,17 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🌍 Lista de Países do Mundo</h1>
+        <h1>Lista de Países do Mundo</h1>
         <p>Dados reais da API REST Countries</p>
         
         {/* Botão para carregar */}
         <button onClick={loadCountries} className="load-btn">
-          🌐 Carregar Países da API
+          Carregar Países da API
         </button>
         
         {countries.length > 0 && (
           <p className="loaded-info">
-            ✅ {countries.length} países carregados!
+            {countries.length} países carregados!
           </p>
         )}
       </header>
@@ -172,7 +164,7 @@ function App() {
         />
       ) : (
         <div className="placeholder">
-          <p>� Clique no botão acima para carregar os países</p>
+          <p>Clique no botão acima para carregar os países</p>
         </div>
       )}
     </div>
@@ -182,7 +174,7 @@ function App() {
 export default App;
 ```
 
-**🎉 Teste agora!** Clique no botão e veja os dados reais carregando!
+**Teste agora!** Clique no botão e veja os dados reais carregando!
 
 ---
 
@@ -209,11 +201,11 @@ function App() {
     setError(null);
     
     try {
-      console.log('🌐 Iniciando requisição para API...');
+      console.log('Iniciando requisição para API...');
       
       const response = await fetch('https://restcountries.com/v3.1/all');
       
-      console.log('📡 Resposta recebida, status:', response.status);
+      console.log('Resposta recebida, status:', response.status);
       
       if (!response.ok) {
         throw new Error(`Erro HTTP: ${response.status}`);
@@ -221,12 +213,12 @@ function App() {
       
       const data = await response.json();
       
-      console.log('✅ Dados processados:', data.length, 'países');
+      console.log('Dados processados:', data.length, 'países');
       
       setCountries(data);
       
     } catch (err) {
-      console.error('❌ Erro:', err);
+      console.error('Erro:', err);
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -244,7 +236,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🌍 Lista de Países do Mundo</h1>
+        <h1>Lista de Países do Mundo</h1>
         <p>Conectado à API REST Countries</p>
         
         <button 
@@ -252,13 +244,13 @@ function App() {
           disabled={isLoading}
           className="load-btn"
         >
-          {isLoading ? '⏳ Carregando...' : '🌐 Carregar Países'}
+          {isLoading ? 'Carregando...' : 'Carregar Países'}
         </button>
         
         {countries.length > 0 && (
           <div className="header-stats">
-            <span>✅ {countries.length} países</span>
-            <span>❤️ {favorites.length} favoritos</span>
+            <span>{countries.length} países</span>
+            <span>{favorites.length} favoritos</span>
           </div>
         )}
       </header>
@@ -283,7 +275,7 @@ function App() {
         
         {!isLoading && !error && countries.length === 0 && (
           <div className="welcome-state">
-            <h2>🌍 Bem-vindo!</h2>
+            <h2>Bem-vindo!</h2>
             <p>Clique no botão acima para carregar dados de todos os países do mundo.</p>
           </div>
         )}
@@ -307,7 +299,7 @@ function Loading() {
   return (
     <div className="loading-container">
       <div className="loading-spinner"></div>
-      <h2>🌐 Carregando países...</h2>
+      <h2>Carregando países...</h2>
       <p>Buscando dados de 250+ países da API REST Countries</p>
     </div>
   );
@@ -327,7 +319,7 @@ function ErrorMessage({ message, onRetry }) {
       <h2>Ops! Algo deu errado</h2>
       <p className="error-message">{message}</p>
       <button onClick={onRetry} className="retry-btn">
-        🔄 Tentar Novamente
+        Tentar Novamente
       </button>
       <div className="error-tips">
         <p><strong>💡 Possíveis causas:</strong></p>
@@ -619,52 +611,7 @@ export default CountryGrid;
 
 ---
 
-## **🎯 Resumo do Módulo 09**
-
-### **✅ O que Aprendemos**
-
-1. ✅ **Conectar com API real** usando `fetch()`
-2. ✅ **Gerenciar estados de loading e erro** com `useState`
-3. ✅ **Tratar respostas HTTP** verificando `response.ok`
-4. ✅ **Processar dados JSON** reais de 250+ países
-5. ✅ **Adaptar componentes** para estrutura da API
-6. ✅ **Criar feedback visual** (loading, erro, sucesso)
-
-### **📊 Evolução do Projeto**
-
-| Aspecto | Antes (Módulo 08) | Agora (Módulo 09) |
-|---------|-------------------|-------------------|
-| **Dados** | Hardcoded locais | API REST Countries real |
-| **Quantidade** | 5-10 países | 250+ países |
-| **Estados** | Apenas countries/favorites | +loading +error |
-| **Requisições** | Nenhuma | fetch() HTTP |
-| **Tratamento** | Simples | Loading + Error handling |
-
-### **� Próximos Passos (Módulo 10)**
-
-- 🔄 Automatizar carregamento com `useEffect`
-- ⚡ Carregar países ao abrir a página
-- 🎯 Entender o ciclo de vida dos componentes
-- � Gerenciar side effects
-
-### **💡 Conceitos-Chave**
-
-- **HTTP Request**: Solicitação de dados ao servidor
-- **fetch()**: API JavaScript para requisições HTTP
-- **async/await**: Sintaxe para lidar com operações assíncronas
-- **try/catch/finally**: Estrutura para tratamento de erros
-- **Loading State**: Estado visual enquanto aguarda resposta
-- **Error Handling**: Captura e exibição de erros amigáveis
-
-### **🔗 Referências**
-
-- [REST Countries API](https://restcountries.com/)
-- [MDN - Fetch API](https://developer.mozilla.org/pt-BR/docs/Web/API/Fetch_API)
-- [MDN - HTTP Status Codes](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status)
-
----
-
-## **📝 Exercícios Práticos**
+## **Exercícios Práticos**
 
 ### **Exercício 1: Teste no Console**
 Abra o DevTools e execute:
@@ -692,7 +639,3 @@ Adicione um timer que mostra quanto tempo levou para carregar os dados:
 const [loadTime, setLoadTime] = useState(null);
 // Calcule o tempo entre início e fim do fetch
 ```
-
----
-
-**🎉 Parabéns!** Você conectou sua aplicação React com uma API real da internet! No próximo módulo, vamos automatizar esse carregamento usando o hook `useEffect`. 🚀

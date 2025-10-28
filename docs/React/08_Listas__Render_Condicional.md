@@ -18,19 +18,13 @@ Neste módulo, vamos além do básico de listas e estados! Aprenderemos a gerenc
 
 ---
 
-## **🎯 Onde Estamos no Curso**
-
-Nos módulos anteriores, você já dominou:
-- ✅ Componentes e Props
-- ✅ useState básico
-- ✅ Eventos e formulários
-- ✅ Renderização de listas com `.map()`
 
 **Agora vamos elevar o nível:**
-- 🔥 Gerenciar múltiplos estados relacionados
-- 🔥 Sincronizar estados entre componentes
-- 🔥 Criar funcionalidades interativas complexas
-- 🔥 Preparar para consumir dados de APIs
+
+- Gerenciar múltiplos estados relacionados
+- Sincronizar estados entre componentes
+- Criar funcionalidades interativas complexas
+- Preparar para consumir dados de APIs
 
 ---
 
@@ -41,6 +35,7 @@ Em aplicações reais, raramente trabalhamos com apenas um estado. Vamos gerenci
 ### **Cenário Real: Lista de Países com Funcionalidades**
 
 Nossa aplicação terá:
+
 1. **Lista de países** (dados)
 2. **Favoritos** (array de IDs)
 3. **Filtro por região** (string)
@@ -57,7 +52,7 @@ import CountryGrid from './components/CountryGrid';
 import './App.css';
 
 function App() {
-  // 📊 Estado 1: Dados dos países (simulando o que virá de API)
+  // Estado 1: Dados dos países (simulando o que virá de API)
   const [countries] = useState([
     {
       id: 1,
@@ -121,19 +116,19 @@ function App() {
     }
   ]);
 
-  // ❤️ Estado 2: Favoritos (array de códigos de países)
+  // Estado 2: Favoritos (array de códigos de países)
   const [favorites, setFavorites] = useState([]);
 
-  // 🌍 Estado 3: Região selecionada no filtro
+  // Estado 3: Região selecionada no filtro
   const [selectedRegion, setSelectedRegion] = useState('all');
 
-  // 🔍 Estado 4: Termo de busca
+  // Estado 4: Termo de busca
   const [searchTerm, setSearchTerm] = useState('');
 
-  // 👁️ Estado 5: Modo de visualização
+  // Estado 5: Modo de visualização
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
 
-  // 🔄 Função para alternar favorito
+  // Função para alternar favorito
   const toggleFavorite = (countryCode) => {
     setFavorites(prev => 
       prev.includes(countryCode)
@@ -142,7 +137,7 @@ function App() {
     );
   };
 
-  // 🎯 Aplicar filtros combinados
+  // Aplicar filtros combinados
   const getFilteredCountries = () => {
     let filtered = countries;
 
@@ -171,7 +166,7 @@ function App() {
 
   const filteredCountries = getFilteredCountries();
 
-  // 📊 Extrair regiões únicas para o filtro
+  // Extrair regiões únicas para o filtro
   const regions = ['all', ...new Set(countries.map(c => c.region))];
 
   return (
@@ -248,7 +243,7 @@ function App() {
       {/* Resultados */}
       <div className="results-info">
         <p>
-          📊 Exibindo <strong>{filteredCountries.length}</strong> de {countries.length} países
+          Exibindo <strong>{filteredCountries.length}</strong> de {countries.length} países
           {showOnlyFavorites && ' (somente favoritos)'}
           {searchTerm && ` - Busca: "${searchTerm}"`}
           {selectedRegion !== 'all' && ` - Região: ${selectedRegion}`}
@@ -469,26 +464,26 @@ Use quando quiser mostrar **uma coisa OU outra**:
 
 ## **4. Padrões de Gerenciamento de Estados**
 
-### **🎯 Padrão 1: Estado Derivado**
+### **Padrão 1: Estado Derivado**
 
 Estados que podem ser calculados a partir de outros estados:
 
 ```jsx
-// ❌ NÃO faça isso - estado redundante
+// NÃO faça isso - estado redundante
 const [countries, setCountries] = useState([...]);
 const [filteredCountries, setFilteredCountries] = useState([...]);
 
-// ✅ Faça isso - calcule na renderização
+// Faça isso - calcule na renderização
 const [countries, setCountries] = useState([...]);
 const filteredCountries = countries.filter(...); // Derivado!
 ```
 
-### **🎯 Padrão 2: Update Funcional**
+### ** Padrão 2: Update Funcional**
 
 Sempre use função quando o novo estado depende do anterior:
 
 ```jsx
-// ❌ Perigoso - pode ter valor antigo
+// Perigoso - pode ter valor antigo
 const toggleFavorite = (id) => {
   if (favorites.includes(id)) {
     setFavorites(favorites.filter(f => f !== id));
@@ -497,7 +492,7 @@ const toggleFavorite = (id) => {
   }
 };
 
-// ✅ Seguro - sempre usa valor mais recente
+// Seguro - sempre usa valor mais recente
 const toggleFavorite = (id) => {
   setFavorites(prev => 
     prev.includes(id)
@@ -507,17 +502,17 @@ const toggleFavorite = (id) => {
 };
 ```
 
-### **🎯 Padrão 3: Estados Independentes**
+### **Padrão 3: Estados Independentes**
 
 Separe estados que não têm relação direta:
 
 ```jsx
-// ✅ BOM - Estados independentes
+// BOM - Estados independentes
 const [searchTerm, setSearchTerm] = useState('');
 const [selectedRegion, setSelectedRegion] = useState('all');
 const [favorites, setFavorites] = useState([]);
 
-// ❌ RUIM - Tudo em um objeto (dificulta updates)
+// RUIM - Tudo em um objeto (dificulta updates)
 const [filters, setFilters] = useState({
   search: '',
   region: 'all',
@@ -962,34 +957,34 @@ function App() {
 
 ## **7. Conceitos-Chave do Módulo**
 
-### **🎯 Gerenciamento de Estados Múltiplos**
+### **Gerenciamento de Estados Múltiplos**
 - Estados independentes para funcionalidades diferentes
 - Update funcional para estados que dependem do valor anterior
 - Estados derivados calculados na renderização
 
-### **🎯 Sincronização Pai-Filho**
+### **Sincronização Pai-Filho**
 - Pai gerencia estados, filhos recebem via props
 - Callbacks para modificar estados do pai
 - Componentes filhos sem estado local (controlled components)
 
-### **🎯 Renderização Condicional**
+### **Renderização Condicional**
 - `&&` para renderização opcional
 - Ternário para alternativas (A ou B)
 - Classes CSS condicionais para estilos dinâmicos
 
-### **🎯 Filtros Combinados**
+### **Filtros Combinados**
 - Aplicar múltiplos filtros em sequência
 - Manter filtros independentes e combináveis
 - UI clara mostrando filtros ativos
 
 ---
 
-## **📝 Exercício Prático**
+## **Exercício Prático**
 
-### 🎯 **Objetivo**
+### **Objetivo**
 Implementar o sistema completo de gerenciamento de estados com filtros combinados
 
-### 📋 **Requisitos**
+### **Requisitos**
 - [ ] Gerenciar favoritos (adicionar/remover)
 - [ ] Implementar busca textual (nome, capital ou região)
 - [ ] Criar filtro por região
@@ -999,13 +994,13 @@ Implementar o sistema completo de gerenciamento de estados com filtros combinado
 - [ ] Implementar botão "Limpar Filtros"
 - [ ] Adicionar estatísticas no header (total, favoritos, exibidos)
 
-### 🚀 **Desafio Bônus**
+### **Desafio Bônus**
 - [ ] Salvar favoritos no `localStorage`
 - [ ] Adicionar animações nas transições
 - [ ] Implementar filtro por população (pequeno/médio/grande)
 - [ ] Criar modo de visualização lista/grid
 
-### 💡 **Dicas**
+### **Dicas**
 ```jsx
 // localStorage para persistência
 useEffect(() => {
@@ -1026,30 +1021,3 @@ const filtered = countries
   .filter(c => selectedRegion === 'all' ? true : c.region === selectedRegion)
   .filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
 ```
-
----
-
-## **🔮 Próximo Módulo**
-
-No próximo módulo, finalmente vamos **conectar com a API REST Countries real**! Aprenderemos a:
-
-- Fazer requisições HTTP com `fetch()`
-- Conectar com API REST Countries
-- Carregar dados reais de 250+ países
-- Tratar estados de loading e erro
-- Preparar para `useEffect` (módulo 10)
-
-**Importante:** Nossa estrutura de estados e filtros já está preparada para receber dados da API! 🚀
-
----
-
-## **📚 Resumo do Módulo**
-
-- ✅ **Estados Múltiplos**: Gerenciar vários estados simultâneos
-- ✅ **Sincronização**: Estados do pai, callbacks para filhos
-- ✅ **Renderização Condicional**: `&&`, ternário, classes dinâmicas
-- ✅ **Filtros Combinados**: Busca + região + favoritos
-- ✅ **Preparação para API**: Estrutura compatível com dados externos
-- ✅ **UX Completa**: Estados vazios, contadores, feedbacks visuais
-
-**Agora você está pronto para trabalhar com dados reais de APIs!** 🌍✨

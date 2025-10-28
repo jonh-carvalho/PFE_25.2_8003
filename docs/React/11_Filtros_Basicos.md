@@ -19,15 +19,6 @@ Aplique os conhecimentos de **useState** e **useEffect** para implementar filtro
 
 ---
 
-## De Onde Viemos e Para Onde Vamos
-
-**Módulo 10:** Carregamos países automaticamente com useEffect  
-**Módulo 11 (AGORA):** Adicionamos busca e filtros básicos  
-**Módulo 12:** Implementamos favoritos com localStorage  
-**Módulo 13:** Otimizamos com useMemo e debounce
-
----
-
 ## 1. A Aplicação Base
 
 Vamos partir da aplicação funcional do Módulo 10:
@@ -1052,44 +1043,3 @@ const matchesPopulation =
   (populationFilter === 'medium' && country.population >= 1000000 && country.population <= 50000000) ||
   (populationFilter === 'large' && country.population > 50000000);
 ```
-
----
-
-## Resumo do Módulo 11
-
-### O que Aprendemos
-
-1. ✅ **Busca em tempo real** - Input controlado + filter()
-2. ✅ **Filtro por região** - Select controlado + lógica condicional
-3. ✅ **Filtros combinados** - Múltiplas condições com &&
-4. ✅ **Feedback visual** - Tags de filtros ativos
-5. ✅ **Estado vazio inteligente** - Mensagens contextuais
-
-### Conceitos-Chave
-
-- **filter()**: Cria novo array com elementos que passam no teste
-- **includes()**: Verifica se string contém substring
-- **find()**: Encontra primeiro elemento que satisfaz condição
-- **toLowerCase()**: Normaliza texto para comparação case-insensitive
-- **Optional chaining (?.)**: Acessa propriedades que podem não existir
-
-### Evolução do Projeto
-
-```
-Módulo 09: Conexão com API ✅
-Módulo 10: Carregamento automático ✅
-Módulo 11: Busca + Filtros ✅
-Módulo 12: Favoritos + localStorage (próximo)
-Módulo 13: Otimizações avançadas (futuro)
-```
-
-### Próximos Passos (Módulo 12)
-
-- Implementar sistema de favoritos
-- Persistir favoritos com localStorage
-- Adicionar botão "Mostrar Apenas Favoritos"
-- Contador de favoritos
-
----
-
-**Parabéns!** Você implementou um sistema completo de busca e filtros! No próximo módulo, vamos adicionar favoritos persistentes com localStorage! 🎉

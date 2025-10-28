@@ -324,36 +324,3 @@ export default function NotFound() {
   );
 }
 ```
-
----
-
-## 9. Conceitos-Chave
-
-- BrowserRouter, Routes, Route
-- Link e NavLink (estilo ativo)
-- useParams (parâmetros dinâmicos)
-- useNavigate (navegação programática)
-- Outlet (layout com conteúdo filho)
-- Passagem de estado no Link (state)
-
----
-
-## 10. Exercícios
-
-1) Adicionar rota para listar países por região: `/regiao/:region`
-2) Criar rota de busca com query string e ler com `useLocation`
-3) Adicionar proteção simples para `/favoritos` quando não houver favoritos (redirecionar para `/`)
-4) Tornar o botão "Voltar" inteligente (se não houver histórico, ir para `/`)
-5) Implementar lazy loading de rotas com `React.lazy` e `Suspense`
-
----
-
-## Resumo do Módulo 14
-
-- ✅ Navegação com React Router
-- ✅ Rotas básicas e dinâmicas
-- ✅ Layout persistente com Outlet
-- ✅ Detalhes do país via params ou state
-- ✅ Página 404 e navegação programática
-
-No próximo passo, podemos integrar rotas aninhadas, query params mais avançados e divisão de código por rotas.
