@@ -9,21 +9,21 @@ nav:
   - Disciplina:
       - Aulas: Disciplina/aulas.md
       - React:
-              - Introdução: React/01_Intro.md
-              - Node.js Vite React: React\02_NodeViteReact.md
-              - JSX: React\03_JSX_Sintaxe.md
-              - Componentes: React\04_Componentes.md
-              - Props: React\05_Props_e_Comunicação.md
-              - Estado: React\06_useState.md
-              - Eventos: React\07_Eventos_e_Forms.md
-              - Listas: React\08_Listas__Render_Condicional.md
-              - Http Api: React\09_HTTP_APIs.md
-              - useEffect: React\10_useEffect.md
-              - Filtros Básicos: React\11_Filtros_Basicos.md
-              - Favoritos e Persistência: React\12_Favoritos_localStorage.md
-              - Busca Avançada e Refinamentos: React\13_Filtros_Busca.md
-              - Rotas (React Router): React\14_Rotas_ReactRouter.md
-              - Estilização Avançada: React\15_Estilizacao_Avancada.md
+              - 1 - Introdução: React/01_Intro.md
+              - 2 - Node.js Vite React: React\02_NodeViteReact.md
+              - 3 - JSX: React\03_JSX_Sintaxe.md
+              - 4 - Componentes: React\04_Componentes.md
+              - 5 - Props: React\05_Props_e_Comunicação.md
+              - 6 - Estado: React\06_useState.md
+              - 7 - Eventos: React\07_Eventos_e_Forms.md
+              - 8 - Listas: React\08_Listas__Render_Condicional.md
+              - 9 - Http Api: React\09_HTTP_APIs.md
+              - 10 - useEffect: React\10_useEffect.md
+              - 11 - Filtros Básicos: React\11_Filtros_Basicos.md
+              - 12 - Favoritos e Persistência: React\12_Favoritos_localStorage.md
+              - 13 - Busca Avançada e Refinamentos: React\13_Filtros_Busca.md
+              - 14 - Rotas (React Router): React\14_Rotas_ReactRouter.md
+              - 15 - Estilização Avançada: React\15_Estilizacao_Avancada.md
       - Roteiros: 
           - Design Thinking: Disciplina/Roteiros/04_design_thinking.md
           - AHT: Disciplina/Roteiros/07_aht.md
