@@ -1,11 +1,11 @@
 ---
-id: 08_Listas_e_Render_Condicional
-title: 08 - Gerenciamento de Estados Complexos
+id: 08 - Gerenciamento de Estados 
+title: 08 - Gerenciamento de Estados 
 ---
 
-# 08 - **Gerenciamento de Estados Complexos**
+# 08 - **Gerenciamento de Estados**
 
-Neste módulo, vamos além do básico de listas e estados! Aprenderemos a gerenciar **múltiplos estados simultâneos** e criar funcionalidades interativas avançadas na nossa **Lista de Países**. Trabalharemos com favoritos, filtros, contadores dinâmicos e preparação para consumir dados externos.
+Agora vamos além do básico de listas e estados! Aprenderemos a gerenciar **múltiplos estados simultâneos** e criar funcionalidades interativas avançadas na nossa **Lista de Países**. Trabalharemos com favoritos, filtros, contadores dinâmicos e preparação para consumir dados externos.
 
 ---
 

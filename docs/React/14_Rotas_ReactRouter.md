@@ -5,7 +5,7 @@ title: 14 - Rotas com React Router
 
 # 14 - Rotas com React Router
 
-Neste módulo, vamos adicionar navegação real à nossa aplicação com o React Router: páginas, links, rotas dinâmicas (detalhes do país), página 404, layout compartilhado e navegação programática.
+Vamos adicionar navegação real à nossa aplicação com o React Router: páginas, links, rotas dinâmicas (detalhes do país), página 404, layout compartilhado e navegação programática.
 
 ---
 

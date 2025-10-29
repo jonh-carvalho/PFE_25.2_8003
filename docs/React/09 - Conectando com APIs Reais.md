@@ -1,62 +1,77 @@
 ---
-id: 09_HTTP_APIs
+id: 09 - Conectando com APIs Reais
 title: 09 - Conectando com APIs Reais
 ---
 # 09 - **Conectando com APIs Reais**
 
-Agora é hora de transformar nossa Lista de Países! Neste módulo, vamos **conectar com a API REST Countries real** e carregar dados de **250+ países do mundo**. Sem simulações, sem dados fake - apenas requisições HTTP reais aprendendo na prática!
+Agora é hora de transformar nossa Lista de Países! Neste módulo, vamos **conectar com a API do IBGE** e carregar dados de **250+ países do mundo**. Sem simulações, sem dados fake - apenas requisições HTTP reais aprendendo na prática!
 
 ---
 
 ## **Objetivos do Módulo**
 - Fazer a primeira requisição HTTP com `fetch()`
-- Conectar com a API REST Countries real
+- Conectar com a API do IBGE (Instituto Brasileiro de Geografia e Estatística)
 - Carregar dados de 250+ países do mundo
 - Implementar estados de loading e erro
 - Adaptar componentes para dados reais da API
+- Mapear estrutura de dados da API para o formato do app
 
 ---
 
-## **1. A API REST Countries**
+## **1. A API do IBGE - Serviço de Dados**
 
 ### **O que é?**
 
-REST Countries é uma **API gratuita** que fornece informações completas e atualizadas sobre todos os países do mundo. Sem necessidade de cadastro, chaves ou autenticação!
+A API de Países do IBGE é um **serviço público gratuito** mantido pelo Instituto Brasileiro de Geografia e Estatística que fornece informações completas e atualizadas sobre todos os países do mundo. Sem necessidade de cadastro, chaves ou autenticação!
 
 ### **URL da API:**
 
 ```
-https://restcountries.com/v3.1/all
+https://servicodados.ibge.gov.br/api/v1/paises
 ```
 
 ### **Exemplo de Resposta (1 país):**
 
 ```json
 {
-  "name": {
-    "common": "Brazil",
-    "official": "Federative Republic of Brazil"
+  "id": {
+    "M49": 76,
+    "ISO-3166-1-ALPHA-2": "BR",
+    "ISO-3166-1-ALPHA-3": "BRA"
   },
-  "cca3": "BRA",
-  "capital": ["Brasília"],
-  "region": "Americas",
-  "subregion": "South America",
-  "population": 215353593,
-  "area": 8515767,
-  "flag": "🇧🇷",
-  "flags": {
-    "png": "https://flagcdn.com/w320/br.png",
-    "svg": "https://flagcdn.com/br.svg"
+  "nome": {
+    "abreviado": "Brasil",
+    "abreviado-EN": "Brazil",
+    "abreviado-ES": "Brasil"
   },
-  "languages": {
-    "por": "Portuguese"
-  },
-  "currencies": {
-    "BRL": {
-      "name": "Brazilian real",
-      "symbol": "R$"
+  "area": {
+    "total": "8515767",
+    "unidade": {
+      "nome": "quilômetros quadrados",
+      "símbolo": "km2"
     }
-  }
+  },
+  "localizacao": {
+    "regiao": {
+      "id": { "M49": 19 },
+      "nome": "América"
+    },
+    "sub-regiao": {
+      "id": { "M49": 5 },
+      "nome": "América do Sul"
+    }
+  },
+  "governo": {
+    "capital": {
+      "nome": "Brasília"
+    }
+  },
+  "linguas": [
+    {
+      "id": { "ISO-639-1": "pt" },
+      "nome": "português"
+    }
+  ]
 }
 ```
 
@@ -64,9 +79,10 @@ https://restcountries.com/v3.1/all
 
 - **Gratuita**: Sem limites ou custos
 - **Sem autenticação**: Não precisa de API keys
-- **Dados reais**: Informações atualizadas
+- **Dados oficiais**: Mantida pelo IBGE
 - **CORS habilitado**: Funciona no navegador
-- **Bem documentada**: Fácil de entender
+- **Em português**: Dados em PT-BR
+- **Confiável**: Serviço governamental estável
 
 ---
 
@@ -77,7 +93,7 @@ https://restcountries.com/v3.1/all
 Antes de integrar no React, vamos ver a API funcionando:
 
 1. Abra o navegador
-2. Cole na barra de endereços: `https://restcountries.com/v3.1/all`
+2. Cole na barra de endereços: `https://servicodados.ibge.gov.br/api/v1/paises`
 3. Pressione Enter
 
 Você verá um **array gigante de objetos JSON** com dados de todos os países! 
@@ -87,18 +103,22 @@ Você verá um **array gigante de objetos JSON** com dados de todos os países!
 Abra o DevTools (F12) e cole no Console:
 
 ```javascript
-fetch('https://restcountries.com/v3.1/all')
+fetch('https://servicodados.ibge.gov.br/api/v1/paises')
   .then(response => response.json())
   .then(data => {
     console.log('Total de países:', data.length);
     console.log('Primeiro país:', data[0]);
+    console.log('Nome:', data[0].nome.abreviado);
+    console.log('Capital:', data[0].governo.capital.nome);
   });
 ```
 
 **Resultado esperado:**
 ```
-Total de países: 250
-Primeiro país: {name: {...}, capital: [...], ...}
+Total de países: 250+
+Primeiro país: {id: {...}, nome: {...}, ...}
+Nome: Andorra
+Capital: Andorra-a-Velha
 ```
 
 ---
@@ -117,13 +137,23 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-  // Função para buscar países da API
+  // Função para buscar países da API do IBGE
   const loadCountries = () => {
-    fetch('https://restcountries.com/v3.1/all')
+    fetch('https://servicodados.ibge.gov.br/api/v1/paises')
       .then(response => response.json())
       .then(data => {
         console.log('Países carregados:', data.length);
-        setCountries(data);
+        // Mapeia os dados do IBGE para o formato esperado pelo app
+        const mapped = data.map(pais => ({
+          cca3: pais.id['ISO-3166-1-ALPHA-3'],
+          flag: `https://flagcdn.com/${pais.id['ISO-3166-1-ALPHA-2'].toLowerCase()}.svg`,
+          name: pais.nome.abreviado,
+          capital: pais.governo?.capital?.nome || 'N/A',
+          population: 0, // API do IBGE não retorna população
+          region: pais.localizacao.regiao.nome,
+          subregion: pais.localizacao['sub-regiao']?.nome || 'N/A'
+        }));
+        setCountries(mapped);
       })
       .catch(error => {
         console.error('Erro ao carregar países:', error);
@@ -142,11 +172,11 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>Lista de Países do Mundo</h1>
-        <p>Dados reais da API REST Countries</p>
+        <p>Dados reais da API do IBGE</p>
         
         {/* Botão para carregar */}
         <button onClick={loadCountries} className="load-btn">
-          Carregar Países da API
+          Carregar Países da API do IBGE
         </button>
         
         {countries.length > 0 && (
@@ -173,6 +203,14 @@ function App() {
 
 export default App;
 ```
+
+**Importante!** Note que estamos **mapeando** os dados da API do IBGE para o formato que nossos componentes esperam. A estrutura do IBGE é diferente, então criamos um objeto com os campos que precisamos:
+
+- `cca3`: código ISO-3166-1-ALPHA-3 (BRA, USA, etc.)
+- `flag`: montamos a URL da bandeira usando o código ALPHA-2
+- `name`: nome abreviado do país em português
+- `capital`: extraído do objeto governo
+- `region` e `subregion`: vêm da localização
 
 **Teste agora!** Clique no botão e veja os dados reais carregando!
 
@@ -201,9 +239,9 @@ function App() {
     setError(null);
     
     try {
-      console.log('Iniciando requisição para API...');
+      console.log('Iniciando requisição para API do IBGE...');
       
-      const response = await fetch('https://restcountries.com/v3.1/all');
+      const response = await fetch('https://servicodados.ibge.gov.br/api/v1/paises');
       
       console.log('Resposta recebida, status:', response.status);
       
@@ -215,7 +253,18 @@ function App() {
       
       console.log('Dados processados:', data.length, 'países');
       
-      setCountries(data);
+      // Mapeia os dados do IBGE para o formato do app
+      const mapped = data.map(pais => ({
+        cca3: pais.id['ISO-3166-1-ALPHA-3'],
+        flag: `https://flagcdn.com/${pais.id['ISO-3166-1-ALPHA-2'].toLowerCase()}.svg`,
+        name: pais.nome.abreviado,
+        capital: pais.governo?.capital?.nome || 'N/A',
+        population: 0, // API do IBGE não retorna população
+        region: pais.localizacao.regiao.nome,
+        subregion: pais.localizacao['sub-regiao']?.nome || 'N/A'
+      }));
+      
+      setCountries(mapped);
       
     } catch (err) {
       console.error('Erro:', err);
@@ -237,7 +286,7 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>Lista de Países do Mundo</h1>
-        <p>Conectado à API REST Countries</p>
+        <p>Conectado à API do IBGE</p>
         
         <button 
           onClick={loadCountries} 
@@ -300,7 +349,7 @@ function Loading() {
     <div className="loading-container">
       <div className="loading-spinner"></div>
       <h2>Carregando países...</h2>
-      <p>Buscando dados de 250+ países da API REST Countries</p>
+      <p>Buscando dados de 250+ países da API do IBGE</p>
     </div>
   );
 }
@@ -340,34 +389,54 @@ export default ErrorMessage;
 
 ## **6. Adaptando Componentes para Dados Reais**
 
-Os dados da API têm estrutura diferente dos nossos dados locais. Vamos adaptar:
+Os dados da API do IBGE têm estrutura diferente. Já fizemos o mapeamento no `App.jsx`, mas vamos entender melhor os componentes:
+
+### **Estrutura dos Dados Mapeados**
+
+Após o mapeamento, cada país tem:
+```javascript
+{
+  cca3: "BRA",              // Código ISO de 3 letras
+  flag: "https://...",      // URL da bandeira
+  name: "Brasil",           // Nome em português
+  capital: "Brasília",      // Capital
+  population: 0,            // Não disponível no IBGE
+  region: "América",        // Região
+  subregion: "América do Sul" // Sub-região
+}
+```
 
 ### **CountryCard Adaptado**
 
 ```jsx
 // src/components/CountryCard.jsx
 function CountryCard({ 
-  country,
+  cca3, 
+  flag, 
+  name, 
+  capital, 
+  region,
+  subregion,
   isFavorite, 
   onToggleFavorite 
 }) {
-  // Adaptar estrutura da API
-  const name = country.name.common;
-  const capital = country.capital?.[0] || 'N/A';
-  const population = country.population;
-  const region = country.region;
-  const subregion = country.subregion || 'N/A';
-  const flag = country.flag;
-  const cca3 = country.cca3;
-
   const formatPopulation = (pop) => {
+    if (!pop || pop === 0) return 'Não disponível';
     return new Intl.NumberFormat('pt-BR').format(pop);
   };
 
   return (
     <div className={`country-card ${isFavorite ? 'favorite' : ''}`}>
       <div className="country-header">
-        <span className="flag">{flag}</span>
+        <img 
+          src={flag} 
+          alt={`Bandeira de ${name}`}
+          className="flag-img"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = `https://via.placeholder.com/80x60?text=${name.charAt(0)}`;
+          }}
+        />
         <h3>{name}</h3>
       </div>
 
@@ -376,10 +445,11 @@ function CountryCard({
           <span className="label">Capital:</span>
           <span className="value">{capital}</span>
         </div>
-        <div className="info-row">
+        {/*<div className="info-row">
           <span className="label">População:</span>
           <span className="value">{formatPopulation(population)}</span>
         </div>
+        */}
         <div className="info-row">
           <span className="label">Região:</span>
           <span className="value">{region}</span>
@@ -404,17 +474,31 @@ function CountryCard({
 export default CountryCard;
 ```
 
+**Mudanças importantes:**
+- ✅ Substituímos emoji da bandeira por `<img>` com URL da flagcdn (formato SVG)
+- ✅ Adicionamos `onError` para fallback se a bandeira não carregar (usa placeholder com primeira letra)
+- ✅ Tratamos população como "Não disponível" quando não houver dados
+- ✅ Usamos `info-row` com labels e valores para layout organizado
+
 ### **CountryGrid Adaptado**
 
 ```jsx
 // src/components/CountryGrid.jsx
+import CountryCard from './CountryCard';
+
 function CountryGrid({ countries, favorites, onToggleFavorite }) {
   return (
     <div className="country-grid">
-      {countries.map(country => (
+      {countries.map((country) => (
         <CountryCard 
           key={country.cca3}
-          country={country}
+          cca3={country.cca3}
+          flag={country.flag}
+          name={country.name}
+          capital={country.capital}
+          population={country.population}
+          region={country.region}
+          subregion={country.subregion}
           isFavorite={favorites.includes(country.cca3)}
           onToggleFavorite={onToggleFavorite}
         />
@@ -425,6 +509,13 @@ function CountryGrid({ countries, favorites, onToggleFavorite }) {
 
 export default CountryGrid;
 ```
+
+**Como funciona:**
+- Recebe o array `countries` já mapeado do App
+- Faz `.map()` para criar um `CountryCard` para cada país
+- Passa cada propriedade individualmente como prop (spread manual)
+- Calcula `isFavorite` verificando se o `cca3` está no array de favoritos
+- Usa `country.cca3` como `key` para otimização do React
 
 ---
 
@@ -607,6 +698,24 @@ export default CountryGrid;
   border-radius: 8px;
   font-weight: 500;
 }
+
+/* Bandeiras (imagens) */
+.flag-img {
+  width: 60px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+
+.country-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
 ```
 
 ---
@@ -616,19 +725,21 @@ export default CountryGrid;
 ### **Exercício 1: Teste no Console**
 Abra o DevTools e execute:
 ```javascript
-fetch('https://restcountries.com/v3.1/name/brazil')
+fetch('https://servicodados.ibge.gov.br/api/v1/paises')
   .then(r => r.json())
-  .then(d => console.table(d[0]));
+  .then(d => {
+    const brasil = d.find(p => p.id['ISO-3166-1-ALPHA-3'] === 'BRA');
+    console.log('Brasil:', brasil.nome.abreviado);
+    console.log('Capital:', brasil.governo.capital.nome);
+    console.log('Região:', brasil.localizacao.regiao.nome);
+  });
 ```
 
 ### **Exercício 2: Adicione um Contador**
 Mostre quantos países foram carregados em tempo real durante o fetch.
 
-### **Exercício 3: Filtre por Região na API**
-Teste endpoint específico:
-```javascript
-fetch('https://restcountries.com/v3.1/region/europe')
-```
+### **Exercício 3: Filtre por Região**
+Adicione botões que filtram países por região (América, Europa, Ásia, África, Oceania).
 
 ### **Exercício 4: Mensagens Personalizadas**
 Modifique `ErrorMessage` para mostrar dicas diferentes dependendo do tipo de erro (rede, servidor, timeout).
@@ -639,3 +750,12 @@ Adicione um timer que mostra quanto tempo levou para carregar os dados:
 const [loadTime, setLoadTime] = useState(null);
 // Calcule o tempo entre início e fim do fetch
 ```
+
+### **Exercício 6: Cache Local**
+Salve os países no `localStorage` após carregar e use como fallback se a API estiver indisponível.
+
+### **Exercício 7: Exibir Mais Informações**
+A API do IBGE retorna mais dados (área, idiomas, moedas). Modifique o mapeamento para incluir esses campos e exiba-os no card.
+
+### **Exercício 8: Comparar APIs**
+Compare os dados do IBGE com outra API (como REST Countries) e veja as diferenças na estrutura e informações disponíveis.

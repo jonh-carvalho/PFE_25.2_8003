@@ -35,10 +35,23 @@ function App() {
   useEffect(() => {
     const loadCountries = async () => {
       try {
-        const response = await fetch('https://restcountries.com/v3.1/all');
+        const response = await fetch('https://servicodados.ibge.gov.br/api/v1/paises');
         if (!response.ok) throw new Error(`Erro: ${response.status}`);
+        
         const data = await response.json();
-        setCountries(data);
+        
+        // Mapear dados do IBGE para formato da aplicação
+        const mapped = data.map(pais => ({
+          cca3: pais.id['ISO-3166-1-ALPHA-3'],
+          flag: `https://flagcdn.com/${pais.id['ISO-3166-1-ALPHA-2'].toLowerCase()}.svg`,
+          name: pais.nome.abreviado,
+          capital: pais.governo?.capital?.nome || 'N/A',
+          population: 0,
+          region: pais.localizacao.regiao.nome,
+          subregion: pais.localizacao['sub-regiao']?.nome || 'N/A'
+        }));
+        
+        setCountries(mapped);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -102,7 +115,7 @@ const [searchTerm, setSearchTerm] = useState('');
 ```jsx
 // Calcular países filtrados
 const filteredCountries = countries.filter(country => {
-  const countryName = country.name.common.toLowerCase();
+  const countryName = country.name.toLowerCase();
   const search = searchTerm.toLowerCase();
   return countryName.includes(search);
 });
@@ -123,10 +136,23 @@ function App() {
   useEffect(() => {
     const loadCountries = async () => {
       try {
-        const response = await fetch('https://restcountries.com/v3.1/all');
+        const response = await fetch('https://servicodados.ibge.gov.br/api/v1/paises');
         if (!response.ok) throw new Error(`Erro: ${response.status}`);
+        
         const data = await response.json();
-        setCountries(data);
+        
+        // Mapear dados do IBGE
+        const mapped = data.map(pais => ({
+          cca3: pais.id['ISO-3166-1-ALPHA-3'],
+          flag: `https://flagcdn.com/${pais.id['ISO-3166-1-ALPHA-2'].toLowerCase()}.svg`,
+          name: pais.nome.abreviado,
+          capital: pais.governo?.capital?.nome || 'N/A',
+          population: 0,
+          region: pais.localizacao.regiao.nome,
+          subregion: pais.localizacao['sub-regiao']?.nome || 'N/A'
+        }));
+        
+        setCountries(mapped);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -139,7 +165,7 @@ function App() {
 
   // Filtrar países pela busca
   const filteredCountries = countries.filter(country => {
-    const countryName = country.name.common.toLowerCase();
+    const countryName = country.name.toLowerCase();
     const search = searchTerm.toLowerCase();
     return countryName.includes(search);
   });
@@ -203,13 +229,18 @@ function App() {
           filteredCountries.map(country => (
             <div key={country.cca3} className="country-card">
               <img 
-                src={country.flags.png} 
-                alt={`Bandeira de ${country.name.common}`}
+                src={country.flag}
+                alt={`Bandeira de ${country.name}`}
+                className="flag-img"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="45"><rect width="60" height="45" fill="%23ddd"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="20">${country.name[0]}</text></svg>`;
+                }}
               />
-              <h3>{country.name.common}</h3>
-              <p>📍 {country.capital?.[0] || 'N/A'}</p>
+              <h3>{country.name}</h3>
+              <p>📍 {country.capital}</p>
               <p>🌎 {country.region}</p>
-              <p>👥 {country.population.toLocaleString('pt-BR')}</p>
+              <p>�️ {country.subregion}</p>
             </div>
           ))
         ) : (
@@ -227,8 +258,9 @@ export default App;
 ```
 
 **Testando:**
-- Digite "bra" → Mostra Brasil, Brazil, etc.
-- Digite "united" → Mostra United States, United Kingdom, etc.
+- Digite "bra" → Mostra Brasil
+- Digite "port" → Mostra Portugal
+- Digite "franc" → Mostra França
 - Limpe a busca → Mostra todos os países novamente
 
 ---
@@ -250,7 +282,8 @@ const regions = [
   { value: 'Americas', label: 'Américas' },
   { value: 'Asia', label: 'Ásia' },
   { value: 'Europe', label: 'Europa' },
-  { value: 'Oceania', label: 'Oceania' }
+  { value: 'Oceania', label: 'Oceania' },
+  { value: 'Antarctic', label: 'Antártida' }
 ];
 ```
 
@@ -284,7 +317,7 @@ const regions = [
 // Filtrar por busca E região
 const filteredCountries = countries.filter(country => {
   // Filtro de busca
-  const matchesSearch = country.name.common
+  const matchesSearch = country.name
     .toLowerCase()
     .includes(searchTerm.toLowerCase());
   
@@ -338,14 +371,29 @@ function App() {
     const loadCountries = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('https://restcountries.com/v3.1/all');
+        setError(null);
+        
+        const response = await fetch('https://servicodados.ibge.gov.br/api/v1/paises');
         
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
         
         const data = await response.json();
-        setCountries(data);
+        
+        // Mapear dados do IBGE para formato da aplicação
+        const mapped = data.map(pais => ({
+          cca3: pais.id['ISO-3166-1-ALPHA-3'],
+          flag: `https://flagcdn.com/${pais.id['ISO-3166-1-ALPHA-2'].toLowerCase()}.svg`,
+          name: pais.nome.abreviado,
+          capital: pais.governo?.capital?.nome || 'N/A',
+          population: 0,
+          region: pais.localizacao.regiao.nome,
+          subregion: pais.localizacao['sub-regiao']?.nome || 'N/A',
+          area: 0
+        }));
+        
+        setCountries(mapped);
         
       } catch (err) {
         setError(err.message);
@@ -364,13 +412,14 @@ function App() {
     { value: 'Americas', label: 'Américas' },
     { value: 'Asia', label: 'Ásia' },
     { value: 'Europe', label: 'Europa' },
-    { value: 'Oceania', label: 'Oceania' }
+    { value: 'Oceania', label: 'Oceania' },
+    { value: 'Antarctic', label: 'Antártida' }
   ];
 
   // Filtrar países
   const filteredCountries = countries.filter(country => {
     // Filtro de busca
-    const matchesSearch = country.name.common
+    const matchesSearch = country.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     
@@ -565,7 +614,7 @@ function App() {
       {/* Rodapé */}
       <footer className="footer">
         <p>
-          Dados fornecidos pela <a href="https://restcountries.com" target="_blank" rel="noopener noreferrer">REST Countries API</a>
+          Dados fornecidos pela <a href="https://servicodados.ibge.gov.br/api/docs/paises" target="_blank" rel="noopener noreferrer">API do IBGE</a>
         </p>
       </footer>
     </div>
@@ -576,6 +625,79 @@ export default App;
 ```
 
 ---
+
+## 5.5 Favoritos
+
+Queremos permitir que o usuário marque países como favoritos diretamente nos cards. Para manter as coisas simples (conforme solicitado: sem `localStorage`), usaremos um estado local `favorites` e uma função `toggleFavorite`.
+
+Exemplo rápido (adicionar dentro do componente `App`):
+
+```jsx
+// Estado de favoritos
+const [favorites, setFavorites] = useState([]);
+
+const toggleFavorite = (code) => {
+  setFavorites(prev =>
+    prev.includes(code) ? prev.filter(c => c !== code) : [...prev, code]
+  );
+};
+```
+
+No JSX de cada card, adicione um botão que chama `toggleFavorite`:
+
+```jsx
+<button
+  className={`favorite-btn ${favorites.includes(country.cca3) ? 'favorited' : ''}`}
+  onClick={() => toggleFavorite(country.cca3)}
+  aria-pressed={favorites.includes(country.cca3)}
+>
+  {favorites.includes(country.cca3) ? '♥ Favorito' : '♡ Favoritar'}
+</button>
+```
+
+E no cabeçalho podemos mostrar a contagem de favoritos:
+
+```jsx
+<div className="header-stats">
+  <span>{countries.length} países</span>
+  <span>{filteredCountries.length} visíveis</span>
+  <span>{favorites.length} favoritos</span>
+</div>
+```
+
+Observações:
+- Não existe persistência: favoritos são mantidos somente em memória e serão perdidos ao recarregar a página.
+- A classe `favorite-btn` e a variação `.favorited` já estão definidas em `App.css` (estilos fornecidos no repositório).
+- Se quiser, podemos adicionar persistência após (usando `localStorage`) — me avise.
+
+### 5.6 Integrando com CountryCard/CountryGrid
+
+Se você tiver os componentes `CountryGrid` e `CountryCard`, a integração dos favoritos fica assim:
+
+```jsx
+import CountryGrid from './components/CountryGrid';
+
+// ... estados e efeitos (countries, filteredCountries, favorites, toggleFavorite)
+
+return (
+  <>
+    {/* ...header e filtros... */}
+    <main>
+      {filteredCountries.length > 0 ? (
+        <CountryGrid 
+          countries={filteredCountries}
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
+        />
+      ) : (
+        <div className="empty-state">Nenhum país encontrado</div>
+      )}
+    </main>
+  </>
+);
+```
+
+E o `CountryCard` deve receber as props `isFavorite` e `onToggleFavorite(cca3)` para acionar o toggle localmente.
 
 ## 6. Estilos CSS
 
@@ -936,9 +1058,9 @@ body {
 ### 7.3 Teste: Filtros Combinados
 
 ```
-1. Digite "united" + Selecione "Europa" → United Kingdom
-2. Digite "island" + Selecione "Europa" → Iceland, Ireland
-3. Digite "rep" + Selecione "África" → República Centro-Africana, etc.
+1. Digite "port" + Selecione "Europa" → Portugal
+2. Digite "ara" + Selecione "Ásia" → Arábia Saudita, Emirados Árabes
+3. Digite "rep" + Selecione "África" → República Centro-Africana, República Democrática do Congo, etc.
 ```
 
 ---
@@ -975,11 +1097,11 @@ const filteredCountries = countries.filter(country => {
 
 ```jsx
 // Exemplo
-'Brazil'.toLowerCase().includes('bra')  // true
-'France'.toLowerCase().includes('bra')  // false
+'Brasil'.toLowerCase().includes('bra')  // true
+'França'.toLowerCase().includes('bra')  // false
 
 // No código
-country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+country.name.toLowerCase().includes(searchTerm.toLowerCase())
 ```
 
 ### 8.3 find() - Encontrar Região
@@ -1015,9 +1137,11 @@ Modifique o filtro para buscar também por capital:
 
 ```jsx
 const matchesSearch = 
-  country.name.common.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  country.capital?.[0]?.toLowerCase().includes(searchTerm.toLowerCase());
+  country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  country.capital.toLowerCase().includes(searchTerm.toLowerCase());
 ```
+
+**Teste:** Digite "brasília" e veja o Brasil aparecer.
 
 ### Exercício 2: Contador de Países por Região
 
@@ -1030,16 +1154,19 @@ countries.forEach(country => {
 // Exibir: "Europa (47 países)"
 ```
 
-### Exercício 3: Filtro por População
+### Exercício 3: Filtro por Sub-região
+
+Adicione um terceiro filtro para sub-regiões:
 
 ```jsx
-const [populationFilter, setPopulationFilter] = useState('all');
+const [selectedSubregion, setSelectedSubregion] = useState('all');
 
-// Opções: 'all', 'small' (<1M), 'medium' (1M-50M), 'large' (>50M)
+// Obter sub-regiões únicas
+const subregions = ['all', ...new Set(countries.map(c => c.subregion))];
 
-const matchesPopulation = 
-  populationFilter === 'all' ||
-  (populationFilter === 'small' && country.population < 1000000) ||
-  (populationFilter === 'medium' && country.population >= 1000000 && country.population <= 50000000) ||
-  (populationFilter === 'large' && country.population > 50000000);
+// Adicionar ao filtro
+const matchesSubregion = selectedSubregion === 'all' || 
+  country.subregion === selectedSubregion;
 ```
+
+**Teste:** Filtre por "Americas" → depois por "South America" para ver apenas países da América do Sul.
