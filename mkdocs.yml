@@ -16,8 +16,8 @@ nav:
               - 5 - Props: React\05_Props_e_Comunicação.md
               - 6 - Estado: React\06_useState.md
               - 7 - Eventos: React\07_Eventos_e_Forms.md
-              - 8 - Listas: React\08_Listas__Render_Condicional.md
-              - 9 - Http Api: React\09_HTTP_APIs.md
+              - 8 - Listas: React\08_Gerenciamento_de_Estados.md
+              - 9 - Http Api: React\09_Conectando_com_APIs_Reais.md
               - 10 - useEffect: React\10_useEffect.md
               - 11 - Filtros Básicos: React\11_Filtros_Basicos.md
               - 12 - Favoritos e Persistência: React\12_Favoritos_localStorage.md
