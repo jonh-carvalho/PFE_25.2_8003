@@ -52,7 +52,6 @@ function AddCountryForm({ onAddCountry }) {
     }
 
     setErrors(newErrors);
-    
     return Object.keys(newErrors).length === 0;
   };
 
