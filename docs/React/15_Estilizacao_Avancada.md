@@ -13,9 +13,9 @@ Agora que dominamos os fundamentos do React, chegou o momento de elevar nossa **
 
 ---
 
-## **🎨 Quando Usar Cada Abordagem de Estilização**
+## **Quando Usar Cada Abordagem de Estilização**
 
-### **📊 Matriz de Decisão**
+### **Matriz de Decisão**
 
 | **Cenário** | **CSS Tradicional** | **CSS Modules** | **Styled Components** |
 |-------------|---------------------|-----------------|----------------------|
@@ -44,7 +44,7 @@ Agora que dominamos os fundamentos do React, chegou o momento de elevar nossa **
 ### **🧩 CSS Modules**
 ```css
 /* styles.module.css */
-/* ✅ Use quando: Quer escopo local sem JavaScript */
+/* Use quando: Quer escopo local sem JavaScript */
 .card {
   padding: 20px;
   border-radius: 8px;
@@ -57,9 +57,9 @@ Agora que dominamos os fundamentos do React, chegou o momento de elevar nossa **
 }
 ```
 
-### **⚡ CSS-in-JS (Styled Components)**
+### **CSS-in-JS (Styled Components)**
 ```jsx
-/* ✅ Use quando: Estilos dinâmicos e temas complexos */
+/* Use quando: Estilos dinâmicos e temas complexos */
 const CountryCard = styled.div`
   padding: 20px;
   border-radius: 8px;
@@ -75,7 +75,7 @@ const CountryCard = styled.div`
 
 ---
 
-## **🌟 Implementando Sistema de Temas com Styled Components**
+## **Implementando Sistema de Temas com Styled Components**
 
 ### **1. Configuração Base**
 
@@ -266,7 +266,7 @@ export const GlobalStyles = createGlobalStyle`
 
 ---
 
-## **🎭 Componentes Estilizados para Lista de Países**
+## **Componentes Estilizados para Lista de Países**
 
 ### **1. Container Principal**
 
@@ -550,7 +550,7 @@ export const ThemeToggleButton = styled(BaseButton)`
 
 ---
 
-## **🔍 Filtros e Busca Estilizados**
+## **Filtros e Busca Estilizados**
 
 ```jsx
 // src/components/styled/SearchComponents.js
@@ -627,7 +627,7 @@ export const FilterSelect = styled.select`
 
 ---
 
-## **🎯 App Principal com Temas**
+## **App Principal com Temas**
 
 ```jsx
 // src/App.jsx - Versão com Styled Components
@@ -717,7 +717,7 @@ function AppContent() {
   return (
     <AppContainer>
       <Header>
-        <Title>🌍 Explorador de Países</Title>
+        <Title>Explorador de Países</Title>
         <Subtitle>
           Descubra informações sobre todos os {countries.length} países do mundo
         </Subtitle>
@@ -768,7 +768,7 @@ function AppContent() {
 
           {(searchTerm || selectedRegion !== 'all') && (
             <PrimaryButton onClick={clearAllFilters}>
-              🗑️ Limpar Filtros
+              Limpar Filtros
             </PrimaryButton>
           )}
         </FiltersRow>
@@ -919,12 +919,12 @@ export const useThemeStyles = () => {
 
 ---
 
-## **📝 Exercício Prático**
+## **Exercício Prático**
 
-### 🎯 **Objetivo**
+### **Objetivo**
 Implementar sistema completo de temas na Lista de Países
 
-### 📋 **Requisitos**
+### **Requisitos**
 - [ ] Configurar Styled Components e ThemeProvider
 - [ ] Criar temas claro e escuro completos
 - [ ] Implementar toggle de tema com persistência
@@ -933,7 +933,7 @@ Implementar sistema completo de temas na Lista de Países
 - [ ] Garantir responsividade em todos os dispositivos
 - [ ] Otimizar performance com lazy loading
 
-### 🚀 **Bonus**
+### **Bonus**
 - [ ] Implementar tema automático baseado no sistema
 - [ ] Criar tema de alto contraste para acessibilidade
 - [ ] Adicionar suporte a múltiplas paletas de cores
@@ -943,7 +943,7 @@ Implementar sistema completo de temas na Lista de Países
 
 ## **🎓 Comparação: Antes vs Depois**
 
-### **❌ Antes (CSS Tradicional)**
+### ** Antes (CSS Tradicional)**
 ```css
 /* Muitos arquivos CSS */
 /* Classes globais conflitantes */
@@ -954,7 +954,7 @@ Implementar sistema completo de temas na Lista de Países
 }
 ```
 
-### **✅ Depois (Styled Components + Temas)**
+### **Depois (Styled Components + Temas)**
 ```jsx
 const CountryCard = styled.div`
   /* Estilos dinâmicos */
@@ -970,7 +970,7 @@ const CountryCard = styled.div`
 
 ---
 
-## **🔮 Próximos Passos Avançados**
+## **Próximos Passos Avançados**
 
 Depois de dominar este módulo, você estará preparado para:
 
@@ -982,13 +982,13 @@ Depois de dominar este módulo, você estará preparado para:
 
 ---
 
-## **📚 Resumo do Módulo**
+## **Resumo do Módulo**
 
-- ✅ **CSS-in-JS Avançado**: Styled Components com temas dinâmicos
-- ✅ **Sistema de Design**: Paletas, espaçamentos e componentes consistentes
-- ✅ **Temas Completos**: Claro/escuro com persistência automática
-- ✅ **Performance**: Lazy loading e memoização de estilos
-- ✅ **Responsividade**: Breakpoints profissionais e grid system
-- ✅ **UX Premium**: Animações, transições e micro-interactions
+- **CSS-in-JS Avançado**: Styled Components com temas dinâmicos
+- **Sistema de Design**: Paletas, espaçamentos e componentes consistentes
+- **Temas Completos**: Claro/escuro com persistência automática
+- **Performance**: Lazy loading e memoização de estilos
+- **Responsividade**: Breakpoints profissionais e grid system
+- **UX Premium**: Animações, transições e micro-interactions
 
-**Agora sua Lista de Países tem qualidade visual profissional!** 🎨✨
+**Agora sua Lista de Países tem qualidade visual profissional!** 
