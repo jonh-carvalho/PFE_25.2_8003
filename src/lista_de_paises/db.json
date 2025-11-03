@@ -1,0 +1,68 @@
+{
+    "projetos": [
+        {
+            "id": 1,
+            "título": "Portal de Vendas",
+            "responsável": "Ana Silva",
+            "prazo": "2025-03-15",
+            "progresso": 45,
+            "status": "em andamento"
+        },
+        {
+            "id": 2,
+            "título": "API de Pagamentos",
+            "responsável": "Carlos Pereira",
+            "prazo": "2025-05-01",
+            "progresso": 10,
+            "status": "planejado"
+        },
+        {
+            "id": 3,
+            "título": "Aplicativo Mobile",
+            "responsável": "Mariana Costa",
+            "prazo": "2025-01-30",
+            "progresso": 90,
+            "status": "concluído"
+        },
+        {
+            "id": 4,
+            "título": "Migração de Dados",
+            "responsável": "João Souza",
+            "prazo": "2024-12-10",
+            "progresso": 60,
+            "status": "atrasado"
+        },
+        {
+            "id": 5,
+            "título": "Reforma UI/UX",
+            "responsável": "Lucas Ferreira",
+            "prazo": "2025-02-20",
+            "progresso": 25,
+            "status": "em andamento"
+        },
+        {
+            "id": 6,
+            "título": "Monitoramento e Alertas",
+            "responsável": "Beatriz Rocha",
+            "prazo": "2025-04-15",
+            "progresso": 0,
+            "status": "planejado"
+        },
+        {
+            "id": 7,
+            "título": "Integração CRM",
+            "responsável": "Felipe Gomes",
+            "prazo": "2024-11-30",
+            "progresso": 100,
+            "status": "concluído"
+        },
+        {
+            "id": 8,
+            "título": "Teste de Carga",
+            "responsável": "Mariana Costa",
+            "prazo": "2025-06-01",
+            "progresso": 5,
+            "status": "em andamento"
+        }
+    ]
+}

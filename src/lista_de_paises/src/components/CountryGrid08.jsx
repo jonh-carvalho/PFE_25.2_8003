@@ -7,6 +7,7 @@ function CountryGrid({ countries, favorites, onToggleFavorite }) {
       {countries.map((country) => (
         <CountryCard 
           key={country.cca3}
+          id={country.id}
           cca3={country.cca3}
           flag={country.flag}
           name={country.name}

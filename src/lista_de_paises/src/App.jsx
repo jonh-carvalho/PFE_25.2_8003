@@ -1,78 +1,109 @@
-// src/App.jsx
-import { useState } from 'react';
+// src/App.jsx - Carregamento Automático
+import { useEffect, useState } from 'react';
 import './App.css';
-import AddCountryForm from './components/AddCountryForm';
 import CountryGrid from './components/CountryGrid';
-import Header from './components/Header';
 
 function App() {
-  const [countries, setCountries] = useState([
-    { id: 1, flag: "🇧🇷", name: "Brasil", capital: "Brasília", population: "215 milhões", language: "Português" },
-    { id: 2, flag: "🇦🇷", name: "Argentina", capital: "Buenos Aires", population: "45 milhões", language: "Espanhol" },
-    { id: 3, flag: "🇨🇱", name: "Chile", capital: "Santiago", population: "19 milhões", language: "Espanhol" },
-    { id: 4, flag: "🇺🇾", name: "Uruguai", capital: "Montevidéu", population: "3.5 milhões", language: "Espanhol" },
-    { id: 5, flag: "🇵🇪", name: "Peru", capital: "Lima", population: "33 milhões", language: "Espanhol" },
-    { id: 6, flag: "🇨🇴", name: "Colômbia", capital: "Bogotá", population: "51 milhões", language: "Espanhol" }
-  ]);
-  // Armazena os IDs dos países favoritos
+  const [countries, setCountries] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const toggleFavorite = (id) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((fid) => fid !== id) : [...prev, id]
+  // useEffect: carregar países AUTOMATICAMENTE ao montar componente
+  useEffect(() => {
+    console.log('useEffect executado! Carregando países...');
+
+    const loadCountries = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetch('https://servicodados.ibge.gov.br/api/v1/paises');
+
+        if (!response.ok) {
+          throw new Error(`Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Países carregados:', data.length);
+
+        // Mapeia os dados do IBGE para o formato esperado
+        const mapped = data.map(pais => ({
+          cca3: pais.id['ISO-3166-1-ALPHA-3'],
+          flag: `https://flagcdn.com/${pais.id['ISO-3166-1-ALPHA-2'].toLowerCase()}.svg`,
+          name: pais.nome.abreviado,
+          capital: pais.governo?.capital?.nome || 'N/A',
+          population: 0,
+          region: pais.localizacao.regiao.nome,
+          subregion: pais.localizacao['sub-regiao']?.nome || 'N/A'
+        }));
+
+        setCountries(mapped);
+        console.log('✅ Países mapeados:', mapped.length, 'países');
+
+      } catch (err) {
+        console.error('Erro:', err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadCountries();
+  }, []); // Array vazio = executa apenas UMA VEZ na montagem
+
+  const toggleFavorite = (countryCode) => {
+    setFavorites(prev => 
+      prev.includes(countryCode)
+        ? prev.filter(code => code !== countryCode)
+        : [...prev, countryCode]
     );
-  };
-
-  const favoriteCount = favorites.length;
-
-  const visibleCountries = showOnlyFavorites
-    ? countries.filter((c) => favorites.includes(c.id))
-    : countries;
-
-  const addCountry = (newCountry) => {
-    setCountries([...countries, newCountry]);
-  };
-
-  const toggleForm = () => {
-    setShowForm(!showForm);
   };
 
   return (
     <div className="app">
-      <Header 
-        title="🌍 Lista de Países da América do Sul"
-        subtitle="Explore países sul-americanos e suas informações"
-        favoriteCount={favoriteCount}
-      />
+      <header className="app-header">
+        <h1>Lista de Países do Mundo</h1>
+        <p>Carregamento automático com useEffect</p>
 
-      <div className="controls">
-        <button 
-          className={`filter-btn ${showOnlyFavorites ? 'active' : ''}`}
-          onClick={() => setShowOnlyFavorites(!showOnlyFavorites)}
-        >
-          {showOnlyFavorites ? 'Mostrar Todos' : 'Mostrar Favoritos'}
-        </button>
+        {/* Debug: sempre mostrar para testar */}
+        <div className="header-stats">
+          <span>{countries.length} países</span>
+          <span>{favorites.length} favoritos</span>
+        </div>
+      </header>
 
-         <button 
-          className="toggle-form-btn"
-          onClick={toggleForm}
-        >
-          {showForm ? 'Ocultar Formulário' : 'Adicionar País'}
-        </button>
+      <main className="main-content">
+        {/* Loading State */}
+        {isLoading && (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <h2>Carregando países...</h2>
+            <p>Buscando dados da API do IBGE</p>
+          </div>
+        )}
 
-      </div>
+        {/* Error State */}
+        {error && (
+          <div className="error-container">
+            <div className="error-icon">❌</div>
+            <h2>Ops! Algo deu errado</h2>
+            <p className="error-message">{error}</p>
+            <button onClick={() => window.location.reload()} className="retry-btn">
+              Tentar Novamente
+            </button>
+          </div>
+        )}
 
-      {showForm && (
-        <AddCountryForm onAddCountry={addCountry} />
-      )}
-
-      <CountryGrid 
-        countries={visibleCountries}
-        favorites={favorites}
-        onToggleFavorite={toggleFavorite}
-      />
+        {/* Success State */}
+        {!isLoading && !error && (
+          <CountryGrid 
+            countries={countries}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+          />
+        )}
+      </main>
     </div>
   );
 }

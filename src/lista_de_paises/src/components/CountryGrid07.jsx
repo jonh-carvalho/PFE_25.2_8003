@@ -1,20 +1,19 @@
 // src/components/CountryGrid.jsx
 import CountryCard from './CountryCard';
 
-function CountryGrid({ countries, favorites, onToggleFavorite }) {
+function CountryGrid({ countries, favorites = [], onToggleFavorite }) {
   return (
     <div className="country-grid">
       {countries.map((country) => (
         <CountryCard 
-          key={country.cca3}
-          cca3={country.cca3}
+          key={country.id}
+          id={country.id}
           flag={country.flag}
           name={country.name}
           capital={country.capital}
           population={country.population}
-          region={country.region}
-          subregion={country.subregion}
-          isFavorite={favorites.includes(country.cca3)}
+          language={country.language}
+          isFavorite={favorites.includes(country.id)}
           onToggleFavorite={onToggleFavorite}
         />
       ))}
