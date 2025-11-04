@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-// src/App.jsx
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import Layout from './components/Layout';
-import Favorites from './pages/Favorites';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-
-function App() {
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/favoritos" element={<Favorites />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
-=======
 // src/App.jsx - Carregamento Automático
 import { useEffect, useState } from 'react';
 import './App.css';
@@ -124,7 +105,6 @@ function App() {
         )}
       </main>
     </div>
->>>>>>> a5d5339fbb9b00b92ea8960787370afed3f7af03
   );
 }
 
