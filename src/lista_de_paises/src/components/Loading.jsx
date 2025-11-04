@@ -1,11 +1,10 @@
 // src/components/Loading.jsx
-import React from 'react';
-
 function Loading() {
   return (
-    <div className="loading">
+    <div className="loading-container">
       <div className="loading-spinner"></div>
-      <p>Carregando países...</p>
+      <h2>Carregando países...</h2>
+      <p>Buscando dados de 250+ países da API do IBGE</p>
     </div>
   );
 }

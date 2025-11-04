@@ -11,7 +11,7 @@ import AboutPage from './components/AboutPage.jsx';
 
 // --- Configuração da API ---
 // URL base para o seu json-server
-const API_URL = 'http://localhost:5000/projects';
+const API_URL = 'http://localhost:3000/projects';
 
 export default function App() {
   // Estado para controlar a página atual
